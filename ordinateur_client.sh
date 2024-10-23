@@ -94,10 +94,23 @@
         # Demander les identifiants pour la machine cible
         # Se connecter
         # Message erreur / succes
-        # 
+        # Commande bash 
     #I2 Nombre d'interface
+        # Demander les identifiants pour la machine cible
+        # Se connecter
+        # Message erreur / succes
+        # Commande /etc/network/interfaces  grep expression + nbr de lignes
     #I3 Adresse IP de chaque interface
+        # Demander les identifiants pour la machine cible
+        # Se connecter
+        # Message erreur / succes
+        #Commande grep /etc/network/interfaces
     #I4 Adresse Mac
+        # Demander les identifiants pour la machine cible
+        # Se connecter
+        # Message erreur / succes
+        #Confirmer la machine ? 
+        # Grep le fichier des addresses MAC 
     #I5 Liste des applications/paquets installées
     #I6 Liste des utilisateurs locaux
     #I7 Type de CPU, nombre de coeurs, etc.
