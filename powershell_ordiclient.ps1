@@ -23,6 +23,8 @@
 
 #Menu 2 Info 
     #I1 Version de l'OS
+    Get-ComputerInfo | Select-Object WindowsVersion, OSArchitecture
+    
     #I2 Nombre d'interface
     #I3 Adresse IP de chaque interface
     #I4 Adresse Mac
