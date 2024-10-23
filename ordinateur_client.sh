@@ -88,8 +88,11 @@
         # Demander emplacement du script 
 #Menu 2 Info 
     #I1 Version de l'OS
+    ```bash
+    cat /etc/os-release | grep VERSION=
+    ```
         # Demander les identifiants pour la machine cible
-        # Se connecter 
+        # Se connecter
         # Message erreur / succes
         # 
     #I2 Nombre d'interface
