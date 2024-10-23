@@ -88,12 +88,10 @@
         # Demander emplacement du script 
 #Menu 2 Info 
     #I1 Version de l'OS
-        cat /etc/os-release | grep PRETTY_NAME
-    
         # Demander les identifiants pour la machine cible
         # Se connecter
         # Message erreur / succes
-        # Commande bash 
+        cat /etc/os-release | grep PRETTY_NAME 
     #I2 Nombre d'interface
         # Demander les identifiants pour la machine cible
         # Se connecter
