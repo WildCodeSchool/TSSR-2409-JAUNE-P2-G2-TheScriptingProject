@@ -89,7 +89,7 @@
 #Menu 2 Info 
     #I1 Version de l'OS
     ```bash
-    cat /etc/os-release | grep VERSION=
+    cat /etc/os-release | grep PRETTY_NAME
     ```
         # Demander les identifiants pour la machine cible
         # Se connecter
