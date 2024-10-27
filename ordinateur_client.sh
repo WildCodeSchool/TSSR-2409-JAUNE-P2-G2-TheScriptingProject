@@ -147,8 +147,7 @@ function informations_utilisateur {
     6) choix_utilisateur ;;
     *)
         echo "Option invalide. Veuillez choisir 1, 2, 3, 4, 5 ou 6."
-        informations_utilisateur
-        ;;
+        informations_utilisateur ;;
     esac
 }
 
@@ -186,10 +185,8 @@ function informations_ordinateur {
     12) ;;
     13) ;;
     14) ;;
-    *)
-        echo "Option invalide. Veuillez choisir de 1 à 14."
-        informations_ordinateur
-        ;;
+    *) echo "Option invalide. Veuillez choisir de 1 à 14."
+        informations_ordinateur ;;
     esac
 }
 
