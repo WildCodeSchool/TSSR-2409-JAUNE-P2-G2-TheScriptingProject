@@ -6,6 +6,27 @@
         #Sur cet ordi
         # Remote
 
+ 
+Switch ("<valeur à tester>")
+{
+    "<condition 1>" { "bloc de code (instructions)" }
+    "<condition 2>" { "bloc de code (instructions)" }
+    "<condition 3>" { "bloc de code (instructions)" }
+    "<condition 4>" { "bloc de code (instructions)" }
+    Default { "bloc de code (instructions)" }
+
+    $action = Read-Host -Prompt "Que souhaiter vous faire ?"
+    $information = Read-Host -Prompt "Que souhaiter vous faire ?"
+
+switch ($action)
+{
+    "notepad" { Start-Process notepad.exe }
+    "powershell" { Start-Process powershell.exe }
+    "calc" { Start-Process calc.exe }
+    "regedit" { Start-Process regedit.exe }
+    Default { "Désolé, je n'ai pas trouvé ce logiciel" }
+}
+}
 # Menu 2 Action
 #A1 : Création de compte utilisateur local A VERIF
 
