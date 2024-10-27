@@ -8,17 +8,31 @@
 
 #Menu 2 Action
     #A1 Arrêt
+Stop-Computer -ComputerName , "localhost"
     #A2 Redémarrage
+Restart-Computer -ComputerName , localhost
     #A3 Verrouillage
+
     #A4 Mise-à-jour du système
+Install-WUUpdates
     #A5 Création de répertoire
+New-Item -Name "PowerShell" -ItemType Directory
     #A6 Suppression de répertoire
+Remove-item
     #A7 Prise de main à distance (GUI)
+Write-Host "Lancement de connexion a distance"
+        $start_cad = "mstsc"
+        Start-Process $start_cad
     #A8 Définition de règles de pare-feu
+Get-NetFirewallProfile | ft Name,Enabled
     #A9 Activation du pare-feu
+Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
     #A10 Désactivation du pare-feu
+Set-NetFirewallProfile -Profile ou Public ou * -Enabled true
     #A11 Installation de logiciel
+Install-Package
     #A12 Désinstallation de logiciel
+Uninstall-Package
     #A13 Exécution de script sur la machine distante
 
 #Menu 2 Info 
