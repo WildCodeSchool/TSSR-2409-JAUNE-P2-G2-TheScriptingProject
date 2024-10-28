@@ -20,12 +20,15 @@ Dans le cadre de ce projet, nous cherchons à automatiser les tâches administra
 
 L’infrastructure est hébergée sur **Proxmox**, une plateforme de virtualisation open-source, permettant une gestion centralisée et un déploiement flexible des différentes machines virtuelles nécessaires.
 
-## Membres du groupe de projet (Sprint 1)
+## Membres du groupe de projet 
 
-- **Scrum Master** : Mahmoud
-- **Product Owner** : Erwan
-- **Développeur** : Antoine
-- **Développeur** : Matthias
+|   | Product Owner | Scrum Maste  |  Développeur |
+|---|---|---|---|
+| Sprint 1  |  Erwan | Antoine  | Matthias  |
+| Sprint 2 |  Matthias |  Erwan |  Antoine |
+| Sprint 3 |   |   |   |
+| Sprint 4 |   |   |   |
+
 
 ## Choix techniques
 
