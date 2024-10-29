@@ -2,16 +2,16 @@
 
 # Fonction pour afficher le menu principal
     function menu_principal {
-        echo "=== Choisir une Cible ==="
+        echo "                  === Choisir une Cible ==="
         echo "1. Utilisateur"
         echo "2. Ordinateur"
-        echo "3. Quitter"
+        echo "Q. Quitter"
         read -p "Choisissez une cible : (1 ou 2) " cible
 
         case $cible in
         1) choix_utilisateur ;;
         2) choix_ordinateur ;;
-        3) exit 0 ;;
+        Q) exit 0 ;;
         *)
             echo "Option invalide. Veuillez choisir 1, 2 ou 3."
             menu_principal
@@ -21,18 +21,18 @@
 
 # Fonction pour choisir les actions ou informations sur les utilisateurs
     function choix_utilisateur {
-        echo "=== Actions ou Informations sur Utilisateur ==="
+        echo "              === Actions ou Informations sur Utilisateur ==="
         echo "1. Actions"
         echo "2. Informations"
-        echo "3. Retour"
-        read -p "Choisissez une option : (1, 2 ou 3) " option
+        echo "R. Retour au menu principal"
+        read -p "Choisissez une option : (1, 2 ou R) " option
 
         case $option in
         1) actions_utilisateur ;;
         2) informations_utilisateur ;;
-        3) menu_principal ;;
+        R) menu_principal ;;
         *)
-            echo "Option invalide. Veuillez choisir 1, 2 ou 3."
+            echo "Option invalide. Veuillez choisir 1, 2 ou R."
             choix_utilisateur
             ;;
         esac
@@ -43,15 +43,15 @@
         echo "=== Actions ou Informations sur Ordinateur ==="
         echo "1. Actions"
         echo "2. Informations"
-        echo "3. Retour"
-        read -p "Choisissez une option : (1, 2 ou 3) " option
+        echo "R. Retour au menu principal"
+        read -p "Choisissez une option : (1, 2 ou R) " option
 
         case $option in
         1) actions_ordinateur ;;
         2) informations_ordinateur ;;
-        3) menu_principal ;;
+        R) menu_principal ;;
         *)
-            echo "Option invalide. Veuillez choisir 1, 2 ou 3."
+            echo "Option invalide. Veuillez choisir 1, 2 ou R."
             choix_ordinateur
             ;;
         esac
@@ -60,70 +60,144 @@
 # Fonction pour les actions sur les utilisateurs
     function actions_utilisateur {
         echo "=== Actions sur Utilisateur ==="
-        echo "A1. Création de compte"
-        echo "A2. Changement de mot de passe"
-        echo "A3. Suppression de compte"
-        echo "A4. Désactivation de compte"
-        echo "A5. Ajout à un groupe d'administration"
-        echo "A6. Ajout à un groupe local"
-        echo "A7. Sortie d’un groupe local"
-        echo "B. Retour"
-        read -p "Choisissez une action : (A1, A2, A3 etc.) " action
+        echo "1. Création de compte"
+        echo "2. Changement de mot de passe"
+        echo "3. Suppression de compte"
+        echo "4. Désactivation de compte"
+        echo "5. Ajout à un groupe d'administration"
+        echo "6. Ajout à un groupe local"
+        echo "7. Sortie d’un groupe local"
+        echo "R. Retour"
+        read -p "Choisissez une action : (1-7 ou R) " action
 
         case $action in
-        A1) action_creation_compte ;;
-        A2) action_changement_mdp ;;
-        A3) action_suppression_compte ;;
-        A4) action_desactivation_compte ;;
-        A5) action_ajout_groupe_admin ;;
-        A6) action_ajout_groupe_local ;;
-        A7) action_sortie_groupe_local ;;
-        B) choix_utilisateur ;;
-        *)
-            echo "Option invalide. Veuillez choisir A1, A2, A3, etc."
-            actions_utilisateur
-            ;;
+        1) authentification
+            if confirmation; then
+                sudo useradd 
+                afficher_succes
+            fi ;;
+        2) authentification
+            if confirmation; then
+                ?
+                afficher_succes
+            fi ;;
+        3) authentification
+            if confirmation; then
+                ?
+                afficher_succes
+            fi ;;
+        4) authentification
+            if confirmation; then
+                ?
+                afficher_succes
+            fi ;;
+        5) authentification
+            if confirmation; then
+                ?
+                afficher_succes
+            fi ;;
+        6) authentification
+            if confirmation; then
+                ?
+                afficher_succes
+            fi ;;
+        7) authentification
+            if confirmation; then
+                ?
+                afficher_succes
+            fi ;;
+        R) choix_utilisateur ;;
+        *) echo "Option invalide. Veuillez choisir A1, A2, A3, etc."
+            actions_utilisateur ;;
         esac
     }
 
 # Fonction pour les actions sur les ordinateurs
     function actions_ordinateur {
         echo "=== Actions sur Ordinateur ==="
-        echo "A1. Arrêt"
-        echo "A2. Redémarrage"
-        echo "A3. Verrouillage"
-        echo "A4. Mise à jour du système"
-        echo "A5. Création de répertoire"
-        echo "A6. Suppression de répertoire"
-        echo "A7. Prise de main à distance (GUI)"
-        echo "A8. Définition de règles de pare-feu"
-        echo "A9. Activation du pare-feu"
-        echo "A10. Désactivation du pare-feu"
-        echo "A11. Installation de logiciel"
-        echo "A12. Désinstallation de logiciel"
-        echo "A13. Exécution de script sur la machine distante"
-        echo "B. Retour"
-        read -p "Choisissez une action : (A1, A2, A3 etc.) " action
+        echo "1. Arrêt"
+        echo "2. Redémarrage"
+        echo "3. Verrouillage"
+        echo "4. Mise à jour du système"
+        echo "5. Création de répertoire"
+        echo "6. Suppression de répertoire"
+        echo "7. Prise de main à distance (GUI)"
+        echo "8. Définition de règles de pare-feu"
+        echo "9. Activation du pare-feu"
+        echo "10. Désactivation du pare-feu"
+        echo "11. Installation de logiciel"
+        echo "12. Désinstallation de logiciel"
+        echo "13. Exécution de script sur la machine distante"
+        echo "R. Retour"
+        read -p "Choisissez une action : (1, 2, 3 etc.) " action
 
         case $action in
-        A1) action_arret ;;
-        A2) action_redemarrage ;;
-        A3) action_verrouillage ;;
-        A4) action_mise_a_jour ;;
-        A5) action_creation_repertoire ;;
-        A6) action_suppression_repertoire ;;
-        A7) action_prise_de_main_distante ;;
-        A8) action_definition_regles_parefeu ;;
-        A9) action_activation_parefeu ;;
-        A10) action_desactivation_parefeu ;;
-        A11) action_installation_logiciel ;;
-        A12) action_desinstallation_logiciel ;;
-        A13) action_execution_script_distant ;;
-        B) choix_ordinateur ;;
-        *)
-            echo "Option invalide. Veuillez choisir A1, A2, A3, etc."
-            actions_ordinateur
-            ;;
+        A1) authentification
+            if confirmation; then
+                shutdown now
+                afficher_succes
+            fi ;;
+        A2) authentification
+            if confirmation; then
+                reboot
+                afficher_succes
+            fi ;;
+        A3) authentification
+            if confirmation; then
+                logout
+                afficher_succes
+            fi ;;
+        A4) authentification
+            if confirmation; then
+                sudo apt update && sudo apt upgrade -y
+                afficher_succes
+            fi ;;
+        A5) authentification
+            if confirmation; then
+                read -p "Emplacement du nouveau dossier ?" path
+                read -p "Quelle est le nom du dossier à créer ?" name
+                cd $path
+                mkdir $name
+                cd $name
+            fi ;;
+        A6) authentification
+            if confirmation; then
+                read -p "Emplacement du dossier a supprimer :" path
+                rm -r $path
+            fi ;;
+        A7) authentification
+            if confirmation; then
+            ?
+            fi ;;
+        A8) authentification
+            if confirmation; then
+            ?
+            fi ;;
+        A9) authentification
+            if confirmation; then
+                sudo ufw enable
+            fi ;;
+        A10) authentification
+            if confirmation; then
+            sudo ufw disable
+            fi ;;
+        A11) authentification
+            if confirmation; then
+                read -p "Quel logiciel voulez vous installer ?" soft
+                sudo apt install $soft -y
+            fi ;;
+        A12) authentification
+            if confirmation; then
+            read -p "Quel logiciel voulez vous désinstaller ?" soft
+                sudo apt remove $soft -y
+            fi ;;
+        A13) authentification
+            if confirmation; then
+            ?
+            fi ;;
+        R) choix_ordinateur ;;
+        *) echo "Option invalide. Veuillez choisir A1, A2, A3, etc."
+            actions_ordinateur ;;
         esac
     }
 
@@ -135,20 +209,18 @@
         echo "3. Liste des sessions ouvertes par l'utilisateur"
         echo "4. Droits/permissions de l’utilisateur sur un dossier"
         echo "5. Droits/permissions de l’utilisateur sur un fichier"
-        echo "6. Retour"
+        echo "R. Retour"
         read -p "Choisissez une option : (1, 2, 3, 4, 5 ou 6) " option
 
         case $option in
-        1) Date_dernière_connexion_utilisateur ;;
+        1) ;;
         2) ;;
         3) ;;
         4) ;;
         5) ;;
-        6) choix_utilisateur ;;
-        *)
-            echo "Option invalide. Veuillez choisir 1, 2, 3, 4, 5 ou 6."
-            informations_utilisateur
-            ;;
+        R) ;;
+        *) echo "Option invalide. Veuillez choisir 1, 2, 3, 4, 5 ou 6."
+            informations_utilisateur ;;
         esac
     }
 
@@ -168,7 +240,7 @@
         echo "11. Utilisation du processeur"
         echo "12. Liste des ports ouverts"
         echo "13. Statut du pare-feu"
-        echo "14. Retour"
+        echo "R. Retour"
         read -p "Choisissez une option : (de 1 à 14) " option
 
         case $option in
@@ -185,30 +257,25 @@
         11) ;;
         12) ;;
         13) ;;
-        14) ;;
-        *)
-            echo "Option invalide. Veuillez choisir de 1 à 14."
-            informations_ordinateur
+        R) ;;
+        *) echo "Option invalide. Veuillez choisir de 1 à 14."
+           informations_ordinateur
             ;;
         esac
-        }
-
-# Lancement du menu principal
-    while true; do
-        menu_principal
-    done
+    }
 
 # Actions redondantes
     # Fonction d'authentification
     function authentification {
         read -p "Entrez l'identifiant de la machine cible : " identifiant
-        read -s -p "Entrez le mot de passe : " mot_de_passe
-        ssh $identifiant@<IP>
+        echo ""
+        read -p "Entrez l'adresse IP de la machine :" IP
+        ssh $identifiant@$IP
     }
 
     # Fonction de confirmation
     function confirmation {
-        read -p "Êtes-vous sûr de vouloir procéder ? (o/n) " confirmation
+        read -p "Êtes-vous sûr de vouloir continuer ? (o/n) " confirmation
         [[ "$confirmation" != "o" ]] echo "Action annulée." && return 1
         return 0
     }
@@ -223,43 +290,7 @@
         echo "L'opération a échouée : $1"
     }
 
-# Commandes actions
-    function action_arret {
-        authentification
-        if confirmation; then
-            sshpass -p "$mot_de_passe" ssh "$identifiant" 'shutdown now' && afficher_succes "Arrêt de la machine."
-        fi
-    }
-
-    function action_redemarrage {
-        authentification
-        if confirmation; then
-            sshpass -p "$mot_de_passe" ssh "$identifiant" 'reboot' && afficher_succes "Redémarrage de la machine."
-        fi
-    }
-
-    function action_verrouillage {
-        authentification
-        if confirmation; then
-            sshpass -p "$mot_de_passe" ssh "$identifiant" 'logout' && afficher_succes "Machine verrouillée."
-        fi
-    }
-
-    function action_mise_a_jour {
-        authentification
-        if confirmation; then
-            sudo apt update && sudo apt upgrade -y
-            afficher_succes
-        fi
-    }
-
-    #Autres actions a finir........
-
-# Commandes informations
-    function information_OS {
-        authentification
-        if confirmation; then
-            ...
-        fi
-    }
-    #Autres informations a finir........
+# Lancement du menu principal
+    while true; do
+        menu_principal
+    done
