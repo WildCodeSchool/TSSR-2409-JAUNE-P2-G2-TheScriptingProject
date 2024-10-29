@@ -241,24 +241,27 @@
         echo "12. Liste des ports ouverts"
         echo "13. Statut du pare-feu"
         echo "R. Retour"
-        read -p "Choisissez une option : (de 1 à 14) " option
+        read -p "Choisissez une option : (de 1 à 13) " option
 
-        case $option in
-        1) ;;
-        2) ;;
-        3) ;;
-        4) ;;
-        5) ;;
-        6) ;;
-        7) ;;
-        8) ;;
-        9) ;;
-        10) ;;
-        11) ;;
-        12) ;;
-        13) ;;
+        case $option in # checker les formattages
+        1) cat /etc/os-release ;;
+        2) nmcli device ;;
+        3) ip -br -o addr;;
+        4) ip -br -o link;;
+        5) apt-mark showmanual ;;
+        6) cat /etc/passwd ;;
+        7) cat /proc/cpuinfo   // lscpu ;;
+        8) free -h # a revoir le formattage 
+        ;;
+        9) free -h  // cat /proc/meminfo ;;
+        10) df -h  ;;
+        11) mpstat ;;
+        12) ss -tulpn | grep LISTEN # + formattage pour jsute le numéro ? 
+        ;;
+        13) sudo iptables -L -n #A tester sur une linux
+        ;;
         R) ;;
-        *) echo "Option invalide. Veuillez choisir de 1 à 14."
+        *) echo "Option invalide. Veuillez choisir de 1 à 13."
            informations_ordinateur
             ;;
         esac
