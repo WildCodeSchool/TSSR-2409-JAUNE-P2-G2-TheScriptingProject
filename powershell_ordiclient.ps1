@@ -6,6 +6,22 @@
         #Sur cet ordi
         #Remote
 
+$continue = $true
+while ($continue){
+  write-host “----------------------Bienvenue ! que souhaitez vous faire ?  -----------------------”
+  write-host “1. mon action 1”
+  write-host "2. Les imformation 2"
+  write-host "x. exit"
+  write-host "--------------------------------------------------------"
+  $choix = read-host “faire un choix :”
+  switch ($choix){
+    1{commande de mon action 1}
+    2{commande de mon Information 2}
+    ‘x’ {$continue = $false}
+    default {Write-Host "Choix invalide"-ForegroundColor Red}
+  }
+}
+
 #Menu 2 Action
     #A1 Arrêt
 Stop-Computer -ComputerName , "localhost"
