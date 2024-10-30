@@ -350,21 +350,21 @@
         read -p "Choisissez une option : (de 1 à 13) " option
 
         case $option in # checker les formattages
-        1) cat /etc/os-release ;;
-        2) nmcli device ;;
-        3) ip -br -o addr;;
-        4) ip -br -o link;;
+        1) cat /etc/os-release | awk 'NR==1' | sed 's/PRETTY_NAME=/Version_OS:/'  ;;
+        2) nmcli device | awk 'END {print NR - 1}' ;;
+        3) ip -br -o addr | awk '{print "interface : " $1"\n"," adresse IPv4 : "$3"\n "}';;
+        4) ip -br -o link | awk '{print "interface : " $1"\n"," adresse MAC : "$3"\n"}';;
         5) apt-mark showmanual ;;
-        6) cat /etc/passwd ;;
-        7) cat /proc/cpuinfo   // lscpu ;;
+        6) _l="/etc/login.defs"; _p="/etc/passwd"; l=$(grep "^UID_MIN" $_l); l1=$(grep "^UID_MAX" $_l); echo "----------[ Normal User Accounts ]---------------"; awk -F':' -v "min=${l##UID_MIN}" -v "max=${l1##UID_MAX}" '{ if ( $3 >= min && $3 <= max && $7 != "/sbin/nologin" ) print $0 }' "$_p" ;;
+        7) lscpu | sed -n '1p;5p;8p;20,22p';;
         8) free -h # a revoir le formattage 
         ;;
-        9) free -h  // cat /proc/meminfo ;;
+        9) cat /proc/meminfo | awk 'NR==1' | sed 's/MemTotal:/Mémoire_RAM_Totale:/' ;;
         10) df -h  ;;
-        11) mpstat ;;
+        11) mpstat | awk 'NR!=1' ;;
         12) ss -tulpn | grep LISTEN # + formattage pour jsute le numéro ? 
         ;;
-        13) sudo iptables -L -n #A tester sur une linux
+        13) sudo ufw status
         ;;
         R) choix_ordinateur ;;
         *) echo "Option invalide. Veuillez choisir 1-13 ou R."
