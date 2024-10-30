@@ -1,32 +1,120 @@
-#menu d'options 1 
-    # Action
-        # Sur cet ordi
-        # Remote
-    # Information 
-        #Sur cet ordi
-        # Remote
 
- 
-Switch ("<valeur à tester>")
-{
-    "<condition 1>" { "bloc de code (instructions)" }
-    "<condition 2>" { "bloc de code (instructions)" }
-    "<condition 3>" { "bloc de code (instructions)" }
-    "<condition 4>" { "bloc de code (instructions)" }
-    Default { "bloc de code (instructions)" }
+# Menu Principal
+function MenuPrincipal {
+    Clear-Host
+    Write-Host @"
+    +===============================================+
+    |  Menu Principal                               | 
+    +===============================================+
+    |                                               |
+    |    1) Action                                  |
+    |    2) Information                             |
+    |    3) Exit                                    |
+    +===============================================+
+"@
 
-    $action = Read-Host -Prompt "Que souhaiter vous faire ?"
-    $information = Read-Host -Prompt "Que souhaiter vous faire ?"
-
-switch ($action)
-{
-    "notepad" { Start-Process notepad.exe }
-    "powershell" { Start-Process powershell.exe }
-    "calc" { Start-Process calc.exe }
-    "regedit" { Start-Process regedit.exe }
-    Default { "Désolé, je n'ai pas trouvé ce logiciel" }
+    $choixMP = Read-Host "Votre choix ?"
+    Switch ($choixMP) {
+        "1" { MenuAction }
+        "2" { MenuInfo }
+        "3" { Write-Host "Au revoir"
+            break }
+        default { Write-Host "Option non disponible"
+            Start-Sleep -Seconds 2
+            MenuPrincipal
+        }
+    }
 }
+
+# Menu Action
+function MenuAction {
+    Clear-Host
+    Write-Host @"
+    +=====================================================+
+    |  Menu Action                                        | 
+    +=====================================================+
+    |                                                     |
+    |    1)  Création de compte utilisateur local                                       |
+    |    2)  Changement de mot de passe                                  |
+    |    3)  Verrouillage                                 |
+    |    4)  Suppression de compte utilisateur local                         |
+    |    5)  Désactivation de compte utilisateur local                       |
+    |    6)  Ajout à un groupe d'administration                   |
+    |    7)  Ajout à un groupe local                     |
+    |    8)  Sortie d’un groupe local            |
+    |                                            |
+    +=====================================================+
+"@
+
+    $choixMA = Read-Host "Quelle est l'Action que vous souhaitez faire ?"
+    
+    Switch ($choixMA) {
+        "1" { Stop-Computer -ComputerName "localhost" }
+        "2" { Restart-Computer -ComputerName "localhost" }
+        "3" { Write-Host "Verrouillage (à définir)" }
+        "4" { Install-WUUpdates }
+        "5" { New-Item -Name (Read-Host "Nom du répertoire") -ItemType "Directory" }
+        "6" { Remove-Item -Path (Read-Host "Nom du répertoire") -Recurse }
+        "7" { Write-Host "Lancement de connexion à distance" 
+        Start-Process "mstsc" }
+        "8" { Get-NetFirewallProfile | Format-Table Name, Enabled }
+        "9" { Set-NetFirewallProfile -Profile "Public,Private" -Enabled $true }
+        "10" { Set-NetFirewallProfile -Profile "Public" -Enabled $false }
+        "11" { Install-Package (Read-Host "Nom du logiciel") }
+        "12" { Uninstall-Package (Read-Host "Nom du logiciel") }
+        "13" { Write-Host "Exécution de script à distance (à définir)" }
+        "14" { Write-Host "Au revoir"
+        break }
+        default { Write-Host "Option non disponible"        
+        Start-Sleep -Seconds 2
+        break }
+    }
 }
+
+# Menu Information
+function MenuInfo{
+    Clear-Host
+    Write-Host @"
+    +=====================================================+
+    |  Menu Information                                   | 
+    +=====================================================+
+    |                                                     |
+    |    1)  Date de dernière connexion d’un utilisateur                              |
+    |    2)  Date de dernière modification du mot de passe                           |
+    |    3)  Liste des sessions ouvertes par l'utilisateur               |
+    |    4)  Droits/permissions de l’utilisateur sur un dossier                                  |
+    |    5)  Droits/permissions de l’utilisateur sur un fichier                     |
+    |    14) Exit                                         |
+    |                                                     |
+    +=====================================================+
+    
+"@
+
+    $choixMI = Read-Host "Quelle est l'Information que vous souhaitez ?"
+    Switch ($choixMI) {
+        "1" {Get-ComputerInfo | Select-Object WindowsVersion, OSArchitecture}
+        "2" {Get-NetAdapter | fl Name, InterfaceIndex, MacAddress, MediaConnectionState, LinkSpeed }
+        "3" {Get-NetIPConfiguration }
+        "4" {Get-NetAdapter | select ifIndex, Name, MacAddress }
+        "5" {Get-AppxPackage }
+        "6" {Get-LocalUser  }
+        "7" {Get-WmiObject Win32_Processor }  
+        "8" {Get-CimInstance win32_physicalmemory | Format-Table Manufacturer,Banklabel,Configuredclockspeed,Devicelocator,Capacity,Serialnumber -autosize   }
+        "9" {Get-WmiObject Win32_ComputerSystem | Select-Object -ExpandProperty TotalPhysicalMemory }  
+        "10" {Get-PSDrive}
+        "11" {Get-WmiObject Win32_Processor | Measure-Object -Property (LoadPercentage -Average).Average} 
+        "12" {""     }
+        "13" {Get-NetFirewallProfile } 
+        "14" { Write-Host "Au revoir" 
+        Break }
+        default { Write-Host "Option non disponible"
+        Start-Sleep -Seconds 2 }
+    }
+} 
+
+# Appel initial du menu principal
+MenuPrincipal
+
 # Menu 2 Action
 #A1 : Création de compte utilisateur local A VERIF
 
