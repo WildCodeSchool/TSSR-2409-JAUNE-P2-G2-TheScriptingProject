@@ -27,61 +27,61 @@
             echo "L'opération a échouée !"
         }
 # Menu principal
-function menu_principal {
-    echo "                  === Choisir une Cible ==="
-    echo "1. Utilisateur"
-    echo "2. Ordinateur"
-    echo "Q. Quitter"
-    read -p "Choisissez une cible : (1 ou 2) " cible
+    function menu_principal {
+        echo "                  === Choisir une Cible ==="
+        echo "1. Utilisateur"
+        echo "2. Ordinateur"
+        echo "Q. Quitter"
+        read -p "Choisissez une cible : (1 ou 2) " cible
 
-    case $cible in
-    1) choix_utilisateur ;;
-    2) choix_ordinateur ;;
-    Q) exit 0 ;;
-    *)
-        echo "Option invalide. Veuillez choisir 1, 2 ou 3."
-        menu_principal
-        ;;
-    esac
-}
+        case $cible in
+        1) choix_utilisateur ;;
+        2) choix_ordinateur ;;
+        Q) exit 0 ;;
+        *)
+            echo "Option invalide. Veuillez choisir 1, 2 ou 3."
+            menu_principal
+            ;;
+        esac
+    }
 
 # Actions ou informations sur les utilisateurs
-function choix_utilisateur {
-    echo "              === Actions ou Informations sur Utilisateur ==="
-    echo "1. Actions"
-    echo "2. Informations"
-    echo "R. Retour au menu principal"
-    read -p "Choisissez une option : (1, 2 ou R) " option
+    function choix_utilisateur {
+        echo "              === Actions ou Informations sur Utilisateur ==="
+        echo "1. Actions"
+        echo "2. Informations"
+        echo "R. Retour au menu principal"
+        read -p "Choisissez une option : (1, 2 ou R) " option
 
-    case $option in
-    1) actions_utilisateur ;;
-    2) informations_utilisateur ;;
-    R) menu_principal ;;
-    *)
-        echo "Option invalide. Veuillez choisir 1, 2 ou R."
-        choix_utilisateur
-        ;;
-    esac
-}
+        case $option in
+        1) actions_utilisateur ;;
+        2) informations_utilisateur ;;
+        R) menu_principal ;;
+        *)
+            echo "Option invalide. Veuillez choisir 1, 2 ou R."
+            choix_utilisateur
+            ;;
+        esac
+    }
 
 # Actions ou informations sur les ordinateurs
-function choix_ordinateur {
-    echo "=== Actions ou Informations sur Ordinateur ==="
-    echo "1. Actions"
-    echo "2. Informations"
-    echo "R. Retour au menu principal"
-    read -p "Choisissez une option : (1, 2 ou R) " option
+    function choix_ordinateur {
+        echo "=== Actions ou Informations sur Ordinateur ==="
+        echo "1. Actions"
+        echo "2. Informations"
+        echo "R. Retour au menu principal"
+        read -p "Choisissez une option : (1, 2 ou R) " option
 
-    case $option in
-    1) actions_ordinateur ;;
-    2) informations_ordinateur ;;
-    R) menu_principal ;;
-    *)
-        echo "Option invalide. Veuillez choisir 1, 2 ou R."
-        choix_ordinateur
-        ;;
-    esac
-}
+        case $option in
+        1) actions_ordinateur ;;
+        2) informations_ordinateur ;;
+        R) menu_principal ;;
+        *)
+            echo "Option invalide. Veuillez choisir 1, 2 ou R."
+            choix_ordinateur
+            ;;
+        esac
+    }
 
 # Actions sur les utilisateurs
     function actions_utilisateur {
@@ -181,154 +181,154 @@ function choix_ordinateur {
     }
 
 # Actions sur les ordinateurs
-function actions_ordinateur {
-    echo "=== Actions sur Ordinateur ==="
-    echo "1. Arrêt"
-    echo "2. Redémarrage"
-    echo "3. Verrouillage"
-    echo "4. Mise à jour du système"
-    echo "5. Création de répertoire"
-    echo "6. Suppression de répertoire"
-    echo "7. Prise de main à distance (GUI)"
-    echo "8. Définition de règles de pare-feu"
-    echo "9. Activation du pare-feu"
-    echo "10. Désactivation du pare-feu"
-    echo "11. Installation de logiciel"
-    echo "12. Désinstallation de logiciel"
-    echo "13. Exécution de script sur la machine distante"
-    echo "R. Retour"
-    read -p "Choisissez une action : (1, 2, 3 etc.) " action
+    function actions_ordinateur {
+        echo "=== Actions sur Ordinateur ==="
+        echo "1. Arrêt"
+        echo "2. Redémarrage"
+        echo "3. Verrouillage"
+        echo "4. Mise à jour du système"
+        echo "5. Création de répertoire"
+        echo "6. Suppression de répertoire"
+        echo "7. Prise de main à distance (GUI)"
+        echo "8. Définition de règles de pare-feu"
+        echo "9. Activation du pare-feu"
+        echo "10. Désactivation du pare-feu"
+        echo "11. Installation de logiciel"
+        echo "12. Désinstallation de logiciel"
+        echo "13. Exécution de script sur la machine distante"
+        echo "R. Retour"
+        read -p "Choisissez une action : (1, 2, 3 etc.) " action
 
-    case $action in
-    A1)
-        authentification
-        if confirmation; then
-            shutdown now
-            afficher_succes
-        else
-            afficher_erreur
-        fi
-        ;;
-    A2)
-        authentification
-        if confirmation; then
-            reboot
-            afficher_succes
-        else
-            afficher_erreur
-        fi
-        ;;
-    A3)
-        authentification
-        if confirmation; then
-            logout
-            afficher_succes
-        else
-            afficher_erreur
-        fi
-        ;;
-    A4)
-        authentification
-        if confirmation; then
-            sudo apt update && sudo apt upgrade -y
-            afficher_succes
-        else
-            afficher_erreur
-        fi
-        ;;
-    A5)
-        authentification
-        if confirmation; then
-            read -p "Emplacement du nouveau dossier ?" path
-            read -p "Quelle est le nom du dossier à créer ?" name
-            cd $path
-            mkdir $name
-            cd $name
-        fi
-        ;;
-    A6)
-        authentification
-        if confirmation; then
-            read -p "Emplacement du dossier a supprimer :" path
-            rm -r $path
-        fi
-        ;;
-    A7)
-        authentification
-        if confirmation; then
-            ?
-        fi
-        ;;
-    A8)
-        authentification
-        if confirmation; then
-            ?
-        fi
-        ;;
-    A9)
-        authentification
-        if confirmation; then
-            sudo ufw enable
-        fi
-        ;;
-    A10)
-        authentification
-        if confirmation; then
-            sudo ufw disable
-        fi
-        ;;
-    A11)
-        authentification
-        if confirmation; then
-            read -p "Quel logiciel voulez vous installer ?" soft
-            sudo apt install $soft -y
-        fi
-        ;;
-    A12)
-        authentification
-        if confirmation; then
-            read -p "Quel logiciel voulez vous désinstaller ?" soft
-            sudo apt remove $soft -y
-        fi
-        ;;
-    A13)
-        authentification
-        if confirmation; then
-            ?
-        fi
-        ;;
-    R) choix_ordinateur ;;
-    *)
-        echo "Option invalide. Veuillez choisir A1, A2, A3, etc."
-        actions_ordinateur
-        ;;
-    esac
-}
+        case $action in
+        A1)
+            authentification
+            if confirmation; then
+                shutdown now
+                afficher_succes
+            else
+                afficher_erreur
+            fi
+            ;;
+        A2)
+            authentification
+            if confirmation; then
+                reboot
+                afficher_succes
+            else
+                afficher_erreur
+            fi
+            ;;
+        A3)
+            authentification
+            if confirmation; then
+                logout
+                afficher_succes
+            else
+                afficher_erreur
+            fi
+            ;;
+        A4)
+            authentification
+            if confirmation; then
+                sudo apt update && sudo apt upgrade -y
+                afficher_succes
+            else
+                afficher_erreur
+            fi
+            ;;
+        A5)
+            authentification
+            if confirmation; then
+                read -p "Emplacement du nouveau dossier ?" path
+                read -p "Quelle est le nom du dossier à créer ?" name
+                cd $path
+                mkdir $name
+                cd $name
+            fi
+            ;;
+        A6)
+            authentification
+            if confirmation; then
+                read -p "Emplacement du dossier a supprimer :" path
+                rm -r $path
+            fi
+            ;;
+        A7)
+            authentification
+            if confirmation; then
+                ?
+            fi
+            ;;
+        A8)
+            authentification
+            if confirmation; then
+                ?
+            fi
+            ;;
+        A9)
+            authentification
+            if confirmation; then
+                sudo ufw enable
+            fi
+            ;;
+        A10)
+            authentification
+            if confirmation; then
+                sudo ufw disable
+            fi
+            ;;
+        A11)
+            authentification
+            if confirmation; then
+                read -p "Quel logiciel voulez vous installer ?" soft
+                sudo apt install $soft -y
+            fi
+            ;;
+        A12)
+            authentification
+            if confirmation; then
+                read -p "Quel logiciel voulez vous désinstaller ?" soft
+                sudo apt remove $soft -y
+            fi
+            ;;
+        A13)
+            authentification
+            if confirmation; then
+                ?
+            fi
+            ;;
+        R) choix_ordinateur ;;
+        *)
+            echo "Option invalide. Veuillez choisir A1, A2, A3, etc."
+            actions_ordinateur
+            ;;
+        esac
+    }
 
 # Informations sur les utilisateurs
-function informations_utilisateur {
-    echo "=== Informations sur Utilisateur ==="
-    echo "1. Date de dernière connexion d’un utilisateur"
-    echo "2. Date de dernière modification du mot de passe"
-    echo "3. Liste des sessions ouvertes par l'utilisateur"
-    echo "4. Droits/permissions de l’utilisateur sur un dossier"
-    echo "5. Droits/permissions de l’utilisateur sur un fichier"
-    echo "R. Retour"
-    read -p "Choisissez une option : (1, 2, 3, 4, 5 ou 6) " option
+    function informations_utilisateur {
+        echo "=== Informations sur Utilisateur ==="
+        echo "1. Date de dernière connexion d’un utilisateur"
+        echo "2. Date de dernière modification du mot de passe"
+        echo "3. Liste des sessions ouvertes par l'utilisateur"
+        echo "4. Droits/permissions de l’utilisateur sur un dossier"
+        echo "5. Droits/permissions de l’utilisateur sur un fichier"
+        echo "R. Retour"
+        read -p "Choisissez une option : (1, 2, 3, 4, 5 ou 6) " option
 
-    case $option in
-    1) ;;
-    2) ;;
-    3) ;;
-    4) ;;
-    5) ;;
-    R) ;;
-    *)
-        echo "Option invalide. Veuillez choisir 1, 2, 3, 4, 5 ou 6."
-        informations_utilisateur
-        ;;
-    esac
-}
+        case $option in
+        1) ;;
+        2) ;;
+        3) ;;
+        4) ;;
+        5) ;;
+        R) ;;
+        *)
+            echo "Option invalide. Veuillez choisir 1, 2, 3, 4, 5 ou 6."
+            informations_utilisateur
+            ;;
+        esac
+    }
 
 # Fonction pour les informations sur les ordinateurs
     function informations_ordinateur {
