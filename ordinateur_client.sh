@@ -200,7 +200,7 @@
         read -p "Choisissez une action : (1, 2, 3 etc.) " action
 
         case $action in
-        A1)
+        1)
             authentification
             if confirmation; then
                 shutdown now
@@ -209,7 +209,7 @@
                 afficher_erreur
             fi
             ;;
-        A2)
+        2)
             authentification
             if confirmation; then
                 reboot
@@ -218,7 +218,7 @@
                 afficher_erreur
             fi
             ;;
-        A3)
+        3)
             authentification
             if confirmation; then
                 logout
@@ -227,7 +227,7 @@
                 afficher_erreur
             fi
             ;;
-        A4)
+        4)
             authentification
             if confirmation; then
                 sudo apt update && sudo apt upgrade -y
@@ -236,7 +236,7 @@
                 afficher_erreur
             fi
             ;;
-        A5)
+        5)
             authentification
             if confirmation; then
                 read -p "Emplacement du nouveau dossier ?" path
@@ -246,52 +246,52 @@
                 cd $name
             fi
             ;;
-        A6)
+        6)
             authentification
             if confirmation; then
                 read -p "Emplacement du dossier a supprimer :" path
                 rm -r $path
             fi
             ;;
-        A7)
+        7)
             authentification
             if confirmation; then
                 ?
             fi
             ;;
-        A8)
+        8)
             authentification
             if confirmation; then
                 ?
             fi
             ;;
-        A9)
+        9)
             authentification
             if confirmation; then
                 sudo ufw enable
             fi
             ;;
-        A10)
+        10)
             authentification
             if confirmation; then
                 sudo ufw disable
             fi
             ;;
-        A11)
+        11)
             authentification
             if confirmation; then
                 read -p "Quel logiciel voulez vous installer ?" soft
                 sudo apt install $soft -y
             fi
             ;;
-        A12)
+        12)
             authentification
             if confirmation; then
                 read -p "Quel logiciel voulez vous désinstaller ?" soft
                 sudo apt remove $soft -y
             fi
             ;;
-        A13)
+        13)
             authentification
             if confirmation; then
                 ?
@@ -299,7 +299,7 @@
             ;;
         R) choix_ordinateur ;;
         *)
-            echo "Option invalide. Veuillez choisir A1, A2, A3, etc."
+            echo "Option invalide. Veuillez choisir 1-13 ou R etc."
             actions_ordinateur
             ;;
         esac
