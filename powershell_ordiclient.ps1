@@ -1,102 +1,215 @@
-#menu d'options 1 
-    #Action
-        #Sur cet ordi
-        #Remote
-    # Information 
-        #Sur cet ordi
-        #Remote
+#menu Principal
 
-$continue = $true
-while ($continue){
-  write-host “----------------------Bienvenue ! que souhaitez vous faire ?  -----------------------”
-  write-host “1. mon action 1”
-  write-host "2. Les imformation 2"
-  write-host "x. exit"
-  write-host "--------------------------------------------------------"
-  $choix = read-host “faire un choix :”
-  switch ($choix){
-    1{commande de mon action 1}
-    2{commande de mon Information 2}
-    ‘x’ {$continue = $false}
-    default {Write-Host "Choix invalide"-ForegroundColor Red}
-  }
+function Menuprincipal{
+    Clear-Host
+    Write-Host @"
+    +===============================================+
+    |  Menu Principal                               | 
+    +===============================================+
+    |                                               |
+    |    1) Action                                  |
+    |    2) Information                             |
+    |    3) Exit                                    |
+    +===============================================+
+"@             
+Read-Host "Votre choix ?"          
 }
 
-#Menu 2 Action
+ #Menu Action           
+function MenuAction{
+    Clear-Host
+    Write-Host @"
+    +=====================================================+
+    |  Menu Action                                        | 
+    +=====================================================+
+    |                                                     |
+    |    1)  Arret                                        |
+    |    2)  Redémarrage                                  |
+    |    3)  Verrouillage                                 |
+    |    4)  Mise a jour Système                          |
+    |    5)  Création de répertoire                       |
+    |    6)  Suppression de répertoire                    |
+    |    7)  Prise de main à distance                     |
+    |    8)  Définition de règles de pare-feu             |
+    |    9)  Activation du pare-feu                       |
+    |    10) Désactivation du Pare-feu                    |
+    |    11) Installation de logiciel                     |
+    |    12) Désinstallation de logiciel                  |
+    |    13) Exécution de script sur la machine distante  |
+    |    14) Exit                                         |
+    +=====================================================+
+    
+"@
+    
+Read-Host "Quelle est l'Action que vous souhaitez faire ?"
+}
+#Sur cet ordi  A FAIRE 
+#Remote    A FAIRE
+
+
+# Menu Information
+function MenuInfo{
+    Clear-Host
+    Write-Host @"
+    +=====================================================+
+    |  Menu Information                                   | 
+    +=====================================================+
+    |                                                     |
+    |    1)  Version de l'OS                              |
+    |    2)  Nombre d'interface                           |
+    |    3)  Adresse IP de chaque interface               |
+    |    4)  Adresse Mac                                  |
+    |    5)  Liste des applications/paquets               |
+    |        installées de répertoire                     |
+    |    6)  Liste des utilisateurs locaux                |
+    |    7)  Type de CPU, nombre de coeurs, etc.          |
+    |    8)  Mémoire RAM totale                           |
+    |    9)  Utilisation de la RAM                        |
+    |    10) Utilisation du disque                        |
+    |    11) Utilisation du processeur                    |
+    |    12) Liste des ports ouverts                      |
+    |    13) Statut du pare-feu                           |
+    |    14) Exit                                         |
+    |                                                     |
+    +=====================================================+
+    
+"@
+    
+Read-Host "Quelle est l'Information que vous souhaitez ?"
+} 
+
+#Sur cet ordi  A FAIRE 
+#Remote    A FAIRE
+
+$choixMP = Menuprincipal
+Switch ($choixMP)
+# Launch menu action       
+ {
+        "1" { $choixMA = MenuAction
+        }
+# Lauch menu Information        
+        "2" { $choixMI =  MenuInfo     
+        }   
+# OPTION3 - EXIT        
+        "3" { $choixMP3 = Exit  
+        Write-Host "Au revoir"
+        Break
+        }
+        default {
+        #DEFAULT OPTION
+        Write-Host "Option not available"
+        Start-Sleep -Seconds 1
+        }
+ }
+
+$choixMA = MenuAction
+Switch ($choixMA)      
+ {
     #A1 Arrêt
-Stop-Computer -ComputerName , "localhost"
+    "1" { $choixMA1 = Stop-Computer -ComputerName "localhost"  
+    }
     #A2 Redémarrage
-Restart-Computer -ComputerName , localhost
+    "2" { $choixMA2 = Restart-Computer -ComputerName "localhost" 
+    }
     #A3 Verrouillage
-
-    #A4 Mise-à-jour du système
-Install-WUUpdates
+    "3" { $choixMA3 = "" 
+       
+    }
+    #A4 Mise-à-jour du système   
+    "4" { $choixMA4 = Install-WUUpdates    
+    }
     #A5 Création de répertoire
-New-Item -Name "PowerShell" -ItemType Directory
+    "5" { $choixMA5 = New-Item -Name "" -ItemType "Directory"  
+    }
     #A6 Suppression de répertoire
-Remove-item
+    "6" { $choixMA6 = Remove-item -Name "" -ItemType ""
+    }
     #A7 Prise de main à distance (GUI)
-Write-Host "Lancement de connexion a distance"
-        $start_cad = "mstsc"
-        Start-Process $start_cad
-    #A8 Définition de règles de pare-feu
-Get-NetFirewallProfile | ft Name,Enabled
+    "7" { $choixMA7 = Write-Host "Lancement de connexion a distance"
+            $start_cad = "mstsc"
+            Start-Process $start_cad 
+         }
+    #A8 Définition de règles de pare-feu   
+    "8" { $choixMA8 = Get-NetFirewallProfile | ft Name,Enabled    
+    }
     #A9 Activation du pare-feu
-Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False
+    "9" { $choixMA9 = Set-NetFirewallProfile -Profile ",Public,Private" -Enabled False   
+    }
     #A10 Désactivation du pare-feu
-Set-NetFirewallProfile -Profile ou Public ou * -Enabled true
-    #A11 Installation de logiciel
-Install-Package
+    "10" { $choixMA10 = Set-NetFirewallProfile -Profile ou Public ou * -Enabled true 
+    } 
+    #A11 Installation de logiciel 
+    "11" { $choixMA11 = Install-Package    
+    } 
     #A12 Désinstallation de logiciel
-Uninstall-Package
-    #A13 Exécution de script sur la machine distante
+    "12" { $choixMA12 = Uninstall-Package  
+    }
+    #13Exécution de script sur la machine distante
+    "13" { $choixMA13 = ""
+    }
+    "14" {   
+    Write-Host "Au revoir"
+    Break
+    }
+    default {
+    #DEFAULT OPTION
+    Write-Host "Option not available"
+    Start-Sleep -Seconds 1
+    }
+ }
 
-#Menu 2 Info 
+$choixMI = MenuInfo
+Switch ($choixMI)      
+ {
     #I1 Version de l'OS
-Get-ComputerInfo | Select-Object WindowsVersion, OSArchitecture
-Get-WmiObject Win32_OperatingSystem | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture, CSName, WindowsDirectory, NumberOfUsers, BootDevice
-    
-    #I2 Nombre d'interface
-
-Get-NetAdapter | fl Name, InterfaceIndex, MacAddress, MediaConnectionState, LinkSpeed
-
+    "1" { $choixMI1 = Get-ComputerInfo | Select-Object WindowsVersion, OSArchitecture
+    #Get-WmiObject Win32_OperatingSystem | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture, CSName, WindowsDirectory, NumberOfUsers, BootDevice
+    }
+    #I2 Nombre d'interface   
+    "2" { $choixMI2 = Get-NetAdapter | fl Name, InterfaceIndex, MacAddress, MediaConnectionState, LinkSpeed   
+    }
     #I3 Adresse IP de chaque interface
-
-Get-NetIPConfiguration
-
-    #I4 Adresse Mac
-
-Get-NetAdapter | select ifIndex, Name, MacAddress
-
+    "3" { $choixMI3 = Get-NetIPConfiguration
+    }
+    #I4 Adresse Mac   
+    "4" { $choixMI4 = Get-NetAdapter | select ifIndex, Name, MacAddress     
+    }
     #I5 Liste des applications/paquets installées
-
-Get-AppxPackage
-
-    #I6 Liste des utilisateurs locaux
-    
-Get-LocalUser
-
+    "5" { $choixMI5 = Get-AppxPackage 
+    }
+    #I6 Liste des utilisateurs locaux   
+    "6" { $choixMI6 = Get-LocalUser 
+    }
     #I7 Type de CPU, nombre de coeurs, etc.
-
-Get-WmiObject Win32_Processor
-
+    "7" { $choixMI7 =Get-WmiObject Win32_Processor
+    }  
     #I8 Mémoire RAM totale
-
-Get-CimInstance win32_physicalmemory | Format-Table Manufacturer,Banklabel,Configuredclockspeed,Devicelocator,Capacity,Serialnumber -autosize
-
+    "8" { $choixMI8 =Get-CimInstance win32_physicalmemory | Format-Table Manufacturer,Banklabel,Configuredclockspeed,Devicelocator,Capacity,Serialnumber -autosize  
+    }
     #I9 Utilisation de la RAM
-
-Get-WmiObject Win32_ComputerSystem | Select-Object -ExpandProperty TotalPhysicalMemory
-
+    "9" { $choixMI9 = Get-WmiObject Win32_ComputerSystem | Select-Object -ExpandProperty TotalPhysicalMemory
+    }  
     #I10 Utilisation du disque
-
-Get-PSDrive   Get-WmiObject Win32_LogicalDisk | Select SystemName,DeviceID,VolumeName,@{Name="size (Go)";Expression={"{0:N1}"-f($_.size/1GB)}},@{Name="freespace (Go)";Expression={"{0:N1}"-f($_.freespace/1GB)}} | Format-Table -GroupBy Name -AutoSize
-
-    #I11 Utilisation du processeur
-
-Get-WmiObject Win32_Processor | Measure-Object -Property LoadPercentage -Average).Average
-
+    "10" { $choixMI10 = Get-PSDrive   Get-WmiObject Win32_LogicalDisk | Select SystemName,DeviceID,VolumeName,@{Name="size (Go)";Expression={"{0:N1}"-f($_.size/1GB)}},@{Name="freespace (Go)";Expression={"{0:N1}"-f($_.freespace/1GB)}} | Format-Table -GroupBy Name -AutoSize
+    }
+    #I11 Utilisation du processeur 
+    "11" { $choixMI11 = Get-WmiObject Win32_Processor | Measure-Object -Property (LoadPercentage -Average).Average     
+    } 
     #I12 Liste des ports ouverts
+    "12" { $choixMI12 = ""    
+    }
     #I13 Statut du pare-feu
+    "13" { $choixMI13 = Get-NetFirewallProfile
+    } 
+    #Exit
+    "14" {   
+    Write-Host "Au revoir"
+    Break
+    }
+    default {
+    #DEFAULT OPTION
+    Write-Host "Option not available"
+    Start-Sleep -Seconds 1
+    }
+ }   
 
-Get-NetFirewallProfile
