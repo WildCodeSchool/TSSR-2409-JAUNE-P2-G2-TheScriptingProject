@@ -355,7 +355,8 @@
         3) ip -br -o addr | awk '{print "interface : " $1"\n"," adresse IPv4 : "$3"\n "}';;
         4) ip -br -o link | awk '{print "interface : " $1"\n"," adresse MAC : "$3"\n"}';;
         5) apt-mark showmanual ;;
-        6) _l="/etc/login.defs"; _p="/etc/passwd"; l=$(grep "^UID_MIN" $_l); l1=$(grep "^UID_MAX" $_l); echo "----------[ Normal User Accounts ]---------------"; awk -F':' -v "min=${l##UID_MIN}" -v "max=${l1##UID_MAX}" '{ if ( $3 >= min && $3 <= max && $7 != "/sbin/nologin" ) print $0 }' "$_p" ;;
+        6) _l="/etc/login.defs"; _p="/etc/passwd"; l=$(grep "^UID_MIN" $_l); l1=$(grep "^UID_MAX" $_l); echo "----------[ Normal User Accounts ]---------------";
+            awk -F':' -v "min=${l##UID_MIN}" -v "max=${l1##UID_MAX}" '{ if ( $3 >= min && $3 <= max && $7 != "/sbin/nologin" ) print $0 }' "$_p" ;;
         7) lscpu | sed -n '1p;5p;8p;20,22p';;
         8) free -h # a revoir le formattage 
         ;;
