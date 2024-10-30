@@ -91,7 +91,7 @@ Switch ($choixMP)
         "2" { $choixMI =  MenuInfo     
         }   
 # OPTION3 - EXIT        
-        "3" { $choixMP3 = Exit  
+        "3" { $choixMP3 =  
         Write-Host "Au revoir"
         Break
         }
