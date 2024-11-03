@@ -6,12 +6,15 @@
 #    read -p "Entrez l'adresse IP de la machine :" IP
 #    ssh $identifiant@$IP
 #}
+log_file="/home/wilder/Desktop/loggo.log"
+
 
 # Fonction de confirmation
 function confirmation {
     read -p "Êtes-vous sûr de vouloir continuer ? (o/n) " confirmation
     if [ "$confirmation" != "o" ]; then
         echo "Action annulée."
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER- Action annulée" >> $log_file
         return 1
     fi
     return 0
@@ -19,12 +22,14 @@ function confirmation {
 
 # Fonction d'affichage de succès
 function afficher_succes {
-    echo "L'opération a réussie !"
+    echo "L'opération a réussie !" 
+    echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-L'opération à réussie !" >> $log_file
 }
 
 # Fonction d'affichage d'erreur
 function afficher_erreur {
     echo "L'opération a échouée !"
+    echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-L'opération a échouée !">> $log_file
 }
 # Menu principal
 function menu_principal {
@@ -35,10 +40,14 @@ function menu_principal {
     echo "2. Ordinateur"
     echo "Q. Quitter"
     read -p "Choisissez une cible : (1, 2 ou Q) : " cible
+    echo "Choix de la cible $cible"
+    echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi la cible $cible"  >> $log_file
 
     case $cible in
-    1) choix_utilisateur ;;
-    2) choix_ordinateur ;;
+    1) choix_utilisateur
+    echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi le menu 'choix_utilisateur'"  >> $log_file ;;
+    2) choix_ordinateur
+    echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi le menu 'choix_ordinateur'"  >> $log_file ;;
     Q) exit 0 ;;
     *)
         echo "Option invalide. Veuillez choisir 1, 2 ou Q."
@@ -57,12 +66,15 @@ function choix_utilisateur {
     echo "R. Retour au menu principal"
     echo "Q. Quitter le script"
     read -p "Choisissez une option : (1-2, R ou Q) : " option
-    echo
+    echo 
 
     case $option in
-    1) actions_utilisateur ;;
-    2) informations_utilisateur ;;
-    R) menu_principal ;;
+    1) actions_utilisateur 
+        echo "Vous avez choisi le menu 'actions_utlisateurs'" >> $log_file ;;
+    2) informations_utilisateur; 
+    echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi le menu 'informations_utlisateurs'">> $log_file;;
+    R) menu_principal; 
+    echo echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi le menu 'menu_pricipal'">> $log_file;;
     Q) exit 0 ;;
     *)
         echo "Option invalide. Veuillez choisir 1, 2, R ou Q"
@@ -83,9 +95,12 @@ function choix_ordinateur {
     read -p "Choisissez une option : (1-2, R ou Q) : " option
 
     case $option in
-    1) actions_ordinateur ;;
-    2) informations_ordinateur ;;
-    R) menu_principal ;;
+    1) actions_ordinateur ;
+    echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi le menu 'actions_ordinateurs'">> $log_file ;;
+    2) informations_ordinateur ;
+    echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi le menu 'informations_ordinateur'">> $log_file ;;
+    R) menu_principal ;
+    echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi le menu 'menu_pricipal'">> $log_file ;;
     Q) exit 0 ;;
     *)
         echo "Option invalide. Veuillez choisir 1, 2, R ou Q"
@@ -117,8 +132,10 @@ function actions_utilisateur {
             read -p "Quel utilisateur voulez vous créer ?" useradd
 
             sudo useradd $useradd
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Création de compte'">> $log_file 
             afficher_succes
         else
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Création de compte'">> $log_file
             afficher_erreur
         fi
         ;;
@@ -127,8 +144,10 @@ function actions_utilisateur {
         if confirmation; then
             read -p "Pour quel utilisateur voulez vous changer le mot de passe ?" passwd
             sudo passwd $passwd
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Changement de mot de passe'">> $log_file
             afficher_succes
         else
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Changement de mot de passe'">> $log_file
             afficher_erreur
         fi
         ;;
@@ -137,8 +156,10 @@ function actions_utilisateur {
         if confirmation; then
             read -p "Quel utilisateur voulez vous supprimer ?" userdel
             sudo userdel $userdel
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Suppression de compte'">> $log_file
             afficher_succes
         else
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Suppression de compte'">> $log_file
             afficher_erreur
         fi
         ;;
@@ -147,8 +168,10 @@ function actions_utilisateur {
         if confirmation; then
             read -p "Quel utilisateur voulez vous désactiver ?" userdel
             sudo usermod -L $usermod
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Désactivation de compte'">> $log_file
             afficher_succes
         else
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action '8Désactivation de compte'">> $log_file
             afficher_erreur
         fi
         ;;
@@ -157,8 +180,10 @@ function actions_utilisateur {
         if confirmation; then
             read -p "Quel utilisateur voulez vous ajouter au groupe administrateur ?" userAdmin
             sudo usermod -aG sudo $userAdmin
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Ajout à un groupe d'administration'">> $log_file
             afficher_succes
         else
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Ajout à un groupe d'administration'">> $log_file
             afficher_erreur
         fi
         ;;
@@ -168,8 +193,10 @@ function actions_utilisateur {
             read -p "Quel utilisateur voulez vous ajouter au groupe local ?" username
             read -p "A quel groupe voulez vous ajouter l'utilisateur "$username" ?" usergroup
             sudo usermod -aG $usergroup $username
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Ajout à un groupe local'">> $log_file
             afficher_succes
         else
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Ajout à un groupe local'">> $log_file
             afficher_erreur
         fi
         ;;
@@ -179,12 +206,15 @@ function actions_utilisateur {
             read -p "Quel utilisateur voulez vous supprimer du groupe local ?" username
             read -p "De quel groupe voulez vous supprimer l'utilisateur "$username" ?" usergroup
             sudo deluser $username $usergroup
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Sortie d’un groupe local'">> $log_file
             afficher_succes
         else
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Sortie d’un groupe local'">> $log_file
             afficher_erreur
         fi
         ;;
-    R) choix_utilisateur ;;
+    R) choix_utilisateur ;
+    echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi 'Retour au menu choix_utilisateur'">> $log_file ;;
     Q) exit 0 ;;
     *)
         echo "Option invalide ! Veuillez choisir 1-7, R ou Q"
@@ -220,8 +250,10 @@ function actions_ordinateur {
         #authentification
         if confirmation; then
             shutdown now
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Arrêt'">> $log_file
             afficher_succes
         else
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Arrêt'">> $log_file
             afficher_erreur
         fi
         ;;
@@ -229,8 +261,10 @@ function actions_ordinateur {
         #authentification
         if confirmation; then
             reboot
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Redémarrage'">> $log_file
             afficher_succes
         else
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Redémarrage'">> $log_file
             afficher_erreur
         fi
         ;;
@@ -238,8 +272,10 @@ function actions_ordinateur {
         #authentification
         if confirmation; then
             logout
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Verrouillage'">> $log_file
             afficher_succes
         else
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Verrouillage'">> $log_file
             afficher_erreur
         fi
         ;;
@@ -247,14 +283,17 @@ function actions_ordinateur {
         #authentification
         if confirmation; then
             sudo apt update && sudo apt upgrade -y
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Mise à jour du système'">> $log_file
             afficher_succes
         else
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Mise à jour du système'">> $log_file
             afficher_erreur
         fi
         ;;
     A5)
         #authentification
         if confirmation; then
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Création de répertoire'">> $log_file
             read -p "Emplacement du nouveau dossier ?" path
             read -p "Quelle est le nom du dossier à créer ?" name
             mkdir -p $path/$name
@@ -263,6 +302,7 @@ function actions_ordinateur {
     A6)
         #authentification
         if confirmation; then
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Suppression de répertoire'">> $log_file
             read -p "Emplacement du dossier a supprimer :" path
             rm -r $path
         fi
@@ -270,30 +310,35 @@ function actions_ordinateur {
     A7)
         #authentification
         if confirmation; then
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Prise de main à distance (GUI)'">> $log_file
             echo #Prise de main à distance (GUI)
         fi
         ;;
     A8)
         #authentification
         if confirmation; then
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Définition de règles de pare-feu'">> $log_file
             echo #Définition de règles de pare-feu
         fi
         ;;
     A9)
         #authentification
         if confirmation; then
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Activation du pare-feu'">> $log_file
             sudo ufw enable
         fi
         ;;
     A10)
         #authentification
         if confirmation; then
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Désactivation du pare-feu'">> $log_file
             sudo ufw disable
         fi
         ;;
     A11)
         #authentification
         if confirmation; then
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Installation de logiciel'">> $log_file
             read -p "Quel logiciel voulez vous installer ?" soft
             sudo apt install $soft -y
         fi
@@ -301,6 +346,7 @@ function actions_ordinateur {
     A12)
         #authentification
         if confirmation; then
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Désinstallation de logiciel'">> $log_file
             read -p "Quel logiciel voulez vous désinstaller ?" soft
             sudo apt remove $soft -y
         fi
@@ -309,12 +355,14 @@ function actions_ordinateur {
         #Exécution de script sur la machine distante
         if confirmation; then
             # authentification
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Exécution de script sur la machine distante'">> $log_file
             read -p "Quel est l'emplacement du script" path
             read -p "Quel est le nom du script ?" name
             cd $path && ./$name #eventuellement rajouter un chmod 755 $name
         fi
         ;;
-    R) choix_ordinateur ;;
+    R) choix_ordinateur ;
+    echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi 'Retour au menu choix_utilisateur'">> $log_file ;;
     Q) exit 0 ;;
     *)
         echo "Option invalide. Veuillez choisir 1-13, R ou Q"
@@ -338,12 +386,18 @@ function informations_utilisateur {
     read -p "Choisissez une option : (1-5, R ou Q) : " option
 
     case $option in
-    1) last -F -w -R $user | grep 'seat0' | awk 'NR==1' ;;
-    2) sudo chage -l $user | awk 'NR==1' ;;
-    3) who -H -s ;;
-    4) ls -ld $directory | awk '{print $1" "$3" "$4}' ;;
-    5) ls -l $file | awk '{print $1" "$3" "$4}' ;;
-    R) actions_utilisateur ;;
+    1) last -F -w -R $user | grep 'seat0' | awk 'NR==1' 
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Date de dernière connexion d’un utilisateur'">> $log_file;;
+    2) sudo chage -l $user | awk 'NR==1' 
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Date de dernière modification du mot de passe'">> $log_file;;
+    3) who -H -s 
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Liste des sessions ouvertes par l'utilisateur'">> $log_file;;
+    4) ls -ld $directory | awk '{print $1" "$3" "$4}' 
+    echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Droits/permissions de l’utilisateur sur un dossier'">> $log_file;;
+    5) ls -l $file | awk '{print $1" "$3" "$4}' 
+    echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Droits/permissions de l’utilisateur sur un fichier'">> $log_file;;
+    R) actions_utilisateur 
+    echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi 'Retour au menu actions_utilisateur'">> $log_file ;;
     Q) exit 0 ;;
     *)
         echo "Option invalide. Veuillez choisir 1-5, R ou Q"
@@ -375,29 +429,50 @@ function informations_ordinateur {
     read -p "Choisissez une option : (1-13, R ou Q) : " option
 
     case $option in # checker les formattages
-    1) cat /etc/os-release ;;
-    2) nmcli device ;;
-    3) ip -br -o addr ;;
-    4) ip -br -o link ;;
-    5) apt-mark showmanual ;;
-    6) cat /etc/passwd ;;
-    7) cat /proc/cpuinfo // lscpu ;;
+    1) cat /etc/os-release 
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Version de l'OS'">> $log_file;;
+    2) nmcli device 
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Nombre d'interface'">> $log_file;;
+    3) ip -br -o addr 
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Adresse IP de chaque interface'">> $log_file;;
+    4) ip -br -o link 
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Adresse MAC'">> $log_file;;
+    5) apt-mark showmanual 
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Liste des applications/paquets installés'">> $log_file;;
+    6) cat /etc/passwd 
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Liste des utilisateurs locaux'">> $log_file;;
+    7) cat /proc/cpuinfo // lscpu 
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Type de CPU, nombre de cœurs, etc.'">> $log_file;;
     8) free -h # a revoir le formattage 
-    ;;
-    9) free -h // cat /proc/meminfo ;;
-    10) df -h ;;
-    11) mpstat ;;
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Mémoire RAM totale'">> $log_file;;
+    9) free -h // cat /proc/meminfo
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Utilisation de la RAM'">> $log_file ;;
+    10) df -h 
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Utilisation du disque'">> $log_file;;
+    11) mpstat
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Utilisation du processeur'">> $log_file ;;
     12) ss -tulpn | grep LISTEN # + formattage pour jsute le numéro ?
+    echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Liste des ports ouverts'">> $log_file
     ;;
     13)
         sudo iptables -L -n #A tester sur une linux
-        ;;
-    R) choix_ordinateur ;;
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Statut du pare-feu'">> $log_file;;
+    R) choix_ordinateur
+    echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi le menu 'choix_ordinateur'" >> $log_file  ;;
     Q) exit 0 ;;
     *) echo "Option invalide. Veuillez choisir 1-13, R ou Q"
         informations_ordinateur ;;
     esac
 }
+
+function start_log {
+    echo -e "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-********StartScript********" > /home/wilder/Desktop/loggo.log
+}
+
+trap 'echo -n "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-********EndScript********" >> /home/wilder/Desktop/loggo.log' EXIT 
+trap 'echo -e "\e[32mATTENTION:\e[0m une erreur sest produite. Vérifiez dans le fichier $log_file"; echo -n "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-********EndScript********" >> /home/wilder/Desktop/loggo.log' SIGINT SIGKILL
+
+start_log
 
 # Boucle principale
 while true; do
