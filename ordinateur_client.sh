@@ -1,401 +1,382 @@
-# Menu Principal
-
-function MenuPrincipal 
-{
-    #while ($true)
-    #{
-        #Clear-Host
-        Write-Host @"
-        +===============================================+
-        |  Choisir une Cible                            |
-        +===============================================+
-        |                                               |
-        |    1) Utilisateur                             |
-        |    2) Ordinateur                              |
-        |    Q) Quitter                                 |
-        |                                               |
-        +===============================================+
-"@
-
-
-    $choixMP = Read-Host "Votre choix ?"
-        Switch ($choixMP) 
-        {
-            "1" { choix_utilisateur }
-            "2" { choix_ordinateur }
-            "Q" { Write-Host "Au revoir"
-            break }
-            default { Write-Host "Option non disponible"-ForegroundColor Red
-            Start-Sleep -Seconds 2
-            MenuPrincipal}
+#!/bin/bash
+# Actions redondantes
+    # Fonction d'authentification
+        function authentification {
+            read -p "Entrez l'identifiant de la machine cible : " identifiant
+            read -p "Entrez l'adresse IP de la machine :" IP
+            ssh $identifiant@$IP
         }
-    #}
-}
 
-function choix_utilisateur 
-{
-    #while ($true)
-    #{
-        #Clear-Host
-        Write-Host @"
-        +===============================================+
-        |  Actions ou Informations sur Utilisateur      |
-        +===============================================+
-        |                                               |
-        |    1) Actions                                 |
-        |    2) Informations                            |
-        |    R) Retour au menu principal                |
-        |    Q) Quitter                                 |
-        |                                               |
-        +===============================================+
-"@
-
-
-    $choixU = Read-Host "Votre choix ?"
-        Switch ($choixU) 
-        {
-            "1" { actions_utilisateur }
-            "2" { informations_utilisateur }
-            "R" { MenuPrincipal }
-            "Q" { Write-Host "Au revoir"
-            break }
-            default { Write-Host "Option non disponible"-ForegroundColor Red
-            Start-Sleep -Seconds 2
-            MenuPrincipal}
+    # Fonction de confirmation
+        function confirmation {
+            read -p "Êtes-vous sûr de vouloir continuer ? (o/n) " confirmation
+            if [ "$confirmation" != "o" ]; then
+                echo "Action annulée."
+                return 1
+            fi
+            return 0
         }
-    #}
-}
 
-function choix_ordinateur 
-{
-    #while ($true)
-    #{
-        #Clear-Host
-        Write-Host @"
-        +===============================================+
-        |  Actions ou Informations sur ordinateurs      |
-        +===============================================+
-        |                                               |
-        |    1) Actions                                 |
-        |    2) Informations                            |
-        |    R) Retour au menu principal                |
-        |    Q) Quitter                                 |
-        |                                               |
-        +===============================================+
-"@
-
-
-    $choixO = Read-Host "Votre choix ?"
-        Switch ($choixO) 
-        {
-            "1" { actions_ordinateur }
-            "2" { informations_ordinateur }
-            "R" { MenuPrincipal }
-            "Q" { Write-Host "Au revoir"
-            break }
-            default { Write-Host "Option non disponible"-ForegroundColor Red
-            Start-Sleep -Seconds 2
-            MenuPrincipal}
+    # Fonction d'affichage de succès
+        function afficher_succes {
+            echo "L'opération a réussie !"
         }
-    #}
-}
-# Menu Action
-function actions_ordinateur 
-{
-    #while ($true)
-    #{
-    #Clear-Host
-        Write-Host @"
-        +=====================================================+
-        |  Actions sur Ordinateur                             |
-        +=====================================================+
-        |                                                     |
-        |    1)  Arrêt                                        |
-        |    2)  Redémarrage                                  |
-        |    3)  Verrouillage                                 |
-        |    4)  Mise à jour Système                          |
-        |    5)  Création de répertoire                       |
-        |    6)  Suppression de répertoire                    |
-        |    7)  Prise de main à distance                     |
-        |    8)  Définition de règles de pare-feu             |
-        |    9)  Activation du pare-feu                       |
-        |    10) Désactivation du pare-feu                    |
-        |    11) Installation de logiciel                     |
-        |    12) Désinstallation de logiciel                  |
-        |    13) Exécution de script sur la machine distante  |
-        |    R)  Retour au Menu Principal                     |
-        |    Q)  Quitter                                      |
-        |                                                     |
-        +=====================================================+
 
-"@
-
-        $choixAO = Read-Host "Quelle est l'Action que vous souhaitez faire ?"
-        Switch ($choixAO) 
-        {
-        "1" { Stop-Computer -ComputerName "localhost" } #manque variable nom ordi a distance
-        "2" { Restart-Computer -ComputerName "localhost" } #manque variable nom ordi a distance
-        "3" { Write-Host "Verrouillage (à définir)" }
-        "4" { Install-WUUpdates }
-        "5" { New-Item -Name (Read-Host "Nom du répertoire") -ItemType "Directory" }
-        "6" { Remove-Item -Path (Read-Host "Nom du répertoire") -Recurse }
-        "7" { Write-Host "Lancement de connexion à distance" 
-        Start-Process "mstsc" }
-        "8" { Get-NetFirewallProfile | Format-Table Name, Enabled }
-        "9" { Set-NetFirewallProfile -Profile "Public,Private" -Enabled $true }
-        "10" { Set-NetFirewallProfile -Profile "Public" -Enabled $false }
-        "11" { Install-Package (Read-Host "Nom du logiciel") }
-        "12" { Uninstall-Package (Read-Host "Nom du logiciel") }
-        "13" { Write-Host "Exécution de script à distance (à définir)" }
-        "R" { MenuPrincipal }
-        "Q" { Write-Host "Au revoir"
-        break }
-        default { Write-Host "Option non disponible"        
-        Start-Sleep -Seconds 2
-        break }
+    # Fonction d'affichage d'erreur
+        function afficher_erreur {
+            echo "L'opération a échouée !"
         }
-    #}
-}
-# Menu Action a Distance
-function actions_utilisateur 
-{
-    #while ($true)
-    #{
-        #Clear-Host
-        Write-Host @"
-        +=====================================================+
-        |  Actions sur Utilisateur                            | 
-        +=====================================================+
-        |                                                     |
-        |    1)  Création de compte                           |
-        |    2)  Changement de mot de passe                   |
-        |    3)  Suppression de compte                        |
-        |    4)  Désactivation de compte                      |
-        |    5)  Ajout à un groupe d'administration           |
-        |    6)  Ajout à un groupe local                      |
-        |    7)  Sortie d’un groupe local                     |
-        |    R)  Retour au Menu Principal                     |
-        |    Q)  Quitter                                      |
-        |                                                     |
-        +=====================================================+
+# Menu principal
+    function menu_principal {
+        echo "                  === Choisir une Cible ==="
+        echo "1. Utilisateur"
+        echo "2. Ordinateur"
+        echo "Q. Quitter"
+        read -p "Choisissez une cible : (1 ou 2) " cible
 
-"@
+        case $cible in
+        1) choix_utilisateur ;;
+        2) choix_ordinateur ;;
+        Q) exit 0 ;;
+        *)
+            echo "Option invalide. Veuillez choisir 1, 2 ou 3."
+            menu_principal
+            ;;
+        esac
+    }
 
-    $choixAU = Read-Host "Quelle est l'Action que vous souhaitez faire ?"
-    
-        Switch ($choixAU) 
-        {
-        # 1) Création de compte utilisateur local
-            "1" { New-LocalUser }
-        # 2) Changement de mot de passe
-            "2" { Set-LocalUser }
-                #Vérfie l'utilisateur existe (si vide alors on passe l'étape)
-                #Mettre l'ancien mdp 
-                #Mettre nouveau mdp
-                #Confirmation nouveau mdp
-                #Message erreur / changement réussi
+# Actions ou informations sur les utilisateurs
+    function choix_utilisateur {
+        echo "              === Actions ou Informations sur Utilisateur ==="
+        echo "1. Actions"
+        echo "2. Informations"
+        echo "R. Retour au menu principal"
+        read -p "Choisissez une option : (1, 2 ou R) " option
 
-        # 3)  Suppression de compte utilisateur local
-            "3" { Add-?????????GroupMember }
-                #Verif utilisateur existe
-                #Demande quel grp d'admin ?
-                    #Verif grp existe
-                        #Confirmation 
-                    #SI non -> erreur 
-        # 4)  Désactivation de compte utilisateur local
-            "4" { Add-LocalGroupMember }
-                #Verif utilisateur existe
-                    #SI non -> erreur
-                #Demande quel grp local ?
-                    #Verif grp existe
-                        #Confirmation 
-                    #SI non -> erreur 
-        # 5)  Ajout à un groupe d'administration 
-            "5" { Remove-LocalGroupMember }
-                #Verif utilisateur existe
-                #SI non -> erreur
-                #Demande quel grp local ? liste des groupe Get-LocalGroup
-                #Verif grp existe
-                #Confirmation 
-                #SI non -> erreur
-                # Commande sortie de grp 
-                #Confirmation
-                #Msg validation
-                #Msg erreur 
-        # 6)  Ajout à un groupe local 
+        case $option in
+        1) actions_utilisateur ;;
+        2) informations_utilisateur ;;
+        R) menu_principal ;;
+        *)
+            echo "Option invalide. Veuillez choisir 1, 2 ou R."
+            choix_utilisateur
+            ;;
+        esac
+    }
 
-        # 7)  Sortie d’un groupe local
+# Actions ou informations sur les ordinateurs
+    function choix_ordinateur {
+        echo "=== Actions ou Informations sur Ordinateur ==="
+        echo "1. Actions"
+        echo "2. Informations"
+        echo "R. Retour au menu principal"
+        read -p "Choisissez une option : (1, 2 ou R) " option
 
-        
-        # R) retour au Menu principal
-            "R" { MenuPrincipal }
+        case $option in
+        1) actions_ordinateur ;;
+        2) informations_ordinateur ;;
+        R) menu_principal ;;
+        *)
+            echo "Option invalide. Veuillez choisir 1, 2 ou R."
+            choix_ordinateur
+            ;;
+        esac
+    }
 
-        # Q)  Sortie d’un groupe local
-            "Q" { Write-Host "Au revoir"
-            break }
-            default { Write-Host "Option non disponible"        
-            Start-Sleep -Seconds 2
-            break } 
-        }
-    #}
-}
+# Actions sur les utilisateurs
+    function actions_utilisateur {
+        echo "=== Actions sur Utilisateur ==="
+        echo "1. Création de compte"
+        echo "2. Changement de mot de passe"
+        echo "3. Suppression de compte"
+        echo "4. Désactivation de compte"
+        echo "5. Ajout à un groupe d'administration"
+        echo "6. Ajout à un groupe local"
+        echo "7. Sortie d’un groupe local"
+        echo "R. Retour"
+        read -p "Choisissez une action : (1-7 ou R) " action
 
-# Menu Information
-function informations_ordinateur
-{
-    #while ($true)
-    #{
-        #Clear-Host
-        Write-Host @"
-        +=====================================================+
-        |  Informations sur Ordinateur                        |
-        +=====================================================+
-        |                                                     |
-        |    1)  Version de l'OS                              |
-        |    2)  Nombre d'interface                           |
-        |    3)  Adresse IP de chaque interface               |
-        |    4)  Adresse Mac                                  |
-        |    5)  Liste des applications/paquets               |
-        |        installées de répertoire                     |
-        |    6)  Liste des utilisateurs locaux                |
-        |    7)  Type de CPU, nombre de coeurs, etc.          |
-        |    8)  Mémoire RAM totale                           |
-        |    9)  Utilisation de la RAM                        |
-        |    10) Utilisation du disque                        |
-        |    11) Utilisation du processeur                    |
-        |    12) Liste des ports ouverts                      |
-        |    13) Statut du pare-feu                           |
-        |    R)  Retour au Menu Principal                     |
-        |    Q)  Quitter                                      |
-        |                                                     |
-        +=====================================================+
-    
-"@
+        case $action in
+        1)
+            authentification
+            if confirmation; then
+                read -p "Quel utilisateur voulez vous créer ?" useradd
 
-        $choixIO = Read-Host "Quelle est l'Information que vous souhaitez ?"
-        Switch ($choixIO) 
-        {
-            "1" { Get-WmiObject Win32_OperatingSystem | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture, CSName, WindowsDirectory, NumberOfUsers, BootDevice }
-            "2" { Get-NetAdapter | Format-List Name, InterfaceIndex, MacAddress, MediaConnectionState, LinkSpeed }
-            "3" { Get-NetIPConfiguration }
-            "4" { Get-NetAdapter | Select-Object ifIndex, Name, MacAddress } 
-            "5" { Get-AppxPackage }
-            "6" { Get-LocalUser }
-            "7" { Get-WmiObject Win32_Processor }  
-            "8" { Get-CimInstance win32_physicalmemory | Format-Table Manufacturer,Banklabel,Configuredclockspeed,Devicelocator,Capacity,Serialnumber -autosize   }
-            "9" { Get-WmiObject Win32_ComputerSystem | Select-Object -ExpandProperty TotalPhysicalMemory }  
-            "10" { Get-PSDrive}
-            "11" { Get-WmiObject Win32_Processor | Measure-Object -Property (LoadPercentage -Average).Average } 
-            "12" {""     }
-            "13" {Get-NetFirewallProfile } 
-            "R" { MenuPrincipal }
-            "E" { Write-Host "Au revoir" 
-            Break }
-            default { Write-Host "Option non disponible"
-            Start-Sleep -Seconds 2 }
-        }
-    #}
-}
-# Menu Information a distance
-function informations_utilisateur
-{
-    #while ($true)
-    #{
-        #Clear-Host
-        Write-Host @"
-        +===========================================================+
-        |  Informations sur Utilisateur                             |
-        +===========================================================+
-        |                                                           |
-        |    1)  Date de dernière connexion d’un utilisateur        |
-        |    2)  Date de dernière modification du mot de passe      |
-        |    3)  Liste des sessions ouvertes par l'utilisateur      |
-        |    4)  Droits/permissions de l’utilisateur sur un dossier |
-        |    5)  Droits/permissions de l’utilisateur sur un fichier |
-        |    R)  Retour au Menu Principal                           |
-        |    Q)  Quitter                                            |
-        |                                                           |
-        +===========================================================+
-        
-"@
+                sudo useradd $useradd
+                afficher_succes
+            else
+                afficher_erreur
+            fi
+            ;;
+        2)
+            authentification
+            if confirmation; then
+                read -p "Pour quel utilisateur voulez vous changer le mot de passe ?" passwd
+                sudo passwd $passwd
+                afficher_succes
+            else
+                afficher_erreur
+            fi
+            ;;
+        3)
+            authentification
+            if confirmation; then
+                read -p "Quel utilisateur voulez vous supprimer ?" userdel
+                sudo userdel $userdel
+                afficher_succes
+            else
+                afficher_erreur
+            else
+                afficher_erreur
+            fi
+            ;;
+        4)
+            authentification
+            if confirmation; then
+                read -p "Quel utilisateur voulez vous désactiver ?" userdel
+                sudo usermod -L $usermod
+                afficher_succes
+            else
+                afficher_erreur
+            fi
+            ;;
+        5)
+            authentification
+            if confirmation; then
+                read -p "Quel utilisateur voulez vous ajouter au groupe administrateur ?" userAdmin
+                sudo usermod -aG sudo $userAdmin
+                afficher_succes
+            else
+                afficher_erreur
+            fi
+            ;;
+        6)
+            authentification
+            if confirmation; then
+                read -p "Quel utilisateur voulez vous ajouter au groupe local ?" username
+                read -p "A quel groupe voulez vous ajouter l'utilisateur "$username" ?" usergroup
+                sudo usermod -aG $usergroup $username
+                afficher_succes
+            else
+                afficher_erreur
+            fi
+            ;;
+        7)
+            authentification
+            if confirmation; then
+                read -p "Quel utilisateur voulez vous supprimer du groupe local ?" username
+                read -p "De quel groupe voulez vous supprimer l'utilisateur "$username" ?" usergroup
+                sudo deluser $username $usergroup
+                afficher_succes
+            else
+                afficher_erreur
+            fi
+            ;;
+        R) choix_utilisateur ;;
+        *)
+            echo "Option invalide ! Veuillez choisir 1-7 ou R."
+            actions_utilisateur
+            ;;
+        esac
+    }
 
-    $choixIU = Read-Host "Quelle est l'Information que vous souhaitez ?"
-        Switch ($choixIU) 
-        {
-            "1" {function Get-ADUserLastLogon {
+# Actions sur les ordinateurs
+    function actions_ordinateur {
+        echo "=== Actions sur Ordinateur ==="
+        echo "1. Arrêt"
+        echo "2. Redémarrage"
+        echo "3. Verrouillage"
+        echo "4. Mise à jour du système"
+        echo "5. Création de répertoire"
+        echo "6. Suppression de répertoire"
+        echo "7. Prise de main à distance (GUI)"
+        echo "8. Définition de règles de pare-feu"
+        echo "9. Activation du pare-feu"
+        echo "10. Désactivation du pare-feu"
+        echo "11. Installation de logiciel"
+        echo "12. Désinstallation de logiciel"
+        echo "13. Exécution de script sur la machine distante"
+        echo "R. Retour"
+        read -p "Choisissez une action : (1, 2, 3 etc.) " action
 
-                [CmdletBinding()]
-                
-                param(
-                    [Parameter(Mandatory=$false)][ValidateScript({Get-ADUser $_})]$Identity=$null
-                )
-            
-                # Création d'un tableau vide
-                $LastLogonTab = @() 
-            
-                # Récupérer la liste de tous les DC du domaine AD
-                $DCList = Get-ADDomainController -Filter * | Sort-Object Name | Select-Object Name
-            
-                # Déterminer la liste des utilisateurs (un utilisateur ou tous les utilisateurs activés)
-                if($Identity -eq $null){
-            
-                    $TargetUsersList = (Get-ADUser -Filter {Enabled -eq $true}).samAccountName
-                }else{
-            
-                    $TargetUsersList = $TargetUser
-                }
-            
-                Foreach($TargetUser in $TargetUsersList){
-            
-                    # Initialiser le LastLogon sur $null comme point de départ
-                    $TargetUserLastLogon = $null
-            
-                    Foreach($DC in $DCList){
-            
-                            $DCName = $DC.Name
-                            Try {
-                                # Récupérer la valeur de l'attribut lastLogon à partir d'un DC (chaque DC tour à tour)
-                                $LastLogonDC = Get-ADUser -Identity $TargetUser -Properties lastLogon -Server $DCName
-                                # Convertir la valeur au format date/heure
-                                $LastLogon = [Datetime]::FromFileTime($LastLogonDC.lastLogon)
-                                # Si la valeur obtenue est plus récente que celle contenue dans $TargetUserLastLogon
-                                # la variable est actualisée : ceci assure d'avoir le lastLogon le plus récent à la fin du traitement
-                                If ($LastLogon -gt $TargetUserLastLogon)
-                                {
-                                    $TargetUserLastLogon = $LastLogon
-                                }
-                                # Nettoyer la variable
-                                Clear-Variable LastLogon
-                                }
-                            Catch {
-                                Write-Host $_.Exception.Message -ForegroundColor Red
-                            }
-                    }
-                    $LastLogonTab += New-Object -TypeName PSCustomObject -Property @{
-                        SamAccountName = $TargetUser
-                        LastLogon = $TargetUserLastLogon
-                    }
-                    Write-Host "lastLogon de $TargetUser : $TargetUserLastLogon"
-                    Clear-Variable -Name "TargetUserLastLogon"
-                }
-                return $LastLogonTab
-            }}
-            "2" {Get-LocalUser -Name "NomUtilisateur" | Select-Object Name, PasswordLastSet }
-            "3" {Get-PSSession -ComputerName "localhost" }
-            "4" {Get-PublicFolderClientPermission -Identity "" -User Chris | Format-List }
-            "5" {"" }
-            "R" {MenuPrincipal}
-            "Q" { Write-Host "Au revoir" 
-            Break }
-            default { Write-Host "Option non disponible"
-            Start-Sleep -Seconds 2 }
-        }
-    #}
-} 
+        case $action in
+        1)
+            authentification
+            if confirmation; then
+                shutdown now
+                afficher_succes
+            else
+                afficher_erreur
+            fi
+            ;;
+        2)
+            authentification
+            if confirmation; then
+                reboot
+                afficher_succes
+            else
+                afficher_erreur
+            fi
+            ;;
+        3)
+            authentification
+            if confirmation; then
+                logout
+                afficher_succes
+            else
+                afficher_erreur
+            fi
+            ;;
+        4)
+            authentification
+            if confirmation; then
+                sudo apt update && sudo apt upgrade -y
+                afficher_succes
+            else
+                afficher_erreur
+            fi
+            ;;
+        5)
+            authentification
+            if confirmation; then
+                read -p "Emplacement du nouveau dossier ?" path
+                read -p "Quelle est le nom du dossier à créer ?" name
+                cd $path
+                mkdir $name
+                cd $name
+            fi
+            ;;
+        6)
+            authentification
+            if confirmation; then
+                read -p "Emplacement du dossier a supprimer :" path
+                rm -r $path
+            fi
+            ;;
+        7)
+            authentification
+            if confirmation; then
+                ?
+            fi
+            ;;
+        8)
+            authentification
+            if confirmation; then
+                ?
+            fi
+            ;;
+        9)
+            authentification
+            if confirmation; then
+                sudo ufw enable
+            fi
+            ;;
+        10)
+            authentification
+            if confirmation; then
+                sudo ufw disable
+            fi
+            ;;
+        11)
+            authentification
+            if confirmation; then
+                read -p "Quel logiciel voulez vous installer ?" soft
+                sudo apt install $soft -y
+            fi
+            ;;
+        12)
+            authentification
+            if confirmation; then
+                read -p "Quel logiciel voulez vous désinstaller ?" soft
+                sudo apt remove $soft -y
+            fi
+            ;;
+        13)
+            authentification
+            if confirmation; then
+                ?
+            fi
+            ;;
+        R) choix_ordinateur ;;
+        *)
+            echo "Option invalide. Veuillez choisir 1-13 ou R etc."
+            actions_ordinateur
+            ;;
+        esac
+    }
+
+# Informations sur les utilisateurs
+    function informations_utilisateur {
+        echo "=== Informations sur Utilisateur ==="
+        echo "1. Date de dernière connexion d’un utilisateur"
+        echo "2. Date de dernière modification du mot de passe"
+        echo "3. Liste des sessions ouvertes par l'utilisateur"
+        echo "4. Droits/permissions de l’utilisateur sur un dossier"
+        echo "5. Droits/permissions de l’utilisateur sur un fichier"
+        echo "R. Retour"
+        read -p "Choisissez une option : (1, 2, 3, 4, 5 ou 6) " option
+
+        case $option in
+        1) ;;
+        2) ;;
+        3) ;;
+        4) ;;
+        5) ;;
+        R) ;;
+        *)
+            echo "Option invalide. Veuillez choisir 1, 2, 3, 4, 5 ou 6."
+            informations_utilisateur
+            ;;
+        esac
+    }
+
+# Fonction pour les informations sur les ordinateurs
+    function informations_ordinateur {
+        echo "=== Informations sur Ordinateur ==="
+        echo "1. Version de l'OS"
+        echo "2. Nombre d'interface"
+        echo "3. Adresse IP de chaque interface"
+        echo "4. Adresse MAC"
+        echo "5. Liste des applications/paquets installés"
+        echo "6. Liste des utilisateurs locaux"
+        echo "7. Type de CPU, nombre de cœurs, etc."
+        echo "8. Mémoire RAM totale"
+        echo "9. Utilisation de la RAM"
+        echo "10. Utilisation du disque"
+        echo "11. Utilisation du processeur"
+        echo "12. Liste des ports ouverts"
+        echo "13. Statut du pare-feu"
+        echo "R. Retour"
+        read -p "Choisissez une option : (de 1 à 13) " option
+
+        case $option in # checker les formattages
+        1) cat /etc/os-release | awk 'NR==1' | sed 's/PRETTY_NAME=/Version_OS:/'  ;;
+        2) nmcli device | awk 'END {print NR - 1}' ;;
+        3) ip -br -o addr | awk '{print "interface : " $1"\n"," adresse IPv4 : "$3"\n "}';;
+        4) ip -br -o link | awk '{print "interface : " $1"\n"," adresse MAC : "$3"\n"}';;
+        5) apt-mark showmanual ;;
+        6) _l="/etc/login.defs"; _p="/etc/passwd"; l=$(grep "^UID_MIN" $_l); l1=$(grep "^UID_MAX" $_l); echo "----------[ Normal User Accounts ]---------------";
+            awk -F':' -v "min=${l##UID_MIN}" -v "max=${l1##UID_MAX}" '{ if ( $3 >= min && $3 <= max && $7 != "/sbin/nologin" ) print $0 }' "$_p" ;;
+        7) lscpu | sed -n '1p;5p;8p;20,22p';;
+        8) free -h # a revoir le formattage 
+        ;;
+        9) cat /proc/meminfo | awk 'NR==1' | sed 's/MemTotal:/Mémoire_RAM_Totale:/' ;;
+        10) df -h  ;;
+        11) mpstat | awk 'NR!=1' ;;
+        12) ss -tulpn | grep LISTEN # + formattage pour jsute le numéro ? 
+        ;;
+        13) sudo ufw status
+        ;;
+        R) choix_ordinateur ;;
+        *) echo "Option invalide. Veuillez choisir 1-13 ou R."
+           informations_ordinateur
+            ;;
+        esac
+    }
 
 
-# Appel initial du menu principal
-#while ($true)
-#{
-MenuPrincipal
-#}
+
+# Boucle principal
+    while true; do
+        menu_principal
+    done
