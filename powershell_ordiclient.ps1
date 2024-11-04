@@ -92,7 +92,7 @@ function choix_ordinateur
             "2" { informations_ordinateur }
             "R" { MenuPrincipal }
             "Q" { Write-Host "Au revoir"
-            break }
+            exit }
             default { Write-Host "Option non disponible"-ForegroundColor Red
             Start-Sleep -Seconds 2
             MenuPrincipal}
@@ -149,7 +149,7 @@ function actions_ordinateur
         "13" { Write-Host "Exécution de script à distance (à définir)" }
         "R" { MenuPrincipal }
         "Q" { Write-Host "Au revoir"
-        break }
+        exit }
         default { Write-Host "Option non disponible"        
         Start-Sleep -Seconds 2
         break }
@@ -232,7 +232,7 @@ function actions_utilisateur
 
         # Q)  Sortie d’un groupe local
             "Q" { Write-Host "Au revoir"
-            break }
+            exit }
             default { Write-Host "Option non disponible"        
             Start-Sleep -Seconds 2
             break } 
@@ -290,7 +290,7 @@ function informations_ordinateur
             "13" {Get-NetFirewallProfile } 
             "R" { MenuPrincipal }
             "E" { Write-Host "Au revoir" 
-            Break }
+            exit }
             default { Write-Host "Option non disponible"
             Start-Sleep -Seconds 2 }
         }
@@ -386,7 +386,7 @@ function informations_utilisateur
             "5" {"" }
             "R" {MenuPrincipal}
             "Q" { Write-Host "Au revoir" 
-            Break }
+            exit }
             default { Write-Host "Option non disponible"
             Start-Sleep -Seconds 2 }
         }
@@ -395,7 +395,6 @@ function informations_utilisateur
 
 
 # Appel initial du menu principal
-#while ($true)
-#{
-MenuPrincipal
-#}
+while ($true){
+    if (-not (MenuPrincipal)) {break}
+}
