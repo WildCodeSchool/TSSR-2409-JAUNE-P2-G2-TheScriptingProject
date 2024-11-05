@@ -17,14 +17,12 @@ function MenuPrincipal {
 "@
 
 
-    $choixMP = Read-Host "Votre choix ?"
+    $choixMP = Read-Host -Prompt "Votre choix ?"
     Switch ($choixMP) {
         "1" { choix_utilisateur }
         "2" { choix_ordinateur }
-        "Q" {
-            Write-Host "Au revoir"
-            exit 
-        }
+        "Q" {Write-Host "Au revoir"
+            exit }
         default {
             Write-Host "Option non disponible"-ForegroundColor Red
             Start-Sleep -Seconds 2
@@ -52,7 +50,7 @@ function choix_utilisateur {
 "@
 
 
-    $choixU = Read-Host "Votre choix ?"
+    $choixU = Read-Host -Prompt "Votre choix ?"
     Switch ($choixU) {
         "1" { actions_utilisateur }
         "2" { informations_utilisateur }
@@ -88,7 +86,7 @@ function choix_ordinateur {
 "@
 
 
-    $choixO = Read-Host "Votre choix ?"
+    $choixO = Read-Host -Prompt "Votre choix ?"
     Switch ($choixO) {
         "1" { actions_ordinateur }
         "2" { informations_ordinateur }
@@ -135,14 +133,20 @@ function actions_ordinateur {
 
 "@
 
-    $choixAO = Read-Host "Quelle est l'Action que vous souhaitez faire ?"
+    $choixAO = Read-Host -Prompt "Quelle est l'Action que vous souhaitez faire ?"
     Switch ($choixAO) {
-        "1" { Stop-Computer -ComputerName "localhost" } #manque variable nom ordi a distance
-        "2" { Restart-Computer -ComputerName "localhost" } #manque variable nom ordi a distance
-        "3" { Write-Host "Verrouillage (à définir)" }
+        "1" { $User = Read-Host -Prompt "Quel est le nom de l'ordinateur a arreter"
+            Stop-Computer -ComputerName $User } 
+        "2" { $User1 = Read-Host -Prompt "Quel est l'ordinateur a redemarrer"
+            Restart-Computer -ComputerName $User1 } #manque variable nom ordi a distance
+        "3" { rundll32.exe user32.dll,LockWorkStation }
         "4" { Install-WUUpdates }
-        "5" { New-Item -Name (Read-Host "Nom du répertoire") -ItemType "Directory" }
-        "6" { Remove-Item -Path (Read-Host "Nom du répertoire") -Recurse }
+        "5" { $mewdossier = Read-Host -Prompt "quel est le mon de votre dossier"
+        $chemin = Read-Host -Prompt "Emplecement du nouveau dossier"
+        New-Item -path $chemin -Name $mewdossier -ItemType "Directory" }
+        "6" { $dossier = Read-Host -Prompt "quel est le mon de votre dossier a supprimer"
+        $chemin1 = Read-Host -Prompt "Emplecement du nouveau dossier"
+        Remove-Item -path $chemin1 -Name $dossier -ItemType "Directory" }
         "7" {
             Write-Host "Lancement de connexion à distance" 
             Start-Process "mstsc" 
@@ -150,9 +154,9 @@ function actions_ordinateur {
         "8" { Get-NetFirewallProfile | Format-Table Name, Enabled }
         "9" { Set-NetFirewallProfile -Profile "Public,Private" -Enabled $true }
         "10" { Set-NetFirewallProfile -Profile "Public" -Enabled $false }
-        "11" { Install-Package (Read-Host "Nom du logiciel") }
-        "12" { Uninstall-Package (Read-Host "Nom du logiciel") }
-        "13" { Write-Host "Exécution de script à distance (à définir)" }
+        "11" { Install-Package (Read-Host -Prompt "Nom du logiciel") }
+        "12" { Uninstall-Package (Read-Host -Prompt "Nom du logiciel") }
+        "13" { Invoke-Command -ComputerName $Server01, $Server02 -FilePath "c:\Scripts\DiskCollect.ps1" }
         "R" { MenuPrincipal }
         "Q" {
             Write-Host "Au revoir"
@@ -190,7 +194,7 @@ function actions_utilisateur {
 
 "@
 
-    $choixAU = Read-Host "Quelle est l'Action que vous souhaitez faire ?"
+    $choixAU = Read-Host -Prompt "Quelle est l'Action que vous souhaitez faire ?"
     
     Switch ($choixAU) {
         # 1) Création de compte utilisateur local
@@ -283,12 +287,21 @@ function informations_ordinateur {
     
 "@
 
-    $choixIO = Read-Host "Quelle est l'Information que vous souhaitez ?"
+    $choixIO = Read-Host -Prompt "Quelle est l'Information que vous souhaitez ?"
     Switch ($choixIO) {
-        "1" { Get-WmiObject Win32_OperatingSystem | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture, CSName, WindowsDirectory, NumberOfUsers, BootDevice }
+        "1" { $choixIO1 = Get-WmiObject Win32_OperatingSystem | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture, CSName, WindowsDirectory, NumberOfUsers, BootDevice }
+            if ($ChoixIO1 = $true)
+            {
+            Write-host $ChoixIO1
+            }
+            else {
+            {Write-Host erreur}
+            }
+            
         "2" { Get-NetAdapter | Format-List Name, InterfaceIndex, MacAddress, MediaConnectionState, LinkSpeed }
         "3" { Get-NetIPConfiguration }
-        "4" { Get-NetAdapter | Select-Object ifIndex, Name, MacAddress } 
+        "4" { $choiIO4 = Get-NetAdapter | Select-Object ifIndex, Name, MacAddress 
+        write-host $choiIO4} 
         "5" { Get-AppxPackage }
         "6" { Get-LocalUser }
         "7" { Get-WmiObject Win32_Processor }  
@@ -308,7 +321,6 @@ function informations_ordinateur {
             Start-Sleep -Seconds 2 
         }
     }
-    #}
 }
 # Menu Information a distance
 function informations_utilisateur {
@@ -332,11 +344,10 @@ function informations_utilisateur {
         
 "@
 
-    $choixIU = Read-Host "Quelle est l'Information que vous souhaitez ?"
+    $choixIU = Read-Host -Prompt "Quelle est l'Information que vous souhaitez ?"
     Switch ($choixIU) {
         "1" {
             function Get-ADUserLastLogon {
-
                 [CmdletBinding()]
                 
                 param(
