@@ -290,14 +290,6 @@ function informations_ordinateur {
     $choixIO = Read-Host -Prompt "Quelle est l'Information que vous souhaitez ?"
     Switch ($choixIO) {
         "1" { $choixIO1 = Get-WmiObject Win32_OperatingSystem | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture, CSName, WindowsDirectory, NumberOfUsers, BootDevice }
-            if ($ChoixIO1 = $true)
-            {
-            Write-host $ChoixIO1
-            }
-            else {
-            {Write-Host erreur}
-            }
-            
         "2" { Get-NetAdapter | Format-List Name, InterfaceIndex, MacAddress, MediaConnectionState, LinkSpeed }
         "3" { Get-NetIPConfiguration }
         "4" { $choiIO4 = Get-NetAdapter | Select-Object ifIndex, Name, MacAddress 
@@ -424,6 +416,8 @@ function informations_utilisateur {
 
 
 # Appel initial du menu principal
-while ($true) {
-    if (-not (MenuPrincipal)) { break }
-}
+do {
+    $choiceMP= MenuPrincipal
+} while ( $choiceMP -ne "Q"
+    <# Condition that stops the loop if it returns false #>
+)
