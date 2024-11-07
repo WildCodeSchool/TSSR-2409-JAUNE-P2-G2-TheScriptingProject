@@ -130,9 +130,9 @@ function actions_ordinateur {
             Restart-Computer -ComputerName $User1 } 
         "3" { rundll32.exe user32.dll,LockWorkStation }
         "4" { Install-WUUpdates }
-        "5" { $mewdossier = Read-Host -Prompt "quel est le mon de votre dossier"
+        "5" { $newdossier = Read-Host -Prompt "quel est le mon de votre dossier"
         $chemin = Read-Host -Prompt "Emplecement du nouveau dossier"
-        New-Item -path $chemin -Name $mewdossier -ItemType "Directory" }
+        New-Item -path $chemin -Name $newdossier -ItemType "Directory" }
         "6" { $dossier = Read-Host -Prompt "quel est le mon de votre dossier a supprimer"
         $chemin1 = Read-Host -Prompt "Emplecement du nouveau dossier"
         Remove-Item -path $chemin1 -Name $dossier -ItemType "Directory" }
@@ -141,6 +141,7 @@ function actions_ordinateur {
             Start-Process "mstsc" 
         }
         "8" { Get-NetFirewallProfile | Format-Table Name, Enabled }
+            #Write-Host $choixAO8 }
         "9" { Set-NetFirewallProfile -Profile "Public,Private" -Enabled $true }
         "10" { Set-NetFirewallProfile -Profile "Public" -Enabled $false }
         "11" { Install-Package (Read-Host -Prompt "Nom du logiciel") }
@@ -272,30 +273,25 @@ function informations_ordinateur {
 
     $choixIO = Read-Host -Prompt "Quelle est l'Information que vous souhaitez ?"
     Switch ($choixIO) {
-        "1" { $choixIO1 = Get-WmiObject Win32_OperatingSystem | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture, CSName, WindowsDirectory, NumberOfUsers, BootDevice | 
-            write-host $choixIO1}
-        "2" { $choixIO2 = Get-NetAdapter | Format-List Name, InterfaceIndex, MacAddress, MediaConnectionState, LinkSpeed |
-            Write-host $choixIO2 }
-        "3" { $choixIO3 = Get-NetIPConfiguration | write-host $choixIO3}
-        "4" { $choiIO4 = Get-NetAdapter | Select-Object Index, Name, MacAddress 
-            write-host $choiIO4} 
+        "1" { Get-WmiObject Win32_OperatingSystem | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture, CSName, WindowsDirectory, NumberOfUsers, BootDevice | Out-String |
+            write-host }
+        "2" { Get-NetAdapter | Format-List Name, InterfaceIndex, MacAddress, MediaConnectionState, LinkSpeed | Out-String |
+            Write-host }
+        "3" { Get-NetIPConfiguration | Out-String | write-host }
+        "4" { Get-NetAdapter | Select-Object Index, Name, MacAddress | Out-String | write-host} 
         "5" { $choixIO5 = Get-AppxPackage |
             Write-Host $choixIO5}# ne fonctionne pas
-        "6" { $choixIO6 = Get-LocalUser | 
-            Write-Host $choixIO6}
-        "7" { $choixIO7 = Get-WmiObject Win32_Processor 
-            Write-Host $choixIO7}  
-        "8" { $choixIO8 = Get-CimInstance win32_physicalmemory | Format-Table Manufacturer, Banklabel, Configuredclockspeed, Devicelocator, Capacity, Serialnumber -autosize
-            Write-Host $choixIO8 }
+        "6" { Get-LocalUser | Out-String | write-host }
+        "7" { Get-WmiObject Win32_Processor | Out-String | write-host } 
+        "8" { Get-CimInstance win32_physicalmemory | Format-Table Manufacturer, Banklabel, Configuredclockspeed, Devicelocator, Capacity, Serialnumber -autosize | Out-String | write-host }
         "9" { $totalMemory = Get-WmiObject Win32_ComputerSystem | Select-Object -ExpandProperty TotalPhysicalMemory 
             $totalMemoryMB = [math]::round($totalMemory / 1Mb )
             Write-Host $totalMemoryMB }  
         "10" { $choixIO10 = Get-PSDrive 
             Write-Host $choixIO10}
-        "11" { $CHOIXIO11 = Get-CimInstance win32_processor | Measure-Object -Property LoadPercentage -Average | Select-Object Average }
-            #Whrite-host $CHOIXIO11
+        "11" { Get-CimInstance win32_processor | Measure-Object -Property LoadPercentage -Average | Select-Object Average | Out-String | write-host }
         "12" { "" }
-        "13" { Get-NetFirewallProfile } 
+        "13" { Get-NetFirewallProfile | Out-String | write-host } 
         "R" { MenuPrincipal }
         "Q" {
             Write-Host "Au revoir" 
