@@ -1,0 +1,64 @@
+function actions_ordinateur {
+    #Clear-Host
+    Write-Host @"
+        +=====================================================+
+        |  Actions sur Ordinateur                             |
+        +=====================================================+
+        |                                                     |
+        |    1)  Arrêt                                        |
+        |    2)  Redémarrage                                  |
+        |    3)  Verrouillage                                 |
+        |    4)  Mise à jour Système                          |
+        |    5)  Création de répertoire                       |
+        |    6)  Suppression de répertoire                    |
+        |    7)  Prise de main à distance                     |
+        |    8)  Définition de règles de pare-feu             |
+        |    9)  Activation du pare-feu                       |
+        |    10) Désactivation du pare-feu                    |
+        |    11) Installation de logiciel                     |
+        |    12) Désinstallation de logiciel                  |
+        |    13) Exécution de script sur la machine distante  |
+        |    R)  Retour au Menu Principal                     |
+        |    Q)  Quitter                                      |
+        |                                                     |
+        +=====================================================+
+
+"@
+
+    $choixAO = Read-Host -Prompt "Quelle est l'Action que vous souhaitez faire ?"
+    Switch ($choixAO) {
+        "1" { $User = Read-Host -Prompt "Quel est le nom de l'ordinateur a arreter"
+            Stop-Computer -ComputerName $User } 
+        "2" { $User1 = Read-Host -Prompt "Quel est l'ordinateur a redemarrer"
+            Restart-Computer -ComputerName $User1 } 
+        "3" { rundll32.exe user32.dll,LockWorkStation }
+        "4" { Install-WUUpdates }
+        "5" { $mewdossier = Read-Host -Prompt "quel est le mon de votre dossier"
+        $chemin = Read-Host -Prompt "Emplecement du nouveau dossier"
+        New-Item -path $chemin -Name $mewdossier -ItemType "Directory" }
+        "6" { $dossier = Read-Host -Prompt "quel est le mon de votre dossier a supprimer"
+        $chemin1 = Read-Host -Prompt "Emplecement du nouveau dossier"
+        Remove-Item -path $chemin1 -Name $dossier -ItemType "Directory" }
+        "7" {
+            Write-Host "Lancement de connexion à distance" 
+            Start-Process "mstsc" 
+        }
+        "8" { Get-NetFirewallProfile | Format-Table Name, Enabled }
+            #Write-Host $choixAO8 }
+        "9" { Set-NetFirewallProfile -Profile "Public,Private" -Enabled $true }
+        "10" { Set-NetFirewallProfile -Profile "Public" -Enabled $false }
+        "11" { Install-Package (Read-Host -Prompt "Nom du logiciel") }
+        "12" { Uninstall-Package (Read-Host -Prompt "Nom du logiciel") }
+        "13" { Invoke-Command -ComputerName $Server01, $Server02 -FilePath "c:\Scripts\DiskCollect.ps1" }
+        "R" { MenuPrincipal }
+        "Q" {
+            Write-Host "Au revoir"
+            exit 
+        }
+        default {
+            Write-Host "Option non disponible"        
+            Start-Sleep -Seconds 2
+            break 
+        }
+    }
+}
