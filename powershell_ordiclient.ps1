@@ -1,8 +1,6 @@
 # Menu Principal
 
 function MenuPrincipal {
-    #while ($true)
-    #{
     #Clear-Host
     Write-Host @"
         +===============================================+
@@ -29,12 +27,9 @@ function MenuPrincipal {
             MenuPrincipal
         }
     }
-    #}
 }
 
 function choix_utilisateur {
-    #while ($true)
-    #{
     #Clear-Host
     Write-Host @"
         +===============================================+
@@ -65,12 +60,9 @@ function choix_utilisateur {
             MenuPrincipal
         }
     }
-    #}
 }
 
 function choix_ordinateur {
-    #while ($true)
-    #{
     #Clear-Host
     Write-Host @"
         +===============================================+
@@ -101,12 +93,9 @@ function choix_ordinateur {
             MenuPrincipal
         }
     }
-    #}
 }
 # Menu Action
 function actions_ordinateur {
-    #while ($true)
-    #{
     #Clear-Host
     Write-Host @"
         +=====================================================+
@@ -138,7 +127,7 @@ function actions_ordinateur {
         "1" { $User = Read-Host -Prompt "Quel est le nom de l'ordinateur a arreter"
             Stop-Computer -ComputerName $User } 
         "2" { $User1 = Read-Host -Prompt "Quel est l'ordinateur a redemarrer"
-            Restart-Computer -ComputerName $User1 } #manque variable nom ordi a distance
+            Restart-Computer -ComputerName $User1 } 
         "3" { rundll32.exe user32.dll,LockWorkStation }
         "4" { Install-WUUpdates }
         "5" { $mewdossier = Read-Host -Prompt "quel est le mon de votre dossier"
@@ -168,12 +157,9 @@ function actions_ordinateur {
             break 
         }
     }
-    #}
 }
 # Menu Action a Distance
 function actions_utilisateur {
-    #while ($true)
-    #{
     #Clear-Host
     Write-Host @"
         +=====================================================+
@@ -253,13 +239,10 @@ function actions_utilisateur {
             break 
         } 
     }
-    #}
 }
 
 # Menu Information
 function informations_ordinateur {
-    #while ($true)
-    #{
     #Clear-Host
     Write-Host @"
         +=====================================================+
@@ -289,18 +272,28 @@ function informations_ordinateur {
 
     $choixIO = Read-Host -Prompt "Quelle est l'Information que vous souhaitez ?"
     Switch ($choixIO) {
-        "1" { $choixIO1 = Get-WmiObject Win32_OperatingSystem | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture, CSName, WindowsDirectory, NumberOfUsers, BootDevice }
-        "2" { Get-NetAdapter | Format-List Name, InterfaceIndex, MacAddress, MediaConnectionState, LinkSpeed }
-        "3" { Get-NetIPConfiguration }
-        "4" { $choiIO4 = Get-NetAdapter | Select-Object ifIndex, Name, MacAddress 
-        write-host $choiIO4} 
-        "5" { Get-AppxPackage }
-        "6" { Get-LocalUser }
-        "7" { Get-WmiObject Win32_Processor }  
-        "8" { Get-CimInstance win32_physicalmemory | Format-Table Manufacturer, Banklabel, Configuredclockspeed, Devicelocator, Capacity, Serialnumber -autosize }
-        "9" { Get-WmiObject Win32_ComputerSystem | Select-Object -ExpandProperty TotalPhysicalMemory }  
-        "10" { Get-PSDrive }
-        "11" { Get-WmiObject Win32_Processor | Measure-Object -Property (LoadPercentage -Average).Average } 
+        "1" { $choixIO1 = Get-WmiObject Win32_OperatingSystem | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture, CSName, WindowsDirectory, NumberOfUsers, BootDevice | 
+            write-host $choixIO1}
+        "2" { $choixIO2 = Get-NetAdapter | Format-List Name, InterfaceIndex, MacAddress, MediaConnectionState, LinkSpeed |
+            Write-host $choixIO2 }
+        "3" { $choixIO3 = Get-NetIPConfiguration | write-host $choixIO3}
+        "4" { $choiIO4 = Get-NetAdapter | Select-Object Index, Name, MacAddress 
+            write-host $choiIO4} 
+        "5" { $choixIO5 = Get-AppxPackage |
+            Write-Host $choixIO5}# ne fonctionne pas
+        "6" { $choixIO6 = Get-LocalUser | 
+            Write-Host $choixIO6}
+        "7" { $choixIO7 = Get-WmiObject Win32_Processor 
+            Write-Host $choixIO7}  
+        "8" { $choixIO8 = Get-CimInstance win32_physicalmemory | Format-Table Manufacturer, Banklabel, Configuredclockspeed, Devicelocator, Capacity, Serialnumber -autosize
+            Write-Host $choixIO8 }
+        "9" { $totalMemory = Get-WmiObject Win32_ComputerSystem | Select-Object -ExpandProperty TotalPhysicalMemory 
+            $totalMemoryMB = [math]::round($totalMemory / 1Mb )
+            Write-Host $totalMemoryMB }  
+        "10" { $choixIO10 = Get-PSDrive 
+            Write-Host $choixIO10}
+        "11" { $CHOIXIO11 = Get-CimInstance win32_processor | Measure-Object -Property LoadPercentage -Average | Select-Object Average }
+            #Whrite-host $CHOIXIO11
         "12" { "" }
         "13" { Get-NetFirewallProfile } 
         "R" { MenuPrincipal }
@@ -316,8 +309,6 @@ function informations_ordinateur {
 }
 # Menu Information a distance
 function informations_utilisateur {
-    #while ($true)
-    #{
     #Clear-Host
     Write-Host @"
         +===========================================================+
@@ -411,7 +402,6 @@ function informations_utilisateur {
             Start-Sleep -Seconds 2 
         }
     }
-    #}
 } 
 
 
