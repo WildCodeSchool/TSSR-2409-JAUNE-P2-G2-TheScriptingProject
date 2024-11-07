@@ -146,9 +146,10 @@ function actions_ordinateur {
         "10" { Set-NetFirewallProfile -Profile "Public" -Enabled $false }
         "11" { Install-Package (Read-Host -Prompt "Nom du logiciel") }
         "12" { Uninstall-Package (Read-Host -Prompt "Nom du logiciel") }
-        "13" { Invoke-Command -ComputerName $Server01, $Server02 -FilePath "c:\Scripts\DiskCollect.ps1" }
+        "13" { $choixAO13 = read-host "Quel script souhaitez-vous executer ?"  
+        invoke-Command -ComputerName 172.16.20.20 -FilePath "$ChoixAO13" }
         "R" { MenuPrincipal }
-        "Q" {
+        "Q" {exit
             Write-Host "Au revoir"
             exit 
         }
@@ -400,7 +401,13 @@ function informations_utilisateur {
     }
 } 
 
-
+function connection {
+    $connect = read-host "a quel ordinateur souhaitez-vous vous connecter ?"
+    Enter-Pssession -CoputerName $connect -Credential "Administrator"
+}
+function deconnection {
+    Exit-PSsession
+}
 # Appel initial du menu principal
 do {
     $choiceMP= MenuPrincipal
