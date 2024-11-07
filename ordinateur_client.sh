@@ -9,6 +9,7 @@ function authentification {
 #sudo touch 
 sudo touch /var/log/log_evt.log
 log_file="/var/log/log_evt.log"
+sudo chmod 777 /var/log/log_evt.log
 # Fonction de confirmation
 function confirmation {
     read -p "Êtes-vous sûr de vouloir continuer ? (o/n) " confirmation
@@ -106,11 +107,11 @@ function choix_ordinateur {
     case $option in
     1)
         actions_ordinateur
-         echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi le menu 'actions_ordinateurs'" >>$log_file
+         echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi le menu 'actions_ordinateurs'" >> $log_file
         ;;
     2)
         informations_ordinateur
-         echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi le menu 'informations_ordinateur'" >>$log_file
+         echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi le menu 'informations_ordinateur'" >> $log_file
         ;;
     R)
         menu_principal
@@ -442,7 +443,7 @@ function informations_utilisateur {
             if cat /etc/passwd | grep $userco >/dev/null
             then
                 last -F -w -R $userco | grep 'seat0' | awk 'NR==1'
-                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Date de dernière connexion d’un utilisateur'" >>$log_file
+                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Date de dernière connexion d’un utilisateur'" >>$log_file
             else 
                 echo "L'utilisateur n'existe pas" 
                 afficher_erreur
@@ -454,7 +455,7 @@ function informations_utilisateur {
                 if cat /etc/passwd | grep $userage >/dev/null
                 then
                 sudo chage -l $userage | awk 'NR==1'
-                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Date de dernière modification du mot de passe'" >>$log_file
+                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Date de dernière modification du mot de passe'" >>$log_file
                 else
                 echo "L'utilisateur n'existe pas"
                 afficher_erreur
@@ -462,7 +463,7 @@ function informations_utilisateur {
         3) if confirmation; 
             then
             who -H -s
-             echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Liste des sessions ouvertes par l'utilisateur'" >>$log_file
+             echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Liste des sessions ouvertes par l'utilisateur'" >>$log_file
             fi ;;
         4) if confirmation; 
             then
@@ -471,7 +472,7 @@ function informations_utilisateur {
             if [ -d $directory ]
                 then 
                 ls -ld $directory | awk '{print $1" "$3" "$4}'
-                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Droits/permissions de l’utilisateur sur un dossier'" >>$log_file
+                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Droits/permissions de l’utilisateur sur un dossier'" >>$log_file
                 else
                 echo "Le dossier $directory n'existe pas"
                 afficher_erreur
@@ -483,7 +484,7 @@ function informations_utilisateur {
             if [ -f $file ]
             then
                 ls -l $file | awk '{print $1" "$3" "$4}'
-                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Droits/permissions de l’utilisateur sur un fichier'" >>$log_file
+                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Droits/permissions de l’utilisateur sur un fichier'" >>$log_file
                 afficher_succes
             else
                 echo "Le fichier $file n'existe pas"
@@ -514,9 +515,9 @@ function informations_utilisateur {
                 fi 
                 if cat /etc/passwd | grep $userco >/dev/null
                 then
-                    last -F -w -R $userco | grep 'seat0' | awk 'NR==1' >>$info_log
+                    echo "$(last -F -w -R $userco | grep 'seat0' | awk 'NR==1')" >> $info_log
                     separation
-                     echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Date de dernière connexion d’un utilisateur'" >>$log_file
+                    echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Date de dernière connexion d’un utilisateur'" >>$log_file
                 else 
                     echo "L'utilisateur n'existe pas" 
                     afficher_erreur
@@ -527,18 +528,18 @@ function informations_utilisateur {
                 fi
                     if cat /etc/passwd | grep $userage >/dev/null
                     then
-                        sudo chage -l $userage | awk 'NR==1' >>$info_log
+                        echo "$(sudo chage -l $userage | awk 'NR==1' )" >> $info_log
                         separation
-                         echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Date de dernière modification du mot de passe'" >>$log_file
+                         echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Date de dernière modification du mot de passe'" >>$log_file
                     else
                         echo "L'utilisateur n'existe pas"
                         afficher_erreur
                     fi ;;
             3) if confirmation; 
                 then
-                who -H -s >>$info_log
+                echo "$(who -H -s)">> $info_log
                 separation
-                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Liste des sessions ouvertes par l'utilisateur'" >>$log_file
+                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Liste des sessions ouvertes par l'utilisateur'" >>$log_file
                 fi ;;
             4) if confirmation; 
                 then
@@ -546,9 +547,9 @@ function informations_utilisateur {
                 fi
                 if [ -d $directory ]
                     then 
-                    ls -ld $directory | awk '{print $1" "$3" "$4}' >> $info_log
+                    echo "$(ls -ld $directory | awk '{print $1" "$3" "$4}')" >>$info_log
                     separation
-                     echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Droits/permissions de l’utilisateur sur un dossier'" >>$log_file
+                     echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Droits/permissions de l’utilisateur sur un dossier'" >>$log_file
                     else
                     echo "Le dossier $directory n'existe pas"
                     afficher_erreur
@@ -559,8 +560,8 @@ function informations_utilisateur {
                 fi
                 if [ -f $file ]
                 then
-                    ls -l $file | awk '{print $1" "$3" "$4}' >> $info_log
-                     echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Droits/permissions de l’utilisateur sur un fichier'" >>$log_file
+                    echo "$(ls -l $file | awk '{print $1" "$3" "$4}' )">> $info_log
+                     echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Droits/permissions de l’utilisateur sur un fichier'" >>$log_file
                     afficher_succes
                 else
                     echo "Le fichier $file n'existe pas"
@@ -678,72 +679,72 @@ function informations_ordinateur {
         for arg in $option_info_u;do
             case $arg in
             1) if confirmation; then
-                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Version de l'OS'" >>$log_file
-                cat /etc/os-release >> $info_log
+                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Version de l'OS'" >>$log_file
+                echo "$(cat /etc/os-release | awk 'NR==1' | sed 's/PRETTY_NAME=/Version_OS:/')" >> $info_log
                 separation
                fi ;;
             2) if confirmation; then
-                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Nombre d'interface'" >>$log_file
-                nmcli device >> $info_log
+                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Nombre d'interface'" >>$log_file
+                echo "$(nmcli device | awk 'END {print NR - 1}')">> $info_log
                 separation
                fi ;;
             3) if confirmation; then
-                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Adresse IP de chaque interface'" >>$log_file
-                ip -br -o addr >> /home/$USER/Documents/info_utilisateur_$date.txt
+                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Adresse IP de chaque interface'" >>$log_file
+                 echo "$( ip -br -o addr | awk '{print "interface : " $1"\n"," adresse IPv4 : "$3"\n "}')">> $info_log
                 separation
                fi ;;
             4) if confirmation; then
-                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Adresse MAC'" >>$log_file
-                ip -br -o link >> $info_log
+                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Adresse MAC'" >>$log_file
+                 echo "$(ip -br -o link | awk '{print "interface : " $1"\n"," adresse MAC : "$3"\n"}')">> $info_log
                 separation
                fi ;;
             5) if confirmation; then
-                echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Liste des applications/paquets installés'" >>$log_file
-               apt-mark showmanual >> $info_log
+                echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Liste des applications/paquets installés'" >>$log_file
+                | echo "$(apt-mark showmanual)">> $info_log
                separation
                fi ;;
             6) if confirmation; then
-                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Liste des utilisateurs locaux'" >>$log_file
-                _l="/etc/login.defs"; _p="/etc/passwd"; l=$(grep "^UID_MIN" $_l); l1=$(grep "^UID_MAX" $_l); echo "----------[ Normal User Accounts ]---------------"; awk -F':' -v "min=${l##UID_MIN}" -v "max=${l1##UID_MAX}" '{ if ( $3 >= min && $3 <= max && $7 != "/sbin/nologin" ) print $0 }' "$_p" >> /home/$USER/Documents/info_utilisateur_$date.txt    
+                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Liste des utilisateurs locaux'" >>$log_file
+                 echo "$(_l="/etc/login.defs"; _p="/etc/passwd"; l=$(grep "^UID_MIN" $_l); l1=$(grep "^UID_MAX" $_l); echo "----------[ Normal User Accounts ]---------------"; awk -F':' -v "min=${l##UID_MIN}" -v "max=${l1##UID_MAX}" '{ if ( $3 >= min && $3 <= max && $7 != "/sbin/nologin" ) print $0 }' "$_p")" >> $info_log
                separation
                fi ;;
             7) if confirmation; then
-                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Type de CPU, nombre de cœurs, etc.'" >>$log_file
-                lscpu | sed -n '1p;5p;8p;20,22p' >> $info_log
+                echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Type de CPU, nombre de cœurs, etc.'" >>$log_file
+                echo "$(lscpu | sed -n '1p;5p;8p;20,22p')" >>$info_log
                 separation
                fi ;;
             8) if confirmation; then
-                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Mémoire RAM totale'" >>$log_file
-                free -h >> $info_log
+                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Mémoire RAM totale'" >>$log_file
+                 echo "$(free -h)" >> $info_log
                 separation
                fi ;;
             9) if confirmation; then
-                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Utilisation de la RAM'" >>$log_file
-                cat /proc/meminfo | awk 'NR==1' | sed 's/MemTotal:/Mémoire_RAM_Totale:/' >> $info_log
+                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Utilisation de la RAM'" >>$log_file
+                 echo "$(cat /proc/meminfo | awk 'NR==1' | sed 's/MemTotal:/Mémoire_RAM_Totale:/')" >> $info_log
+                separation
                 fi ;;
             10) if confirmation; then
-                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Utilisation du disque'" >>$log_file
-                df -h >> $info_log
+                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Utilisation du disque'" >>$log_file
+                echo "$( df -h )" >>  $info_log
                 separation
                 fi ;;
             11) if confirmation; then
-                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Utilisation du processeur'" >>$log_file
-                mpstat | awk 'NR!=1' >> $info_log
+                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Utilisation du processeur'" >>$log_file
+                echo "$(mpstat | awk 'NR!=1')" >> $info_log
                 separation
                 fi ;;
             12) if confirmation; then
-                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Liste des ports ouverts'" >>$log_file
-                ss -tulpn | grep LISTEN >> $info_log
+                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Liste des ports ouverts'" >>$log_file
+                 echo "$(ss -tulpn | grep LISTEN )" >> $info_log
                 separation
                 fi ;;
             13) if confirmation; then
-                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Statut du pare-feu'" >>$log_file
-                sudo ufw status >> $info_log
-                separation
+                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Statut du pare-feu'" >>$log_file
+                 echo "$(sudo ufw status )" >> $info_log
                 fi ;;
             R)
                  echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi le menu 'choix_ordinateur'" >>$log_file
-                choix_ordinateur
+                 choix_ordinateur
                 ;;
             Q) exit 0 ;;
             *)
