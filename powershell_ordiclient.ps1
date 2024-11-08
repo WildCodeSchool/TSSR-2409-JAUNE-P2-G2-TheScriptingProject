@@ -126,12 +126,14 @@ function actions_ordinateur {
     Switch ($choixAO) {
         "1" { $User = Read-Host -Prompt "Quel est le nom de l'ordinateur a arreter"
             Stop-Computer -ComputerName $User } 
-        "2" { $User1 = Read-Host -Prompt "Quel est l'ordinateur a redemarrer"
-            Restart-Computer -ComputerName $User1 } 
-        "3" { rundll32.exe user32.dll,LockWorkStation }
+        "2" { $choixAO2 = Read-Host -Prompt "Quel est l'ordinateur a redemarrer" 
+            Restart-Computer -ComputerName $choixAO2 } 
+        "3" {$choixAO3 = read-host "Quel utilisateur souhaitez-vous verrouiller" |
+        invoke_Command -ComputerName $choixAO3 
+        {rundll32.exe user32.dll,LockWorkStation} }
         "4" { Install-WUUpdates }
         "5" { $newdossier = Read-Host -Prompt "quel est le mon de votre dossier"
-        $chemin = Read-Host -Prompt "Emplecement du nouveau dossier"
+        $chemin = Read-Host -Prompt "Emplacement du nouveau dossier"
         New-Item -path $chemin -Name $newdossier -ItemType "Directory" }
         "6" { $dossier = Read-Host -Prompt "quel est le mon de votre dossier a supprimer"
         $chemin1 = Read-Host -Prompt "Emplecement du nouveau dossier"
@@ -146,8 +148,9 @@ function actions_ordinateur {
         "10" { Set-NetFirewallProfile -Profile "Public" -Enabled $false }
         "11" { Install-Package (Read-Host -Prompt "Nom du logiciel") }
         "12" { Uninstall-Package (Read-Host -Prompt "Nom du logiciel") }
-        "13" { $choixAO13 = read-host "Quel script souhaitez-vous executer ?"  
-        invoke-Command -ComputerName 172.16.20.20 -FilePath "$ChoixAO13" }
+        "13" { $choixAO13 = read-host "Quel utilisateur ?" 
+            $chemin = Read-Host "ou est votre script ?"
+            Invoke-Command -ComputerName $choixAO13 -ScriptBlock {$args[0]} -ArgumentList $chemin }
         "R" { MenuPrincipal }
         "Q" {exit
             Write-Host "Au revoir"
@@ -387,7 +390,7 @@ function informations_utilisateur {
         }
         "2" { Get-LocalUser -Name "NomUtilisateur" | Select-Object Name, PasswordLastSet }
         "3" { Get-PSSession -ComputerName "localhost" }
-        "4" { Get-PublicFolderClientPermission -Identity "" -User Chris | Format-List }
+        "4" { Get-PublicFolderClientPermission -Identity "" -User "" | Format-List }
         "5" { "" }
         "R" { MenuPrincipal }
         "Q" {
