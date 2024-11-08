@@ -1,6 +1,6 @@
 # Documentation Administrateur
 
- 1. [Prérequis technique](#1-prérequis-technique)
+ 1. [Prérequis technique](#1-prérequis-technique)  
     installer sudo
  3. [Etapes d'installation](#2-etapes-dinstallation)
  4. [configuration](#3-configuration)
