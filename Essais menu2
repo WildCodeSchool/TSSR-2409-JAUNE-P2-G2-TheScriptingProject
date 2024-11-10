@@ -1,7 +1,13 @@
-$choixAO9 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
-                invoke-command -computername $choixAO10 -ScriptBlock {
+ "8" { $choixAO8 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?"
+                Set-NetFirewallProfile -ComputerName $choixAO8 -Force -Credential (Get-Credential)
+                # Format-Table Name, Enabled }
+            }
+        ########################## Ne fonctionne pas    
+        "9" { $choixAO9 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
+                invoke-command -computername $choixAO9 -ScriptBlock {
                     Set-NetFirewallProfile -Enabled True
                 }
+            }
 
 
 
