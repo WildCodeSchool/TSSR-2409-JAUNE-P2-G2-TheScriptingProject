@@ -12,6 +12,12 @@
             invoke-command -computername $choixAO10 -ScriptBlock {
                 Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False}
             }
+"11" { $choixAO11 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
+            invoke-command -computername $choixAO11 -ScriptBlock {
+                $software = Read-Host "Quel logiciel voulez vous installer ?"
+                Install-Package -Name $software
+                }
+        }
 
 
 
