@@ -1,8 +1,7 @@
 $choixAO9 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
-                Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled True -computername $choixAO9 -Force -Credential (Get-Credential)
-
-$choixAO8 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?"
-                Set-NetFirewallProfile -ComputerName $choixAO8 -Force -Credential (Get-Credential)
+                invoke-command -computername $choixAO10 -ScriptBlock {
+                    Set-NetFirewallProfile -Enabled True
+                }
 
 
 
