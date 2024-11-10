@@ -1,3 +1,14 @@
+$choixAO8 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?"
+                Set-NetFirewallProfile -ComputerName $choixAO8 -Force -Credential (Get-Credential)
+
+
+
+
+
+
+
+
+
 [BOOLEAN]$global:xExitSession = $false
 Function MenuPrincipal() {
     [INT]$xchoixMP = 0
