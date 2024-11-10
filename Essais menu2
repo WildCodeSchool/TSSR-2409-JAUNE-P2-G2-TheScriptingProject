@@ -1,9 +1,11 @@
- "8" { $choixAO8 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?"
+Register-PackageSource -Name "NuGet" -ProviderName "NuGet" -Location "https://api.nuget.org/v3/index.json" -Trusted
+
+"8" { $choixAO8 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?"
                 Set-NetFirewallProfile -ComputerName $choixAO8 -Force -Credential (Get-Credential)
                 # Format-Table Name, Enabled }
             }
-        ########################## Ne fonctionne pas    
-        "9" { $choixAO9 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
+
+"9" { $choixAO9 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
                 invoke-command -computername $choixAO9 -ScriptBlock {
                     Set-NetFirewallProfile -Enabled True
                 }
@@ -18,14 +20,6 @@
                 Install-Package -Name $software
                 }
         }
-
-
-
-
-
-
-
-
 
 [BOOLEAN]$global:xExitSession = $false
 Function MenuPrincipal() {
