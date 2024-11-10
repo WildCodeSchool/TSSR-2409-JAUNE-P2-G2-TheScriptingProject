@@ -8,6 +8,10 @@
                     Set-NetFirewallProfile -Enabled True
                 }
             }
+"10" { $choixAO10 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
+            invoke-command -computername $choixAO10 -ScriptBlock {
+                Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False}
+            }
 
 
 
