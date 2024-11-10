@@ -186,14 +186,37 @@ function actions_utilisateur {
 
 "@
 
-    $choixAU = Read-Host -Prompt "Quelle est l'Action que vous souhaitez faire ?"
-    
     Switch ($choixAU) {
         # 1) Création de compte utilisateur local
-        "1" 
+        "1" { $name_user=Read-Host "Quel utilisateur souhaitez-vous créer ?" 
+             $condition= Get-localuser -Name $name_user 
+                if (-not $condition) {
+                    $Password=Read-Host "Choissisez un mot de passe" -AsSecureString
+                    $params = @{
+                                Name        = $name_user
+                                Password    = $Password
+                                }       
+                    New-LocalUser @params -Confirm
+                    Write-host "Action réussite"
+                                }
+                else {
+                    Write-host "Erreur : L'utilisateur existe déjà"
+                }
             
+            }
         # 2) Changement de mot de passe
-        "2" { Set-LocalUser }
+        "2" { $User_name=Read-Host " Saissisez le compte utilisateur à modifier :"
+            $condition= Get-localuser -Name $user_name 
+            if ($condition) {
+                                $Password = Read-Host " Saissisez le nouveau mot de passe " -AsSecureString
+                                Set-LocalUser -Password $Password # peut etre -name $user_name
+                                Write-host "Action réussite"
+            }
+            else{
+                    Write-host "Erreur : L'utilisateur n'existe pas"
+            }
+
+            }
         #Vérfie l'utilisateur existe (si vide alors on passe l'étape)
         #Mettre l'ancien mdp 
         #Mettre nouveau mdp
@@ -201,22 +224,53 @@ function actions_utilisateur {
         #Message erreur / changement réussi
 
         # 3)  Suppression de compte utilisateur local
-        "3" { Add-?????????GroupMember }
+        "3" { $User_name=Read-Host " Saissisez le compte utilisateur à supprimer :" 
+             $condition= Get-localuser -Name $user_name 
+            if ($condition) {
+                            # ??-Credential (Get-Credential) 
+                            Remove-LocalUser -Name $User_name -Confirm 
+                            Write-host "Action réussite"
+                             }
+            else{
+                Write-host "Erreur : L'utilisateur n'existe pas"
+            }
+        }
         #Verif utilisateur existe
         #Demande quel grp d'admin ?
         #Verif grp existe
         #Confirmation 
         #SI non -> erreur 
         # 4)  Désactivation de compte utilisateur local
-        "4" { Add-LocalGroupMember }
+        "4" { $User_name=Read-Host " Saissisez le compte utilisateur à désactiver :"
+              $condition= Get-localuser -Name $user_name 
+            if ($condition) {
+                            ##Get-Credential -Credential "XXX" -Message "Rentrez vos identifiants"
+                            Disable-LocalUser -Name $User_name -Confirm
+                            Write-host "Action réussite"
+            }
+            else{
+                Write-host "Erreur : L'utilisateur n'existe pas"
+            }
+            }
         #Verif utilisateur existe
         #SI non -> erreur
-        #Demande quel grp local ?
         #Verif grp existe
         #Confirmation 
         #SI non -> erreur 
+
         # 5)  Ajout à un groupe d'administration 
-        "5" { Remove-LocalGroupMember }
+        "5" { $User_name=Read-Host " Saissisez le compte utilisateur à ajouter au groupe administrateur :"
+              $condition= Get-localuser -Name $user_name 
+              $group_name=Read-Host " Saissisez le groupe administrateur cible :"
+              $condition_2= Get-localgroup -Name $group_name 
+              if($condition -and $condition_2){
+                                                Add-LocalGroupMember -Group "$group_name" -member $User_name -confirm
+                                                Write-host "Action réussite"
+              }
+              else{
+                    Write-host "Erreur : L'utilisateur ou le groupe cible n'existe pas"
+              }
+             }
         #Verif utilisateur existe
         #SI non -> erreur
         #Demande quel grp local ? liste des groupe Get-LocalGroup
@@ -227,24 +281,44 @@ function actions_utilisateur {
         #Confirmation
         #Msg validation
         #Msg erreur 
-        # 6)  Ajout à un groupe local 
+        "6" {$User_name=Read-Host " Saissisez le compte utilisateur à ajouter au groupe local :"
+            $condition= Get-localuser -Name $user_name 
+            $group_name=Read-Host " Saissisez le groupe local cible :"
+            $condition_2= Get-localgroup -Name $group_name 
+            if($condition -and $condition_2){
+                                                Add-LocalGroupMember -Group $group_name -member $User_name -confirm
+                                                Write-host "Action réussite"
+                                            }
+            else{
+             Write-host "Erreur : L'utilisateur ou le groupe cible n'existe pas"
+                }
+            }
 
-        # 7)  Sortie d’un groupe local
+        "7"{ $User_name=Read-Host " Saissisez le compte utilisateur à retirer au groupe local :"
+            $condition= Get-localuser -Name $user_name 
+            $group_name=Read-Host " Saissisez le groupe local cible :"
+            $condition_2= Get-localgroup -Name $group_name 
+            if($condition -and $condition_2){ 
+                                                Remove-LocalGroupMember -Group $group_name -member $user_name -confirm
+                                                Write-host "Action réussite"
+                                            }
+            else{
+                Write-host "Erreur : L'utilisateur ou le groupe cible n'existe pas"
+                }
 
+            }
         
-        # R) retour au Menu principal
         "R" { MenuPrincipal }
 
-        # Q)  Sortie d’un groupe local
         "Q" {
             Write-Host "Au revoir"
             exit 
-        }
+            }
         default {
             Write-Host "Option non disponible"        
             Start-Sleep -Seconds 2
             break 
-        } 
+                } 
     }
 }
 
