@@ -124,14 +124,15 @@ function actions_ordinateur {
 
     $choixAO = Read-Host -Prompt "Quelle est l'Action que vous souhaitez faire ?"
     Switch ($choixAO) {
-        "1" { $User = Read-Host -Prompt "Quel est le nom de l'ordinateur a arreter"
-            Stop-Computer -ComputerName $User } 
-        "2" { $choixAO2 = Read-Host -Prompt "Quel est l'ordinateur a redemarrer" 
-            Restart-Computer -ComputerName $choixAO2 } 
-        "3" {$choixAO3 = read-host "Quel utilisateur souhaitez-vous verrouiller" |
+        "1" { $choixAO1 = Read-Host -Prompt "Quel est le nom de l'ordinateur a arreter"
+            Stop-Computer -ComputerName $choixAO1 -Force -Credential (get-Credential)} 
+        "2" { $choixAO2 = Read-Host "Quel est l'ordinateur a redemarrer" 
+            Restart-Computer -ComputerName $choixAO2 -Force -Credential (get-Credential)} 
+        "3" {$choixAO3 = read-host "Quel utilisateur souhaitez-vous verrouiller"
         invoke_Command -ComputerName $choixAO3 
-        {rundll32.exe user32.dll,LockWorkStation} }
-        "4" { Install-WUUpdates }
+        rundll32.exe user32.dll,LockWorkStation}
+        "4" { $choixAO4 = read-host "quel utilisateur souhaitez_vous mettre a jour ?"
+        invoke-command -computername $choixAO4 -ScriptBlock {install-module -Name PSWindowsUpdate -Force -Scope CurrentUser Import-Module PsWindowsUpdate Install-WindowsUpdate -acceptAll -AutoReboot} -Credential (Get-Credential)}
         "5" { $newdossier = Read-Host -Prompt "quel est le mon de votre dossier"
         $chemin = Read-Host -Prompt "Emplacement du nouveau dossier"
         New-Item -path $chemin -Name $newdossier -ItemType "Directory" }
@@ -189,7 +190,8 @@ function actions_utilisateur {
     
     Switch ($choixAU) {
         # 1) Création de compte utilisateur local
-        "1" { New-LocalUser }
+        "1" 
+            
         # 2) Changement de mot de passe
         "2" { Set-LocalUser }
         #Vérfie l'utilisateur existe (si vide alors on passe l'étape)
@@ -388,7 +390,8 @@ function informations_utilisateur {
                 return $LastLogonTab
             }
         }
-        "2" { Get-LocalUser -Name "NomUtilisateur" | Select-Object Name, PasswordLastSet }
+        "2" { $choixIU2 = read-host "Pour quel utilisateur" 
+        Get-LocalUser -Name $choixIU2 | Select-Object Name, PasswordLastSet }
         "3" { Get-PSSession -ComputerName "localhost" }
         "4" { Get-PublicFolderClientPermission -Identity "" -User "" | Format-List }
         "5" { "" }
