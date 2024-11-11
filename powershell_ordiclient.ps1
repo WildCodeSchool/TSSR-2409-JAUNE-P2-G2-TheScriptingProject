@@ -128,7 +128,13 @@ function actions_ordinateur {
             Stop-Computer -ComputerName $User } 
         "2" { $choixAO2 = Read-Host -Prompt "Quel est l'ordinateur a redemarrer" 
             Restart-Computer -ComputerName $choixAO2 } 
-        "3" {$choixAO3 = read-host "Quel utilisateur souhaitez-vous verrouiller" |
+        "3" {
+            $choixAO3 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?"
+            $username = Read-Host -Prompt "Entrez le nom d'utilisateur à verrouiller"
+            Invoke-Command -ComputerName $choixAO3 -ScriptBlock {
+                Disable-LocalUser -Name $using:username
+                }
+            }
         invoke_Command -ComputerName $choixAO3 -ScriptBlock { rundll32.exe user32.dll,LockWorkStation} }
         "4" { $choixAO4 = Read-Host -Prompt "Quel est l'ordinateur a redemarrer" # Ca marche pas mais bonne commande
             Invoke-Command -ComputerName $choixA04 -ScriptBlock {Install-WindowsUpdate -AcceptAll }
@@ -153,9 +159,25 @@ function actions_ordinateur {
             $action=Read-Host -Prompt "Action à faire (Allow/Block)"
             Invoke-Command -ComputerName $choixA08 -ScriptBlock {New-NetFirewalRule -DisplayName $nom_regle -Direction $direction -Protocol $protocol -LocalPort $local_port -Action $action } }
             #Write-Host $choixAO8 }
-        "9" { Set-NetFirewallProfile -Name "Public,Private" -Enabled true }
-        "10" { Set-NetFirewallProfile -Name "Public,Private" -Enabled false }
-        "11" { Install-Package (Read-Host -Prompt "Nom du logiciel") }
+        "9" {
+            $choixAO9 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
+            invoke-command -computername $choixAO9 -ScriptBlock {
+                Set-NetFirewallProfile -Enabled True
+            }
+        }
+        "10" {
+            $choixAO10 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
+            invoke-command -computername $choixAO10 -ScriptBlock {
+                Set-NetFirewallProfile -Profile Domain, Public, Private -Enabled False }
+        }
+        ########################## Ne fonctionne pas ##########################
+        "11" {
+            $choixAO11 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
+            invoke-command -computername $choixAO11 -ScriptBlock {
+                $software = Read-Host "Quel logiciel voulez vous installer ?"
+                Install-Package -Name $software
+            }
+        }
         "12" { Uninstall-Package (Read-Host -Prompt "Nom du logiciel") }
         "13" { $choixAO13 = read-host "Quel utilisateur ?" 
             $chemin = Read-Host "ou est votre script ?"
