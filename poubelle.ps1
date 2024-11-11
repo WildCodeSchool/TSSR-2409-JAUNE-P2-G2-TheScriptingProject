@@ -11,6 +11,22 @@
     } -ArgumentList $software -Credential (Get-Credential)
 }
 
+"3" {
+            $choixAO3 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?"
+            $username = Read-Host -Prompt "Entrez le nom d'utilisateur à verrouiller"
+    
+            Invoke-Command -ComputerName $choixAO3 -ScriptBlock {
+                # Liste les sessions
+                $sessions = query user | Select-Object -Skip 1  # Ignore la première ligne d'en-tête
+        
+                # Filtrer les sessions correspondant à l'utilisateur
+                $sessions | Where-Object { $_ -match $using:username } | ForEach-Object {
+                    # Diviser la ligne par espaces et récupérer l'ID de session
+                    $sessionInfo = $_ -split '\s+'
+                    $sessionId = $sessionInfo[2]
+                    logoff $sessionId
+                }
+            }
 
 
 
