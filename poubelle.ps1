@@ -1,3 +1,17 @@
+commandes ne marchent pas
+
+Action ordinateur :
+5 6 8 11 12 13
+
+inform utilis erwan
+
+
+
+rajouter les invoke commande dans les menus :
+action ordin matt
+inform utilis  erwan
+action utilis matt
+
 "11" {
     $choixAO11 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?"
     $software = Read-Host "Quel logiciel voulez-vous installer ?"
