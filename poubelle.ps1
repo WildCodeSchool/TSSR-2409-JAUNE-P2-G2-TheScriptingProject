@@ -16,6 +16,15 @@
     }
 }
 
+"11" { 
+    $choixAO11 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
+    $software = Read-Host "Quel logiciel voulez-vous installer ?"
+    
+    invoke-command -computername $choixAO11 -ScriptBlock {
+        param ($softwareName)
+        Start-Process "choco" -ArgumentList "install", $softwareName, "-y", "--force" -Verb RunAs
+    } -ArgumentList $software
+}
 
 
 
