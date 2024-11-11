@@ -1,30 +1,16 @@
-"3" {
-    $choixAO3 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?"
-    $username = Read-Host -Prompt "Entrez le nom d'utilisateur à verrouiller"
-    
-    Invoke-Command -ComputerName $choixAO3 -ScriptBlock {
-        # Liste les sessions
-        $sessions = query user | Select-Object -Skip 1  # Ignore la première ligne d'en-tête
-        
-        # Filtrer les sessions correspondant à l'utilisateur
-        $sessions | Where-Object { $_ -match $using:username } | ForEach-Object {
-            # Diviser la ligne par espaces et récupérer l'ID de session
-            $sessionInfo = $_ -split '\s+'  # Diviser la ligne en fonction des espaces
-            $sessionId = $sessionInfo[2]    # L'ID de session se trouve en 3ème position (index 2)
-            logoff $sessionId               # Déconnecter l'utilisateur en utilisant l'ID de session
-        }
-    }
+"11" {
+    $choixAO11 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?"
+    $software = Read-Host "Quel logiciel voulez-vous installer ?"
+
+    # Utilisation de Invoke-Command avec les privilèges administratifs à distance
+    Invoke-Command -ComputerName $choixAO11 -ScriptBlock {
+        param ($softwareName)
+
+        # Utilisation de Start-Process avec les privilèges administratifs
+        Start-Process "choco" -ArgumentList "install", $softwareName, "-y", "--force" -Verb RunAs
+    } -ArgumentList $software -Credential (Get-Credential)
 }
 
-"11" { 
-    $choixAO11 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
-    $software = Read-Host "Quel logiciel voulez-vous installer ?"
-    
-    invoke-command -computername $choixAO11 -ScriptBlock {
-        param ($softwareName)
-        Start-Process "choco" -ArgumentList "install", $softwareName, "-y", "--force" -Verb RunAs
-    } -ArgumentList $software
-}
 
 
 
