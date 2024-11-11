@@ -1,9 +1,9 @@
 "3" {
-            $choixAO3 = read-host "Quel utilisateur souhaitez-vous verrouiller"
-            $choixAO3_1 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
-            invoke-command -computername $choixAO3_1 -ScriptBlock { 
-                rundll32.exe user32.dll, LockWorkStation -computername $choixAO3 }
-        }
+$choixAO3 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?"
+$username = Read-Host -Prompt "Entrez le nom d'utilisateur à verrouiller"
+Invoke-Command -ComputerName $choixAO3 -ScriptBlock {
+        Disable-LocalUser -Name $using:username
+    }
 
 
 
