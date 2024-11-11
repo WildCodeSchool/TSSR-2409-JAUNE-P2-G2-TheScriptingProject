@@ -173,10 +173,10 @@ function actions_ordinateur {
         ########################## Ne fonctionne pas ##########################
         "11" {
             $choixAO11 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
+            $software = Read-Host "Quel logiciel voulez vous installer ?"
             invoke-command -computername $choixAO11 -ScriptBlock {
-                $software = Read-Host "Quel logiciel voulez vous installer ?"
-                Install-Package -Name $software
-            }
+                choco install -y --force $using:software
+            } -Credential (Get-Credential)
         }
         "12" { Uninstall-Package (Read-Host -Prompt "Nom du logiciel") }
         "13" { $choixAO13 = read-host "Quel utilisateur ?" 
