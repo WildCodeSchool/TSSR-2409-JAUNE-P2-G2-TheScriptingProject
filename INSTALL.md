@@ -19,7 +19,10 @@
     ```bash
     sudo apt install git -y
     ```
-
+3. **Installer PSWindowsUpdate sur le client**
+   ```powershell
+   Install-Module -Name PSWindowsUpdate -Force
+   ```
 ## 2. Étapes d'installation
 
 1. **Cloner le dépôt sur le serveur dans le dossier de votre choix :**
