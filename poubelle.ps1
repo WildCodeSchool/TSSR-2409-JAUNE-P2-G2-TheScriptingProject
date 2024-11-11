@@ -3,21 +3,18 @@
     $username = Read-Host -Prompt "Entrez le nom d'utilisateur à verrouiller"
     
     Invoke-Command -ComputerName $choixAO3 -ScriptBlock {
-        # Désactiver l'utilisateur
-        Disable-LocalUser -Name $using:username
+        param($user)
         
-        # Déconnecter toutes les sessions actives de l'utilisateur
-        $sessions = query user | Select-String $using:username
-        foreach ($session in $sessions) {
-            $sessionId = $session -split '\s+' | Select-Object -Last 1
+        # Lister les sessions pour l'utilisateur
+        $sessions = query user | Select-String $user
+        
+        # Si une session est trouvée, déconnecter
+        $sessions | ForEach-Object {
+            $sessionId = ($_ -split '\s+')[-2]  # Extraire l'ID de session
             logoff $sessionId
         }
-    }
+    } -ArgumentList $username
 }
-
-
-
-
 
 
 
