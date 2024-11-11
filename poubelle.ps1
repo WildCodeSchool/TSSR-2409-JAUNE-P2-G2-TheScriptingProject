@@ -3,17 +3,15 @@
     $username = Read-Host -Prompt "Entrez le nom d'utilisateur à verrouiller"
     
     Invoke-Command -ComputerName $choixAO3 -ScriptBlock {
-        param($user)
-        
-        # Lister les sessions pour l'utilisateur
-        $sessions = query user | Select-String $user
+        # Utilisation de la variable locale $username via $using:
+        $sessions = query user | Select-String $using:username
         
         # Si une session est trouvée, déconnecter
         $sessions | ForEach-Object {
             $sessionId = ($_ -split '\s+')[-2]  # Extraire l'ID de session
             logoff $sessionId
         }
-    } -ArgumentList $username
+    }
 }
 
 
