@@ -1,9 +1,19 @@
-$choixAO3 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?"
-$username = Read-Host -Prompt "Entrez le nom d'utilisateur à verrouiller"
-Invoke-Command -ComputerName $choixAO3 -ScriptBlock {
+"3" {
+    $choixAO3 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?"
+    $username = Read-Host -Prompt "Entrez le nom d'utilisateur à verrouiller"
+    
+    Invoke-Command -ComputerName $choixAO3 -ScriptBlock {
+        # Désactiver l'utilisateur
         Disable-LocalUser -Name $using:username
+        
+        # Déconnecter toutes les sessions actives de l'utilisateur
+        $sessions = query user | Select-String $using:username
+        foreach ($session in $sessions) {
+            $sessionId = $session -split '\s+' | Select-Object -Last 1
+            logoff $sessionId
+        }
     }
-
+}
 
 
 
