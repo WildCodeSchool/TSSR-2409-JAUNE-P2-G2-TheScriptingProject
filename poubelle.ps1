@@ -1,4 +1,3 @@
-"3" {
 $choixAO3 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?"
 $username = Read-Host -Prompt "Entrez le nom d'utilisateur à verrouiller"
 Invoke-Command -ComputerName $choixAO3 -ScriptBlock {
