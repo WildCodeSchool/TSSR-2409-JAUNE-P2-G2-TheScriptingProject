@@ -122,20 +122,24 @@ function actions_ordinateur {
 
 "@
 
-    $choixAO = Read-Host -Prompt "Quelle est l'Action que vous souhaitez faire ?"
+    $choixAO = Read-Host -Prompt "Quelle est l'action que vous souhaitez faire ?"
     Switch ($choixAO) {
         "1" { $choixAO1 = Read-Host -Prompt "Quel est le nom de l'ordinateur a arreter"
             Stop-Computer -ComputerName $choixAO1 -Force -Credential (get-Credential)} 
         "2" { $choixAO2 = Read-Host "Quel est l'ordinateur a redemarrer" 
             Restart-Computer -ComputerName $choixAO2 -Force -Credential (get-Credential)} 
+        ########################## Ne fonctionne pas
         "3" {$choixAO3 = read-host "Quel utilisateur souhaitez-vous verrouiller"
-        invoke_Command -ComputerName $choixAO3 
+        Invoke-Command -ComputerName $choixAO3 
         rundll32.exe user32.dll,LockWorkStation}
+        ########################## Ne fonctionne pas
         "4" { $choixAO4 = read-host "quel utilisateur souhaitez_vous mettre a jour ?"
         invoke-command -computername $choixAO4 -ScriptBlock {install-module -Name PSWindowsUpdate -Force -Scope CurrentUser Import-Module PsWindowsUpdate Install-WindowsUpdate -acceptAll -AutoReboot} -Credential (Get-Credential)}
+        ########################## Ne fonctionne pas sur le client mais oui sur l'hote
         "5" { $newdossier = Read-Host -Prompt "quel est le mon de votre dossier"
         $chemin = Read-Host -Prompt "Emplacement du nouveau dossier"
         New-Item -path $chemin -Name $newdossier -ItemType "Directory" }
+        ########################## Ne fonctionne pas sur le client mais oui sur l'hote
         "6" { $dossier = Read-Host -Prompt "quel est le mon de votre dossier a supprimer"
         $chemin1 = Read-Host -Prompt "Emplecement du nouveau dossier"
         Remove-Item -path $chemin1 -Name $dossier -ItemType "Directory" }
@@ -143,15 +147,41 @@ function actions_ordinateur {
             Write-Host "Lancement de connexion à distance" 
             Start-Process "mstsc" 
         }
-        "8" { Get-NetFirewallProfile | Format-Table Name, Enabled }
-            #Write-Host $choixAO8 }
-        "9" { Set-NetFirewallProfile -Profile "Public,Private" -Enabled $true }
-        "10" { Set-NetFirewallProfile -Profile "Public" -Enabled $false }
-        "11" { Install-Package (Read-Host -Prompt "Nom du logiciel") }
-        "12" { Uninstall-Package (Read-Host -Prompt "Nom du logiciel") }
+        ########################## Ne fonctionne pas 
+        "8" { $choixAO8 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?"
+                Set-NetFirewallProfile -ComputerName $choixAO8 -Force -Credential (Get-Credential)
+                # Format-Table Name, Enabled }
+            }
+        ########################## Ne fonctionne pas    
+        "9" { $choixAO9 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
+                invoke-command -computername $choixAO9 -ScriptBlock {
+                    Set-NetFirewallProfile -Enabled True
+                }
+            }
+        ########################## Ne fonctionne pas
+        "10" { $choixAO10 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
+            invoke-command -computername $choixAO10 -ScriptBlock {
+                Set-NetFirewallProfile -Profile Domain,Public,Private -Enabled False}
+            }
+        ########################## Ne fonctionne pas
+        "11" { $choixAO11 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
+            invoke-command -computername $choixAO11 -ScriptBlock {
+                $software = Read-Host "Quel logiciel voulez vous installer ?"
+                Install-Package -Name $software
+                }
+        }
+            #Install-Package (Read-Host -Prompt "Nom du logiciel")
+        ########################## Ne fonctionne pas
+        "12" { $choixAO12 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
+            invoke-command -computername $choixAO12 -ScriptBlock {
+
+            }
+            Uninstall-Package (Read-Host -Prompt "Nom du logiciel") }
+        ########################## Ne fonctionne pas
         "13" { $choixAO13 = read-host "Quel utilisateur ?" 
             $chemin = Read-Host "ou est votre script ?"
             Invoke-Command -ComputerName $choixAO13 -ScriptBlock {$args[0]} -ArgumentList $chemin }
+
         "R" { MenuPrincipal }
         "Q" {exit
             Write-Host "Au revoir"
@@ -482,8 +512,8 @@ function informations_utilisateur {
 } 
 
 function connection {
-    $connect = read-host "a quel ordinateur souhaitez-vous vous connecter ?"
-    Enter-Pssession -CoputerName $connect -Credential "Administrator"
+    $connect = read-host "a quel ordinateur souhaitez-vous vous connecter ?" CLIWIN01
+    Enter-Pssession -ComputerName "172.16.20.20" -Credential (Get-Credential)
 }
 function deconnection {
     Exit-PSsession
