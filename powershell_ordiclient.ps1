@@ -222,18 +222,40 @@ function actions_ordinateur {
         "11" {
             $choixAO11 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
             $software = Read-Host "Quel logiciel voulez vous installer ?"
-            invoke-command -computername $choixAO11 -ScriptBlock {
-                choco install -y --force $using:software
-            } -Credential (Get-Credential)
-        }
-        #Install-Package (Read-Host -Prompt "Nom du logiciel")
-        ########################## Ne fonctionne pas ##########################
-        "12" {
-            $choixAO12 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
-            invoke-command -computername $choixAO12 -ScriptBlock {
+            if (Test-Connection -computername $choixAO11 -Count 1 -Quiet) {
+                try {
+                    invoke-command -computername $choixAO11 -ScriptBlock {
+                        choco install -y $using:software
+                    } -Credential (Get-Credential)
+                    Write-Output "Installation de $software réussie !"
+                }
+                catch {
+                    Write-Output "Une erreur est survenue lors de l'installation du logiciel $software :$_"
+                }
             }
-            #Uninstall-Package (Read-Host -Prompt "Nom du logiciel") 
+            else {
+                Write-Output "L'ordinateur $choixAO11 est injoignable. Veuillez vérifier le nom ou la connexion réseau."
+            }
         }
+    ########################## Ne fonctionne pas ##########################
+    "12" {
+        $choixAO12 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
+        $software = Read-Host "Quel logiciel voulez vous installer ?"
+        if (Test-Connection -computername $choixAO12 -Count 1 -Quiet) {
+            try {
+                invoke-command -computername $choixAO12 -ScriptBlock {
+                    choco install -y $using:software
+                } -Credential (Get-Credential)
+                Write-Output "Installation de $software réussie !"
+            }
+            catch {
+                Write-Output "Une erreur est survenue lors de l'installation du logiciel $software :$_"
+            }
+        }
+        else {
+            Write-Output "L'ordinateur $choixAO12 est injoignable. Veuillez vérifier le nom ou la connexion réseau."
+        }
+    }
         ########################## Ne fonctionne pas ##########################
         "13" {
             $choixAO13 = read-host "Quel utilisateur ?" 
