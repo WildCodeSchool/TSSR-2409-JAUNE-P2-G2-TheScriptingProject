@@ -220,42 +220,44 @@ function actions_ordinateur {
         }
         ########################## Ne fonctionne pas ##########################
         "11" {
-            $choixAO11 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
             $software = Read-Host "Quel logiciel voulez vous installer ?"
+            $choixAO11 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
             if (Test-Connection -computername $choixAO11 -Count 1 -Quiet) {
                 try {
                     invoke-command -computername $choixAO11 -ScriptBlock {
                         choco install -y $using:software
                     } -Credential (Get-Credential)
-                    Write-Output "Installation de $software réussie !"
+                    Write-Output "Installation de $using:software réussie !"
                 }
                 catch {
-                    Write-Output "Une erreur est survenue lors de l'installation du logiciel $software :$_"
+                    Write-Output "Une erreur est survenue lors de l'installation du logiciel $using:software :
+                    $_"
                 }
             }
             else {
                 Write-Output "L'ordinateur $choixAO11 est injoignable. Veuillez vérifier le nom ou la connexion réseau."
             }
         }
-    ########################## Ne fonctionne pas ##########################
-    "12" {
-        $choixAO12 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
-        $software = Read-Host "Quel logiciel voulez vous installer ?"
-        if (Test-Connection -computername $choixAO12 -Count 1 -Quiet) {
-            try {
-                invoke-command -computername $choixAO12 -ScriptBlock {
-                    choco install -y $using:software
-                } -Credential (Get-Credential)
-                Write-Output "Installation de $software réussie !"
+        ########################## Ne fonctionne pas ##########################
+        "12" {
+            $software = Read-Host "Quel logiciel voulez vous désinstaller ?"
+            $choixAO12 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
+            if (Test-Connection -computername $choixAO12 -Count 1 -Quiet) {
+                try {
+                    invoke-command -computername $choixAO12 -ScriptBlock {
+                        choco uninstall -y $using:software
+                    } -Credential (Get-Credential)
+                    Write-Output "Installation de $software réussie !"
+                }
+                catch {
+                    Write-Output "Une erreur est survenue lors de l'installation du logiciel $using:software :
+                    $_"
+                }
             }
-            catch {
-                Write-Output "Une erreur est survenue lors de l'installation du logiciel $software :$_"
+            else {
+                Write-Output "L'ordinateur $choixAO12 est injoignable. Veuillez vérifier le nom ou la connexion réseau."
             }
         }
-        else {
-            Write-Output "L'ordinateur $choixAO12 est injoignable. Veuillez vérifier le nom ou la connexion réseau."
-        }
-    }
         ########################## Ne fonctionne pas ##########################
         "13" {
             $choixAO13 = read-host "Quel utilisateur ?" 
