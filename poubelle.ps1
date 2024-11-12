@@ -42,3 +42,20 @@ $eventTable= $events | ForEach-Object {
 
 $eventtable | Select-Object -first 1 "Timestamp", "ID", "Message" 
 }
+
+"2" {$choixIU02 = Read-Host -Prompt "Quel est l'ordinateur cible ?"
+            Invoke-Command -ComputerName $choixIU02 -ScriptBlock {Get-WinEvent -LogName "Security" | Where-Object {$_.ID -eq 4723 -or $_.ID -eq 4724}
+            }}
+        "3" {$choixIU02 = Read-Host -Prompt "Quel est l'ordinateur cible ?" 
+            Invoke-Command -ComputerName $choixIU03 -ScriptBlock {$user=quser
+            $actif= $user | Where-Object{ $_ -match "Actif" }
+            $actif }}
+        "4" { $choixIU04 = Read-Host -Prompt "Quel est l'ordinateur cible ?"
+
+            Invoke-Command -ComputerName $choixIU03 -ScriptBlock { 
+            $choixdos = Read-Host -Prompt "Quel est le dossier cible ?"
+            $choixuser = Read-Host -Prompt "Quel est l'utilisateur cible ?"
+            (get-acl $choixdos).access | Where-object {$_.identityReference -like "*$choixuser*"} | Select-Object IdentityReference,FileSystemRights,AccessControlType,InheritanceFlags | Format-table -AutoSize
+        } }
+
+
