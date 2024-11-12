@@ -151,10 +151,31 @@ function actions_ordinateur {
                 }
             }
         }
-        "4" {
-            $choixAO4 = Read-Host -Prompt "Quel est l'ordinateur a mettre à jour ?"
-            Invoke-Command -ComputerName $choixAO4 -ScriptBlock { Install-WindowsUpdate -AcceptAll -autoreboot }
-            Write-Host "Opération réussie !"
+        # Demande à l'utilisateur de choisir l'ordinateur à mettre à jour
+        "4"{ $choixAO4 = Read-Host -Prompt "Quel est l'ordinateur à mettre à jour ?"
+        # Vérification de l'accès à distance via WinRM
+        if (Test-Connection -ComputerName $choixAO4 -Count 1 -Quiet) {
+            try {
+                # Installation des mises à jour via PSWindowsUpdate
+                Invoke-Command -ComputerName $choixAO4 -ScriptBlock {
+                    # Vérifier si le module PSWindowsUpdate est installé
+                    if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
+                        Write-Output "Le module PSWindowsUpdate n'est pas installé. Installation en cours..."
+                        Install-Module -Name PSWindowsUpdate -Force -AllowClobber
+                    }
+                    
+                    # Importer le module et exécuter les mises à jour
+                    Import-Module PSWindowsUpdate
+                    Write-Output "Installation des mises à jour en cours..."
+                    Install-WindowsUpdate -AcceptAll -AutoReboot -Verbose
+                } -Credential (Get-Credential)
+                
+            } catch {
+                Write-Output "Une erreur est survenue lors de la connexion ou de l'installation des mises à jour : $_"
+            }
+        } else {
+            Write-Output "L'ordinateur $choixAO4 est injoignable. Veuillez vérifier le nom ou la connexion réseau."
+        }}
         }
                 ########################## Ne fonctionne pas ##########################
         "5" {
