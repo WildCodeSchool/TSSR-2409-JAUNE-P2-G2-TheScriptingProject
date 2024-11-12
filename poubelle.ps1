@@ -1,10 +1,19 @@
-$choixAO11 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
-$software = Read-Host "Quel logiciel voulez-vous installer ?"
-
-invoke-command -computername $choixAO11 -ScriptBlock { 
-    param ($software)
-    choco install -y $software
-} -Credential (Get-Credential) -ArgumentList $software
+"11" {
+            $choixAO11 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?"
+            $software = Read-Host "Quel logiciel voulez-vous installer ?"
+            # Tentative d'installation du logiciel sur la machine cible
+            try {
+                Invoke-Command -ComputerName $choixAO11 -ScriptBlock {
+                    param ($softwareToInstall)
+                    choco install -y $softwareToInstall
+                } -ArgumentList $software -Credential (Get-Credential)
+    
+                Write-Host "Le logiciel $software a été installé avec succès sur la machine $choixAO11."
+            }
+            catch {
+                Write-Host "Une erreur est survenue lors de l'installation : $_"
+            }
+        }
 
 
 commandes ne marchent pas
