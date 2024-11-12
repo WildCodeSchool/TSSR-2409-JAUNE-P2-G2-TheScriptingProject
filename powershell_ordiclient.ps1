@@ -151,40 +151,19 @@ function actions_ordinateur {
                 }
             }
         }
-        # Demande à l'utilisateur de choisir l'ordinateur à mettre à jour
-        "4"{ $choixAO4 = Read-Host -Prompt "Quel est l'ordinateur à mettre à jour ?"
-        # Vérification de l'accès à distance via WinRM
-        if (Test-Connection -ComputerName $choixAO4 -Count 1 -Quiet) {
-            try {
-                # Installation des mises à jour via PSWindowsUpdate
-                Invoke-Command -ComputerName $choixAO4 -ScriptBlock {
-                    # Vérifier si le module PSWindowsUpdate est installé
-                    if (-not (Get-Module -ListAvailable -Name PSWindowsUpdate)) {
-                        Write-Output "Le module PSWindowsUpdate n'est pas installé. Installation en cours..."
-                        Install-Module -Name PSWindowsUpdate -Force -AllowClobber
-                    }
-                    
-                    # Importer le module et exécuter les mises à jour
-                    Import-Module PSWindowsUpdate
-                    Write-Output "Installation des mises à jour en cours..."
-                    Install-WindowsUpdate -AcceptAll -AutoReboot -Verbose
-                } -Credential (Get-Credential)
-                
-            } catch {
-                Write-Output "Une erreur est survenue lors de la connexion ou de l'installation des mises à jour : $_"
-            }
-        } else {
-            Write-Output "L'ordinateur $choixAO4 est injoignable. Veuillez vérifier le nom ou la connexion réseau."
-        }}
+        "4" {
+            $choixAO4 = Read-Host -Prompt "Quel est l'ordinateur a mettre à jour ?"
+            Invoke-Command -ComputerName $choixAO4 -ScriptBlock { Install-WindowsUpdate -AcceptAll -autoreboot }
+            Write-Host "Opération réussie !"
         }
-                ########################## Ne fonctionne pas ##########################
+        ########################## Ne fonctionne pas ##########################
         "5" {
             $choixA05 = Read-Host -Prompt "Quel est l'ordinateur cible ?"
             $newdossier = Read-Host -Prompt "quel est le mon du dossier à créer ?"
             $chemin = Read-Host -Prompt "Emplacement du nouveau dossier"
             Invoke-Command -ComputerName $choixA05 -ScriptBlock { New-Item -path $chemin -Name $newdossier -ItemType Directory } 
         }
-                ########################## Ne fonctionne pas ##########################
+        ########################## Ne fonctionne pas ##########################
         "6" {
             $choixA06 = Read-Host -Prompt "Quel est l'ordinateur cible ?" 
             $dossier = Read-Host -Prompt "quel est le mon du dossier à supprimer"
@@ -195,7 +174,7 @@ function actions_ordinateur {
             Write-Host "Lancement de connexion à distance" 
             Start-Process "mstsc" 
         }
-                ########################## Ne fonctionne pas ##########################
+        ########################## Ne fonctionne pas ##########################
         "8" {
             $choixA08 = Read-Host -Prompt "Quel est l'ordinateur cible ?"
             $nom_regle = Read-Host -Prompt "Nommez votre nouvelle règle"
@@ -272,136 +251,128 @@ function actions_utilisateur {
         +=====================================================+
 
 "@
-$choixAU = Read-Host -Prompt "Quelle est l'action que vous souhaitez faire ?"
+    $choixAU = Read-Host -Prompt "Quelle est l'action que vous souhaitez faire ?"
     Switch ($choixAU) {
-        # 1) Création de compte utilisateur local
         "1" {
-            $name_user = Read-Host "Quel utilisateur souhaitez-vous créer ?" 
-            $condition = Get-localuser -Name $name_user -ErrorAction SilentlyContinue
-            if (-not $condition) {
-                $Password = Read-Host "Choissisez un mot de passe" -AsSecureString
-                $params = @{
-                    Name     = $name_user
-                    Password = $Password
-                }       
-                New-LocalUser @params -Confirm
-                Write-host "Action réussite"
+            # Création de compte
+            $choixAU1 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixAU1 -ScriptBlock {
+                $name_user = Read-Host "Quel utilisateur souhaitez-vous créer ?" 
+                $condition = Get-localuser -Name $name_user -ErrorAction SilentlyContinue
+                if (-not $condition) {
+                    $Password = Read-Host "Choissisez un mot de passe" -AsSecureString
+                    $params = @{
+                        Name     = $name_user
+                        Password = $Password
+                    }      
+                    New-LocalUser @params -Confirm
+                    Write-host "Action réussite"
+                }
+                else {
+                    Write-host "Erreur : L'utilisateur existe déjà"
+                }
             }
-            else {
-                Write-host "Erreur : L'utilisateur existe déjà"
-            }
-            
         }
-        # 2) Changement de mot de passe
         "2" {
-            $User_name = Read-Host " Saissisez le compte utilisateur à modifier :"
-            $condition = Get-localuser -Name $user_name 
-            if ($condition) {
-                $Password = Read-Host " Saissisez le nouveau mot de passe " -AsSecureString
-                Set-LocalUser -Password $Password # peut etre -name $user_name
-                Write-host "Action réussite"
+            # Changement de mot de passe
+            $choixAU2 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixAU2 -ScriptBlock {
+                $User_name = Read-Host " Saissisez le compte utilisateur à modifier :"
+                $condition = Get-localuser -Name $user_name 
+                if ($condition) {
+                    $Password = Read-Host " Saissisez le nouveau mot de passe " -AsSecureString
+                    Set-LocalUser -Password $Password # peut etre -name $user_name
+                    Write-host "Action réussite"
+                }
+                else {
+                    Write-host "Erreur : L'utilisateur n'existe pas"
+                }
             }
-            else {
-                Write-host "Erreur : L'utilisateur n'existe pas"
-            }
-
         }
-        #Vérfie l'utilisateur existe (si vide alors on passe l'étape)
-        #Mettre l'ancien mdp 
-        #Mettre nouveau mdp
-        #Confirmation nouveau mdp
-        #Message erreur / changement réussi
-
-        # 3)  Suppression de compte utilisateur local
         "3" {
-            $User_name = Read-Host " Saissisez le compte utilisateur à supprimer :" 
-            $condition = Get-localuser -Name $user_name 
-            if ($condition) {
-                # ??-Credential (Get-Credential) 
-                Remove-LocalUser -Name $User_name -Confirm 
-                Write-host "Action réussite"
-            }
-            else {
-                Write-host "Erreur : L'utilisateur n'existe pas"
+            # Suppression de compte
+            $choixAU3 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixAU3 -ScriptBlock {
+                $User_name = Read-Host " Saissisez le compte utilisateur à supprimer :" 
+                $condition = Get-localuser -Name $user_name 
+                if ($condition) {
+                    # ??-Credential (Get-Credential) 
+                    Remove-LocalUser -Name $User_name -Confirm 
+                    Write-host "Action réussite"
+                }
+                else {
+                    Write-host "Erreur : L'utilisateur n'existe pas"
+                }
             }
         }
-        #Verif utilisateur existe
-        #Demande quel grp d'admin ?
-        #Verif grp existe
-        #Confirmation 
-        #SI non -> erreur 
-        # 4)  Désactivation de compte utilisateur local
         "4" {
-            $User_name = Read-Host " Saissisez le compte utilisateur à désactiver :"
-            $condition = Get-localuser -Name $user_name 
-            if ($condition) {
-                ##Get-Credential -Credential "XXX" -Message "Rentrez vos identifiants"
-                Disable-LocalUser -Name $User_name -Confirm
-                Write-host "Action réussite"
+            # Désactivation de compte
+            $choixAU4 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixAU4 -ScriptBlock {
+                $User_name = Read-Host " Saissisez le compte utilisateur à désactiver :"
+                $condition = Get-localuser -Name $user_name 
+                if ($condition) {
+                    ##Get-Credential -Credential "XXX" -Message "Rentrez vos identifiants"
+                    Disable-LocalUser -Name $User_name -Confirm
+                    Write-host "Action réussite"
+                }
+                else {
+                    Write-host "Erreur : L'utilisateur n'existe pas"
+                }
             }
-            else {
-                Write-host "Erreur : L'utilisateur n'existe pas"
-            }
-        }
-        #Verif utilisateur existe
-        #SI non -> erreur
-        #Verif grp existe
-        #Confirmation 
-        #SI non -> erreur 
-
-        # 5)  Ajout à un groupe d'administration 
+        } 
         "5" {
-            $User_name = Read-Host " Saissisez le compte utilisateur à ajouter au groupe administrateur :"
-            $condition = Get-localuser -Name $user_name 
-            $group_name = Read-Host " Saissisez le groupe administrateur cible :"
-            $condition_2 = Get-localgroup -Name $group_name 
-            if ($condition -and $condition_2) {
-                Add-LocalGroupMember -Group "$group_name" -member $User_name -confirm
-                Write-host "Action réussite"
-            }
-            else {
-                Write-host "Erreur : L'utilisateur ou le groupe cible n'existe pas"
+            # Ajout à un groupe d'administration
+            $choixAU5 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixAU5 -ScriptBlock {
+                $User_name = Read-Host " Saissisez le compte utilisateur à ajouter au groupe administrateur :"
+                $condition = Get-localuser -Name $user_name 
+                $group_name = Read-Host " Saissisez le groupe administrateur cible :"
+                $condition_2 = Get-localgroup -Name $group_name 
+                if ($condition -and $condition_2) {
+                    Add-LocalGroupMember -Group "$group_name" -member $User_name -confirm
+                    Write-host "Action réussite"
+                }
+                else {
+                    Write-host "Erreur : L'utilisateur ou le groupe cible n'existe pas"
+                }
             }
         }
-        #Verif utilisateur existe
-        #SI non -> erreur
-        #Demande quel grp local ? liste des groupe Get-LocalGroup
-        #Verif grp existe
-        #Confirmation 
-        #SI non -> erreur
-        # Commande sortie de grp 
-        #Confirmation
-        #Msg validation
-        #Msg erreur 
         "6" {
-            $User_name = Read-Host " Saissisez le compte utilisateur à ajouter au groupe local :"
-            $condition = Get-localuser -Name $user_name 
-            $group_name = Read-Host " Saissisez le groupe local cible :"
-            $condition_2 = Get-localgroup -Name $group_name 
-            if ($condition -and $condition_2) {
-                Add-LocalGroupMember -Group $group_name -member $User_name -confirm
-                Write-host "Action réussite"
-            }
-            else {
-                Write-host "Erreur : L'utilisateur ou le groupe cible n'existe pas"
+            # Ajout à un groupe local
+            $choixAU6 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixAU6 -ScriptBlock {
+                $User_name = Read-Host " Saissisez le compte utilisateur à ajouter au groupe local :"
+                $condition = Get-localuser -Name $user_name 
+                $group_name = Read-Host " Saissisez le groupe local cible :"
+                $condition_2 = Get-localgroup -Name $group_name 
+                if ($condition -and $condition_2) {
+                    Add-LocalGroupMember -Group $group_name -member $User_name -confirm
+                    Write-host "Action réussite"
+                }
+                else {
+                    Write-host "Erreur : L'utilisateur ou le groupe cible n'existe pas"
+                }
             }
         }
-
         "7" {
-            $User_name = Read-Host " Saissisez le compte utilisateur à retirer au groupe local :"
-            $condition = Get-localuser -Name $user_name 
-            $group_name = Read-Host " Saissisez le groupe local cible :"
-            $condition_2 = Get-localgroup -Name $group_name 
-            if ($condition -and $condition_2) { 
-                Remove-LocalGroupMember -Group $group_name -member $user_name -confirm
-                Write-host "Action réussite"
-            }
-            else {
-                Write-host "Erreur : L'utilisateur ou le groupe cible n'existe pas"
-            }
+            # Sortie d’un groupe local
+            $choixAU5 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixAU5 -ScriptBlock {
+                $User_name = Read-Host " Saissisez le compte utilisateur à retirer au groupe local :"
+                $condition = Get-localuser -Name $user_name 
+                $group_name = Read-Host " Saissisez le groupe local cible :"
+                $condition_2 = Get-localgroup -Name $group_name 
+                if ($condition -and $condition_2) { 
+                    Remove-LocalGroupMember -Group $group_name -member $user_name -confirm
+                    Write-host "Action réussite"
+                }
+                else {
+                    Write-host "Erreur : L'utilisateur ou le groupe cible n'existe pas"
+                }
 
-        }
-        
+            }
+        }       
         "R" { MenuPrincipal }
 
         "Q" {
@@ -448,34 +419,89 @@ function informations_ordinateur {
     $choixIO = Read-Host -Prompt "Quelle est l'Information que vous souhaitez ?"
     Switch ($choixIO) {
         "1" {
-            Get-WmiObject Win32_OperatingSystem | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture, CSName, WindowsDirectory, NumberOfUsers, BootDevice | Out-String |
-            write-host 
+            $choixIO1 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixIO1 -ScriptBlock {
+                Get-WmiObject Win32_OperatingSystem | Select-Object Caption, Version, ServicePackMajorVersion, OSArchitecture, CSName, WindowsDirectory, NumberOfUsers, BootDevice | Out-String |
+                write-host 
+            }
         }
         "2" {
-            Get-NetAdapter | Format-List Name, InterfaceIndex, MacAddress, MediaConnectionState, LinkSpeed | Out-String |
-            Write-host 
+            $choixIO2 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixIO2 -ScriptBlock {
+                Get-NetAdapter | Format-List Name, InterfaceIndex, MacAddress, MediaConnectionState, LinkSpeed | Out-String |
+                Write-host 
+            }
         }
-        "3" { Get-NetIPConfiguration | Out-String | write-host }
-        "4" { Get-NetAdapter | Select-Object Index, Name, MacAddress | Out-String | write-host } 
+        "3" {
+            $choixIO3 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixIO3 -ScriptBlock {
+                Get-NetIPConfiguration | Out-String | write-host
+            }
+        }
+        "4" {
+            $choixIO4 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixIO4 -ScriptBlock {
+                Get-NetAdapter | Select-Object Index, Name, MacAddress | Out-String | write-host
+            }
+        }
         "5" {
-            $choixIO5 = Get-AppxPackage |
-            Write-Host $choixIO5
-        }# ne fonctionne pas
-        "6" { Get-LocalUser | Out-String | write-host }
-        "7" { Get-WmiObject Win32_Processor | Out-String | write-host } 
-        "8" { Get-CimInstance win32_physicalmemory | Format-Table Manufacturer, Banklabel, Configuredclockspeed, Devicelocator, Capacity, Serialnumber -autosize | Out-String | write-host }
-        "9" {
-            $totalMemory = Get-WmiObject Win32_ComputerSystem | Select-Object -ExpandProperty TotalPhysicalMemory 
-            $totalMemoryMB = [math]::round($totalMemory / 1Mb )
-            Write-Host $totalMemoryMB 
-        }  
-        "10" {
-            $choixIO10 = Get-PSDrive 
-            Write-Host $choixIO10
+            $choixIO5 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixIO5 -ScriptBlock {
+                $list_software = Get-AppxPackage |
+                Write-Host $list_software
+            }
+        } # ne fonctionne pas
+        "6" {
+            $choixIO6 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixIO6 -ScriptBlock {
+                Get-LocalUser | Out-String | write-host
+            }
         }
-        "11" { Get-CimInstance win32_processor | Measure-Object -Property LoadPercentage -Average | Select-Object Average | Out-String | write-host }
-        "12" { "" }
-        "13" { Get-NetFirewallProfile | Out-String | write-host } 
+        "7" {
+            $choixIO7 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixIO7 -ScriptBlock {
+                Get-WmiObject Win32_Processor | Out-String | write-host
+            }
+        }
+        "8" {
+            $choixIO8 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixIO8 -ScriptBlock {
+                Get-CimInstance win32_physicalmemory | Format-Table Manufacturer, Banklabel, Configuredclockspeed, Devicelocator, Capacity, Serialnumber -autosize | Out-String | write-host
+            }
+        }
+        "9" {
+            $choixIO9 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixIO9 -ScriptBlock {
+                $totalMemory = Get-WmiObject Win32_ComputerSystem | Select-Object -ExpandProperty TotalPhysicalMemory 
+                $totalMemoryMB = [math]::round($totalMemory / 1Mb )
+                Write-Host $totalMemoryMB 
+            }
+        }
+        "10" {
+            $choixIO10 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixIO10 -ScriptBlock {
+                $disk = Get-PSDrive 
+                Write-Host $disk
+            }
+        }
+        "11" {
+            $choixIO11 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixIO11 -ScriptBlock {
+                Get-CimInstance win32_processor | Measure-Object -Property LoadPercentage -Average | Select-Object Average | Out-String | write-host
+            }
+        }
+        "12" {
+            $choixIO12 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixIO12 -ScriptBlock {
+                ""
+            }
+        }
+        "13" {
+            $choixIO13 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixIO13 -ScriptBlock {
+                Get-NetFirewallProfile | Out-String | write-host
+            }
+        } 
         "R" { MenuPrincipal }
         "Q" {
             Write-Host "Au revoir" 
@@ -586,8 +612,8 @@ function informations_utilisateur {
 } 
 
 function connection {
-    $connect = read-host "a quel ordinateur souhaitez-vous vous connecter ?" CLIWIN01
-    Enter-Pssession -ComputerName "172.16.20.20" -Credential (Get-Credential)
+    $connect = read-host "a quel ordinateur souhaitez-vous vous connecter ?" #CLIWIN01
+    Enter-Pssession -ComputerName $connect -Credential (Get-Credential)
 }
 function deconnection {
     Exit-PSsession
