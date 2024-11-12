@@ -33,9 +33,9 @@ Enable-WSManCredSSP -Role Client -DelegateComputer 172.16.20.20
 $s = New-PSSession 172.16.20.20
 Invoke-Command -Session $s -ScriptBlock { Enable-WSManCredSSP -Role Server -Force }
 $parameters = @{
-    ComputerName   = 'Server02'
+    ComputerName   = '172.16.20.20'
     ScriptBlock    = { Get-Item C:\Scripts\bonjour.ps1 }
     Authentication = 'CredSSP'
-    Credential     = 'Domain01\Admin01'
+    Credential     = 'Administrateur'
 }
 Invoke-Command @parameters
