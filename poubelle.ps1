@@ -329,3 +329,32 @@ Get-PublicFolderClientPermission -Identity "\My Public Folder" -User Chris | For
     
 
     #I5  Droits/permissions de l’utilisateur sur un fichier
+
+
+
+
+
+    clear host
+# Define the Event Viewer log path for User Profile Service Operational
+$choixIU01 = Read-Host -Prompt "Quel est l'ordinateur cible ?"
+Invoke-Command -ComputerName $choixIU01 -ScriptBlock {
+$logPath = "Microsoft-Windows-User Profile Service/Operational"
+
+# Define the event IDs to filter by (2 for Logon, 4 for Logoff)
+$logonEventID = 2
+$logoffEventID = 4
+
+# Retrieve logon and logoff events from the User Profile Service Operational log
+$events = Get-WinEvent -LogName $logPath | Where-Object { $_.Id -eq $logonEventID}
+#-or $_.Id -eq $logoffEventID }
+$eventTable= $events | ForEach-Object {
+[PSCustomobject]@{
+    "Timestamp" = $_.timecreated
+    "ID" = $_.Id
+    "MessageType" = $_.leveldisplayname
+    "Message" = $_.message
+    }
+    }
+
+$eventtable | Select-Object -first 1 "Timestamp", "ID", "Message" 
+}
