@@ -1,3 +1,12 @@
+$choixAO11 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?" 
+$software = Read-Host "Quel logiciel voulez-vous installer ?"
+
+invoke-command -computername $choixAO11 -ScriptBlock { 
+    param ($software)
+    choco install -y $software
+} -Credential (Get-Credential) -ArgumentList $software
+
+
 commandes ne marchent pas
 
 Action ordinateur :
