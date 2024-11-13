@@ -268,7 +268,7 @@ function actions_ordinateur {
 
     case $action in
     1) if confirmation; then
-        shutdown now
+        sudo shutdown now
         afficher_succes
         echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Arrêt'" >>$log_file
     else
@@ -276,7 +276,7 @@ function actions_ordinateur {
         afficher_erreur
     fi ;;
     2) if confirmation; then
-        reboot
+        sudo reboot
         afficher_succes
         echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Redémarrage'" >>$log_file
     else
@@ -284,7 +284,7 @@ function actions_ordinateur {
         afficher_erreur
     fi ;;
     3) if confirmation; then
-        logout
+        sudo logout
         afficher_succes
         echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Verrouillage'" >>$log_file
     else
@@ -407,7 +407,7 @@ function informations_utilisateur {
     nbr_info=$(echo $option_info_u | wc -w)
 
     if [ $nbr_info -le 1 ]; then
-        case $option in
+        case $option_info_u in
         1) if confirmation; then
             read -p "Veuillez entrer le nom de l'utilisateur pour connaître la date de sa dernière " userco
             if cat /etc/passwd | grep $userco >/dev/null; then
@@ -451,7 +451,7 @@ function informations_utilisateur {
         5) if confirmation; then
             read -p "Merci d'indiquer le fichier dont vous souhaitez consulter les permissions " $file
             if [ -f $file ]; then
-                 ls -l $file | awk '{print $1" "$3" "$4}'
+                ls -l $file | awk '{print $1" "$3" "$4}'
                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Droits/permissions de l’utilisateur sur un fichier'" >>$log_file
                 afficher_succes
             else
@@ -618,12 +618,13 @@ function informations_ordinateur {
         fi ;;
         8) 
         if confirmation; then
-            free -h # a revoir le formattage
+            cat /proc/meminfo | awk 'NR==1' | sed 's/MemTotal:/Mémoire_RAM_Totale:/'
+            
             echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Mémoire RAM totale'" >>$log_file
         fi ;;
         9) 
         if confirmation; then
-            cat /proc/meminfo | awk 'NR==1' | sed 's/MemTotal:/Mémoire_RAM_Totale:/'
+            free -h # a revoir le formattage
             echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Utilisation de la RAM'" >>$log_file
         fi ;;
         10) 
@@ -660,7 +661,7 @@ function informations_ordinateur {
         date=$(date +%Y%m%d)
         if [ ! -f /home/$USER/Documents/info_utilisateur_$date.txt ]; then
             touch /home/$USER/Documents/info_utilisateur_$date.txt
-        #info_log=/home/$USER/Documents/info_utilisateur_$date.txt
+            info_log=/home/$USER/Documents/info_utilisateur_$date.txt
         fi
         for arg in $option_info_u; do
             case $arg in
