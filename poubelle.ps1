@@ -93,5 +93,16 @@ function log_info {
     Add-content $LogFile -value $LogMessage
 }
 
+# condition d'arguments pour enregistrement
+$choixIO = Read-Host -Prompt "Quelle est l'Information que vous souhaitez ?"
+    $arguments=$choixIO -split '[ ,]+'| Where-Object { $_ -match '^\d+$'}
+    $arg_count=$arguments.Count
+    if( $arg_count -le 1){}
+        foreach ($arg in $arguments){} 
+        switch ($x) {
+            condition {  }
+            Default {}
+        }
+    else{}
 
 
