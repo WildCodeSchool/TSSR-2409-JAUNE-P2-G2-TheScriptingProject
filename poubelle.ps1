@@ -105,4 +105,7 @@ $choixIO = Read-Host -Prompt "Quelle est l'Information que vous souhaitez ?"
         }
     else{}
 
-
+$choixIO10 = Read-Host "Quel est l'adresse IP de la machine cible ?" 
+            Invoke-Command -ComputerName $choixIO10 -ScriptBlock {
+                $resultat = Get-WmiObject -class Win32_PhysicalMemory | select-object capacity
+                Write-Host $resultat}
