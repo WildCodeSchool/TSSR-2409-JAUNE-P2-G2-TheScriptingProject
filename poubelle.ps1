@@ -1,3 +1,5 @@
+Get-WinEvent -LogName "Security" | Where-Object { $_.ID -eq 4723 -or $_.ID -eq 4724 } | Select-Object -Property Id, TimeCreated
+
 "11" {
             $choixAO11 = Read-Host -Prompt "Quel est l'adresse IP de la machine cible ?"
             $software = Read-Host "Quel logiciel voulez-vous installer ?"
