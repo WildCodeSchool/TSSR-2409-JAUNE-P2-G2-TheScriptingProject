@@ -2,6 +2,16 @@
 
 ## 1. Prérequis Techniques
 
+# 1. Prérequis Technique
+  * 1 Serveur Windows nommé SRVWIN01
+    * en windows serveur 2022 avec les dernieres mise a jour et les firewall desactivé 
+  * 1 Client Windows nommé CLIWIN01
+    * en Windows 10 avec les dernieres mise a jour et les firewall desactivé
+  * 1 Serveur Dedian nommé SRVLX01
+    * en Dedian 12 avec les dernieres mise a jour et les firewall desactivé
+  * 1 en Ubuntu nommé CLILIN01
+    * en Ubunto 24.04 LTS avec les dernieres mise a jour et les firewall desactivé
+
 1. **Installer sudo et ssh-service sur le client et le serveur :**
 
     - **Installer sudo :**
