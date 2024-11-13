@@ -61,3 +61,37 @@ $eventtable | Select-Object -first 1 "Timestamp", "ID", "Message"
         } }
 
 
+
+        # Log 
+function start_log{
+    New-Item -Path "C:\Windows\System32\LogFiles\" -ItemType File -Name "log_evt.log"
+    $Stamp = (Get-Date).toString("yyyy/MM/dd HH:mm:ss")
+    $User=$env:USERNAME
+    $Logfile = "C:\Windows\System32\LogFiles\log_evt.log"
+    Add-Content $Logfile -Value "$stamp - $user-********StartScript********"
+}
+$Logfile = "C:\Windows\System32\LogFiles\log_evt.log"
+start_log
+function WriteLog
+{
+Param ([string]$LogString)
+$Stamp = (Get-Date).toString("yyyy/MM/dd HH:mm:ss")
+$User=$env:Username
+$LogMessage = "$Stamp - $User - $LogString"
+Add-content $LogFile -value $LogMessage
+}
+# log info 
+function log_info {
+    Param ([string]$LogString)
+    $Stamp = (Get-Date).toString("yyyy/MM/dd HH:mm:ss")
+    $User=$env:Username
+    $log_info_file="C:\Users\$env:USERNAME\Documents"
+    if (!(Test-path -Path $log_info_file)) {
+        New-Item -Path "C:\Users\$env:USERNAME\Documents\" -ItemType File -Name "info_$user_$stamp.txt"
+    }
+    $LogMessage = "$LogString `n ------------------------------------"
+    Add-content $LogFile -value $LogMessage
+}
+
+
+
