@@ -1,6 +1,12 @@
 # Documentation Administrateur
 
-## 1. Prérequis Techniques
+ 1. [Prérequis technique](#1-prérequis-technique)
+ 2. [Etapes d'installation](#2-etapes-dinstallation)
+    1. Installations pour debian 12
+    2. Installations pour windows Serveur
+ 4. [configuration](#3-configuration)
+ 5. [FAQ](#4-faq)
+     
 
 # 1. Prérequis Technique
   * 1 Serveur Windows nommé SRVWIN01
@@ -11,7 +17,8 @@
     * en Dedian 12 avec les dernieres mise a jour et les firewall desactivé
   * 1 en Ubuntu nommé CLILIN01
     * en Ubunto 24.04 LTS avec les dernieres mise a jour et les firewall desactivé
-
+   
+# 2. Etapes d'installation
 1. **Installer sudo et ssh-service sur le client et le serveur :**
 
     - **Installer sudo :**
@@ -37,25 +44,22 @@
    ```bash
    Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
    ```
-## 2. Étapes d'installation
+   ## 2. Étapes d'installation
 
 1. **Cloner le dépôt sur le serveur dans le dossier de votre choix :**
     ```bash
     git clone git@github.com:WildCodeSchool/TSSR-2409-JAUNE-P2-G2-TheScriptingProject.git
     ```
-
-2. **À continuer...**
-
-## 3. Configuration
+# 3. configuration
 
 - À compléter en fonction des besoins de configuration spécifiques.
+- 
+# 4. FAQ
 
-## 4. FAQ
-
-### 1. Problèmes connus et solutions courantes liés à l'installation et à la configuration :
-- [FAQ](#4-faq)
+* solutions aux problèmes connus et communs liés à l’installation et à la configuration
 
 
-- [Prérequis Techniques](#1-prérequis-techniques)
-- [Étapes d'installation](#2-etapes-dinstallation)
-- [Configuration](#3-configuration)
+
+
+
+
