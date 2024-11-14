@@ -26,8 +26,8 @@ L’infrastructure est hébergée sur **Proxmox**, une plateforme de virtualisat
 |---|---|---|---|
 | Sprint 1  |  Erwan | Antoine  | Matthias  |
 | Sprint 2 |  Matthias |  Erwan |  Antoine |
-| Sprint 3 |  Erwan |  Antoine | Matthias  |
-| Sprint 4 | Antoine  | Matthias  | Erwan  |
+| Sprint 3 |  Antoine |  Matthias | Erwan  |
+| Sprint 4 | Erwan  | Antoine  | Matthias  |
 
 
 ## Choix techniques
