@@ -22,13 +22,58 @@
    sudo apt update
    sudo apt install -y openssh-server git ufw
    ```
+2. **Configurer SSH :**
+   - **Editer le fichier /etc/ssh/sshd_config**
+     ```bash
+     nano /etc/ssh/sshd_config
+     ```
+   - **Décommenter les lignes suivantes :**
+     ```
+     X11Forwarding yes
+     X11DisplayOffset 10
+     ```
+   - **Activer et lancer le service ssh :**
+     ```
+     systemctl enable ssh.service
+     systemctl start ssh.service
+     ```
+     
+   - **Activer et lancer le service ssh :**
+     ```bash
+     systemctl enable ssh.service
+     systemctl start ssh.service
+     systemctl restart networking
+     ```
 
 ### Prérequis pour Ubuntu 24
 
+1. **Installer openssh-server :**
+   
 ```bash
    sudo apt update
    sudo apt install -y openssh-server
    ```
+
+2. **Configurer SSH :**
+   - **Editer le fichier /etc/ssh/sshd_config**
+     ```bash
+     nano /etc/ssh/sshd_config
+     ```
+     
+   - **Décommenter les lignes suivantes :**
+     ```
+     PermitRootLogin yes
+     X11Forwarding yes
+     X11DisplayOffset 10
+     ```
+     
+   - **Activer et lancer le service ssh :**
+     ```bash
+     systemctl enable ssh.service
+     systemctl start ssh.service
+     systemctl restart networking
+     ```
+     
 ---
 
 ### Prérequis pour Windows Server 22
