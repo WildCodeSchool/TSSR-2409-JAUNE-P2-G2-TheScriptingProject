@@ -12,8 +12,18 @@
 # 1. Utilisation de base
       1. Script Bash shell
 
-      2. Script Powershell
+ * . Execution du scripts avec powershell core 7 
 
+* 1. Rechercher dans la barre de recherche windows PowerShell 7 \
+![](./assets/Capture%20d'%C3%A9cran%202024-11-14%20203934.png)
+* 2. Executer Powershell 7 \
+![](./assets/Capture%20d'%C3%A9cran%202024-11-14%20204009.png)
+* 3. Placez-vous là où se trouve le script \
+![](./assets/Capture%20d'%C3%A9cran%202024-11-14%20204047.png)
+* 4. Exécuter le script avec son intitulé \
+![](./assets/Capture%20d'%C3%A9cran%202024-11-14%20204334.png)
+* 5. vous pouvez désormais naviguer dans le script \
+![](./assets/Capture%20d'%C3%A9cran%202024-11-14%20204059.png)
 
   
   
@@ -46,7 +56,7 @@ Ce journal se créée à la première exécution de votre script et contient un 
 
 Il est situé dans `C:\Windows\System32\LogFiles` sur Windows et dans `/var/log/` pour une distribution GNU/Linux. 
 
-![screen contenu log](./assets/log_evt.png)
+![screen contenu log](./assets/Capture%20d'%C3%A9cran%202024-11-14%20212512.png)
 
 
 
