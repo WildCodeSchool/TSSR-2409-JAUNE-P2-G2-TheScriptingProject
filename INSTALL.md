@@ -7,8 +7,6 @@
    - [Prérequis pour Windows server 22](#prérequis-pour-windows-server-22)
    - [Prérequis pour Windows 10](#prérequis-pour-windows-10-pro)
 3. [Étapes d'Installation](#2-étapes-dinstallation)
-   - [Installation pour Linux](#pour-linux)
-   - [Installation pour Windows](#pour-windows)
 4. [Configuration](#3-configuration)
 5. [FAQ](#4-faq)
 
