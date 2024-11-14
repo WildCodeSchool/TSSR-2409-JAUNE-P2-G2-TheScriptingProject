@@ -18,7 +18,27 @@
   
   
 # 2. Comment utiliser les fontionnalités clés
+ Il vous suffit de lancer le script et de naviguer sur les differents menus. Pour chaque action et/ou information demandée, le script vous affichera l'information ou exécutera l'action choisie.
+ screen menus ? 
+
+
+
 # 3. Comment utiliser au mieux les options
+Le script vous permet des fonctionnalités avancées comme par exemple une requête de plusieurs informations.
+
+Si vous vous rendez , dans un menu information, et que vous choissisez les informations 1 et 3. (Fonctionne uniquement pour le script bash 14/11/2024)
+![screen menu info utilisateur]() 
+![screen menu info ordinateur]() 
+Vous retrouverez les informations dans un fichier .txt dans le dossier `C:\Users\<Nom_utilisateur>\Documents\` ou `/home/<Nom_utilisateur>/Documents`
+![screen fichier texte]() 
+Cela vous permet de consulter les informations produites par le script et de faire une seule requête d'informations.
+
+Vous pouvez également consulter le journal du script, afin de retracer toutes vos actions effectuées dans le script. Il vous aidera notammment pour comprendre les potentielles erreurs. 
+Ce journal se créée à la première exécution de votre script et contient un horodatage ainsi que l'utilisateur et un message. Chaque session d'execution sera bornée par un "********StartScript********" et un "********EndScript********".
+Il est situé dans `C:\Windows\System32\LogFiles` sur Windows et dans `/var/log/` pour une distribution GNU/Linux. 
+![screen contenu log]()
+  
+
 # 4. FAQ
 ## Q: Mon script ne marche pas ? Que faire ?
 ## A: Vérifiez tout d'abord si votre machine est à jour. 
