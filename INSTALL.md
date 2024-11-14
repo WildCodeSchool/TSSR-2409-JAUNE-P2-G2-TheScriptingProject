@@ -20,7 +20,7 @@
     * en Ubunto 24.04 LTS avec les dernieres mise a jour et les firewall desactivé
    
 # 2. Etapes d'installation
-  1.  Installations pour debian 12
+   1.  Installations pour debian 12
 1. **Installer sudo et ssh-service sur le client et le serveur :**
 
     - **Installer sudo :**
@@ -130,11 +130,10 @@
 
 # 3. configuration
 
-- À compléter en fonction des besoins de configuration spécifiques.
-- 
+
 # 4. FAQ
 
-* solutions aux problèmes connus et communs liés à l’installation et à la configuration
+
 
 
 
