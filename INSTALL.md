@@ -16,21 +16,20 @@
 
 ### Prérequis pour Debian 12
 
-1. **Installer le service SSH :**
+1. **Installer openssh-server, git et ufw :**
 
    ```bash
    sudo apt update
-   sudo apt install -y openssh-server git
+   sudo apt install -y openssh-server git ufw
    ```
 
 ### Prérequis pour Ubuntu 24
 
-**Installer Git :**
-
-   ```bash
+```bash
    sudo apt update
-   sudo apt install ufw
+   sudo apt install -y openssh-server
    ```
+---
 
 ### Prérequis pour Windows Server 22
 
