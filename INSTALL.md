@@ -147,16 +147,13 @@
 
 ### Pour Linux
 
-- **Cloner le dépôt sur le serveur dans le dossier de votre choix :**
-    ```bash
-    git clone git@github.com:WildCodeSchool/TSSR-2409-JAUNE-P2-G2-TheScriptingProject.git
-    ```
+- Importer sur le serveur les fichier `serveur.sh` et `client.sh` dans le dossier de votre choix à partir du dépot :
+  [Cliquez ici](https://github.com/WildCodeSchool/TSSR-2409-JAUNE-P2-G2-TheScriptingProject/tree/main)
+  
 ### Pour Windows
 
-- **Cloner le dépôt sur le serveur dans le dossier de votre choix :**
-    ```powershell
-    git clone git@github.com:WildCodeSchool/TSSR-2409-JAUNE-P2-G2-TheScriptingProject.git
-    ```
+    - Importer sur le serveur le fichier `script.ps1` dans le dossier de votre choix à partir du dépot :
+  [Cliquez ici](https://github.com/WildCodeSchool/TSSR-2409-JAUNE-P2-G2-TheScriptingProject/tree/main)
 
 ---
 
