@@ -255,7 +255,7 @@ function actions_ordinateur {
     echo "4. Mise à jour du système"
     echo "5. Création de répertoire"
     echo "6. Suppression de répertoire"
-    echo "7. Prise de main à distance (GUI)"
+    echo "7. (Non fonctionnel) Prise de main à distance (GUI)"
     echo "8. Définition de règles de pare-feu"
     echo "9. Activation du pare-feu"
     echo "10. Désactivation du pare-feu"
@@ -333,9 +333,13 @@ function actions_ordinateur {
         echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Prise de main à distance (GUI)'" >>$log_file
          #Prise de main à distance (GUI)
     fi ;;
-    8) if confirmation; then
+    8) 
+    if confirmation; then
+        read -p "Voulez-vous autoriser ou interdire (allow/deny) ?" allow_deny
+        read -p "Choisissez flux entrant ou flux sortant (in/out) :" in_out
+        read -p "Indiquez la cible : (port/protocole ou protocole)" cible
+        sudo ufw $allow_deny $in_out $cible
         echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Définition de règles de pare-feu'" >>$log_file
-         #Définition de règles de pare-feu
     fi ;;
     9) if confirmation; then
          sudo ufw enable
