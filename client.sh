@@ -327,6 +327,9 @@ function actions_ordinateur {
         fi
         ;;
     7) if confirmation; then
+        echo
+        echo "Connexion en cours..."
+        ssh -X root@172.16.20.10
         echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Prise de main à distance (GUI)'" >>$log_file
          #Prise de main à distance (GUI)
     fi ;;
