@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # Journalisation
-sudo touch /var/log/log_evt.log
-log_file="/var/log/log_evt.log"
-sudo chmod 777 /var/log/log_evt.log
+    sudo touch /var/log/log_evt.log
+    log_file="/var/log/log_evt.log"
+    sudo chmod 777 /var/log/log_evt.log
 
 # Actions redondantes
     # Fonction de confirmation
@@ -327,9 +327,6 @@ function actions_ordinateur {
         fi
         ;;
     7) if confirmation; then
-        echo
-        echo "Connexion en cours..."
-        ssh -X root@172.16.20.10
         echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Prise de main à distance (GUI)'" >>$log_file
          #Prise de main à distance (GUI)
     fi ;;
@@ -408,6 +405,7 @@ function informations_utilisateur {
     echo "3. Liste des sessions ouvertes par l'utilisateur"
     echo "4. Droits/permissions de l’utilisateur sur un dossier"
     echo "5. Droits/permissions de l’utilisateur sur un fichier"
+    echo "6. Recherche d'évènements dans le fichier log"
     echo "R. Retour"
     echo "Q. Quitter le script"
     read -p "Choisissez une ou plusieurs option(s) : (1-5, R ou Q) : " option_info_u
@@ -468,6 +466,11 @@ function informations_utilisateur {
         else
             afficher_erreur
         fi ;;
+        6)
+        if confirmation; then
+            read -p "Quel évènement souhaitez-vous rechercher ?" search
+            sudo cat /var/log/log_evt.log | grep $search
+            echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi 'Recherche d'évènements dans le fichier log'" >>$log_file
         R)
             actions_utilisateur
             echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi 'Retour au menu actions_utilisateur'" >>$log_file
@@ -544,6 +547,11 @@ function informations_utilisateur {
                     afficher_erreur
                 fi
                 ;;
+            6)
+            if confirmation; then
+                read -p "Quel évènement souhaitez-vous rechercher ?" search
+                sudo cat /var/log/log_evt.log | grep $search >>$info_log
+                echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi 'Recherche d'évènements dans le fichier log'" >>$log_file
             R)
                 actions_utilisateur
                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi 'Retour au menu actions_utilisateur'" >>$log_file
