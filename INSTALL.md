@@ -62,6 +62,7 @@
      
    - **Décommenter les lignes suivantes :**
      ```
+     PasswordAuthentification yes
      PermitRootLogin yes
      X11Forwarding yes
      X11DisplayOffset 10
