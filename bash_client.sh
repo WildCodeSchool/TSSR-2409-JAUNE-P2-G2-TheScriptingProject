@@ -552,7 +552,7 @@ function informations_utilisateur {
             6)
             if confirmation; then
                 read -p "Quel évènement souhaitez-vous rechercher ?" search
-                sudo cat /var/log/log_evt.log | grep $search >>$info_log
+                echo "$(sudo cat /var/log/log_evt.log | grep $search)" >>$info_log
                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi 'Recherche d'évènements dans le fichier log'" >>$log_file
             fi ;;
             R)
