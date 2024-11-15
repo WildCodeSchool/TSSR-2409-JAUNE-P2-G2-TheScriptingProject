@@ -753,19 +753,19 @@ function informations_ordinateur {
 function informations_utilisateur {
     try {
         Write-Host @"
-        +===========================================================+
-        |  Informations sur Utilisateur                             |
-        +===========================================================+
-        |                                                           |
-        |    1)  Date de dernière connexion d’un utilisateur        |
-        |    2)  Date de dernière modification du mot de passe      |
-        |    3)  Liste des sessions ouvertes par l'utilisateur      |
-        |    4)  Droits/permissions de l’utilisateur sur un dossier |
-        |    5)  Droits/permissions de l’utilisateur sur un fichier |
-        |    R)  Retour au Menu Principal                           |
-        |    Q)  Quitter                                            |
-        |                                                           |
-        +===========================================================+
+        +=======================================================================================+
+        |  Informations sur Utilisateur                                                         |
+        +=======================================================================================+
+        |                                                                                       |
+        |    1)  Date de dernière connexion d’un utilisateur                                    |
+        |    2)  Date de dernière modification du mot de passe                                  |
+        |    3)  Liste des sessions ouvertes par l'utilisateur                                  |
+        |    4)  Droits/permissions de l’utilisateur sur un dossier (ne fonctionne pas à 100%)  |
+        |    5)  Droits/permissions de l’utilisateur sur un fichier (ne fonctionne pas à 100%)  |
+        |    R)  Retour au Menu Principal                                                       |
+        |    Q)  Quitter                                                                        |
+        |                                                                                       |
+        +=======================================================================================+ 
         
 "@
 
