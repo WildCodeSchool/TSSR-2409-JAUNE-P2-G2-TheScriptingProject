@@ -319,7 +319,8 @@ function actions_ordinateur {
             echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Suppression de répertoire'" >>$log_file
         fi
         if [ -e $path ]; then
-            sudo rm -r $path
+            read -p "Nom du dossier a supprimer :" directory
+            sudo rm -r $path/$directory
             afficher_succes
         else
             echo "Le chemin vers le dossier est incorrect"
