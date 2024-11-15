@@ -23,7 +23,7 @@
    sudo apt install -y openssh-server git ufw
    ```
 2. **Configurer SSH :**
-   - **Editer le fichier /etc/ssh/sshd_config**
+   - **Éditer le fichier /etc/ssh/sshd_config**
      ```bash
      nano /etc/ssh/sshd_config
      ```
@@ -55,7 +55,7 @@
    ```
 
 2. **Configurer SSH :**
-   - **Editer le fichier /etc/ssh/sshd_config**
+   - **Éditer le fichier /etc/ssh/sshd_config**
      ```bash
      nano /etc/ssh/sshd_config
      ```
@@ -147,12 +147,12 @@
 
 ### Pour Linux
 
-- Importer sur le serveur les fichier `serveur.sh` et `client.sh` dans le dossier de votre choix à partir du dépot :
+- Importer sur le serveur les fichier `serveur.sh` et `client.sh` dans le dossier de votre choix à partir du dépôt :
   [Cliquez ici](https://github.com/WildCodeSchool/TSSR-2409-JAUNE-P2-G2-TheScriptingProject/tree/main)
   
 ### Pour Windows
 
-    - Importer sur le serveur le fichier `script.ps1` dans le dossier de votre choix à partir du dépot :
+    - Importer sur le serveur le fichier `script.ps1` dans le dossier de votre choix à partir du dépôt :
   [Cliquez ici](https://github.com/WildCodeSchool/TSSR-2409-JAUNE-P2-G2-TheScriptingProject/tree/main)
 
 ---
@@ -267,3 +267,4 @@
   ```powershell
   Enable-NetFirewallRule -DisplayName "Windows Remote Management (HTTP-In)"
   ```
+
