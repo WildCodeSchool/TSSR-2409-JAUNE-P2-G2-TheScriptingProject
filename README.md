@@ -1,9 +1,9 @@
 # Exécution de scripts à distance - Projet du groupe 2
 
-## Présentation du projet, objectifs finaux
+## Présentation du projet et des objectifs
 
 Ce projet consiste à développer un script capable d’exécuter des tâches sur des machines distantes au sein d’un réseau local, avec une prise en charge de systèmes d’exploitation multiples.  
-Les objectifs finaux sont de :
+Les objectifs sont de :
 
 1. Assurer une exécution complète et fonctionnelle du script.
 2. Fournir une documentation détaillée et correcte.
@@ -22,7 +22,7 @@ L’infrastructure est hébergée sur **Proxmox**, une plateforme de virtualisat
 
 ## Membres du groupe de projet 
 
-|   | Product Owner | Scrum Maste  |  Développeur |
+|   | Product Owner | Scrum Master  |  Développeur |
 |---|---|---|---|
 | Sprint 1  |  Erwan | Antoine  | Matthias  |
 | Sprint 2 |  Matthias |  Erwan |  Antoine |
@@ -56,7 +56,7 @@ Nous avons rencontré plusieurs défis lors du développement et des tests :
 Nous avons mis en place les solutions suivantes pour surmonter les défis rencontrés :
 
 - **Configuration de pare-feu** : Adaptation des règles de pare-feu pour permettre une communication fluide entre les machines virtuelles.
-- **Ajustements de compatibilité** : Ajustement des commandes et tests sur des machines cibles afin d’assurer leur exécution correcte.
+- **Ajustements de compatibilité** : Ajustement des commandes et des tests sur des machines cibles afin d’assurer leur exécution correcte.
 - **Optimisation de la configuration réseau sous Proxmox** : Ajustement des paramètres réseau pour faciliter l'interopérabilité des machines au sein de l'infrastructure Proxmox.
 
 ## Améliorations possibles : suggestions d’améliorations futures
@@ -66,8 +66,9 @@ Pour perfectionner le projet, plusieurs améliorations sont envisageables :
 - **Support pour des systèmes d’exploitation additionnels** : Étendre la prise en charge à d’autres systèmes pour des environnements plus diversifiés.
 - **Automatisation de la configuration Proxmox** : Mettre en place des scripts d'automatisation pour le déploiement et la configuration réseau sous Proxmox, facilitant ainsi l’installation de nouvelles machines.
 - **Optimisation des scripts** : Améliorer les performances des scripts pour réduire le temps d'exécution et optimiser l'utilisation des ressources.
-- **Configuration de clés SSH** : Grâce à l'authetification par clé SSH, cela nous permetterait d'optimiser le processus de connexion à la machine cliente.
-- **Meilleure ergonomie** : Proposer une meilleure expérience utilisateur grâce à une meilleure architecture des menus, et une amélioration globale de l'esthétique ( ASCII, alignement des menus... ).
-- **Gestion des erreurs en Powershell** : Faire fonctionner la gestion d'erreur grâce à des `try-catch`. 
+- **Configuration de clés SSH** : Grâce à l'authentification par clé SSH, cela nous permettrait d'optimiser le processus de connexion à la machine cliente.
+- **Meilleure ergonomie** : Proposer une meilleure expérience utilisateur grâce à une meilleure architecture des menus et une amélioration globale de l'esthétique ( ASCII, alignement des menus...).
+- **Gestion des erreurs en PowerShell** : Faire fonctionner la gestion d'erreur grâce à des `try-catch`. 
 
 ---
+
