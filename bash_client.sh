@@ -79,7 +79,7 @@ function choix_utilisateur {
         ;;
     R)
         menu_principal
-        echo echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi le menu 'menu_pricipal'" >>$log_file
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi le menu 'menu_pricipal'" >>$log_file
         ;;
     Q) exit 0 ;;
     *)
