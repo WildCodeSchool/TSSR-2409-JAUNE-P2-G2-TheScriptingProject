@@ -1,120 +1,121 @@
 # Documentation Utilisateur
 
-1. [Utilisation de base](#1-utilisation-de-base) \
-            1. [Script BASH SHELL] \
-            2. [Script Powershell] 
-2. [Comment utiliser les fontionnalités clés](#2-comment-utiliser-les-fontionnalités-clés) \
-            1. [Utilisation du script](#1-utilisation-du-script)
+1. [Utilisation de base](#1-utilisation-de-base)
+   1. [Script Bash Shell](#execution-du-script-avec-debian-12)  
+   2. [Script PowerShell](#execution-du-script-avec-powershell-core-7)
+2. [Comment utiliser les fonctionnalités clés](#2-comment-utiliser-les-fonctionnalites-cles)
+   1. [Utilisation du script](#utilisation-du-script)
 3. [Comment utiliser au mieux les options](#3-comment-utiliser-au-mieux-les-options)
 4. [FAQ](#4-faq)
-            
+
+---
 
 # 1. Utilisation de base
- * . Excution du scripts avec debian 12
-   
- * 1. Apres l'ouverture du serveur debian 12 et votre autification 
- * 2. Placez-vous là où se trouve le script 
- 
-![](./assets/Capture%20d'%C3%A9cran%202024-11-15%20092635.png)  
 
-  * 3. Exécuter le script avec son intitulé 
-          
-![](./assets/Capture%20d'%C3%A9cran%202024-11-15%20092713.png)  
+### Exécution du script avec Debian 12
 
-  
-  * 4. Connecter vous au compte client
-     
-![](./assets/Capture%20d'%C3%A9cran%202024-11-15%20092822.png) 
+1. Après l'ouverture du serveur Debian 12 et votre authentification, placez-vous à l'emplacement où se trouve le script.  
 
+   ![](./assets/Capture%20d'%C3%A9cran%202024-11-15%20092635.png)  
 
-![](./assets/Capture%20d'%C3%A9cran%202024-11-15%20092831.png) 
+2. Exécutez le script avec son nom :  
 
-* 5. vous pouvez désormais naviguer dans le script \
-     
-![](./assets/Capture%20d'%C3%A9cran%202024-11-15%20092852.png)  
+   ![](./assets/Capture%20d'%C3%A9cran%202024-11-15%20092713.png)  
 
+3. Connectez-vous au compte client :  
 
-* . Execution du scripts avec powershell core 7 
+   ![](./assets/Capture%20d'%C3%A9cran%202024-11-15%20092822.png)  
+   ![](./assets/Capture%20d'%C3%A9cran%202024-11-15%20092831.png)  
 
-* 1. Rechercher dans la barre de recherche windows PowerShell 7 \
-![](./assets/Capture%20d'%C3%A9cran%202024-11-14%20203934.png)
-* 2. Executer Powershell 7 \
-![](./assets/Capture%20d'%C3%A9cran%202024-11-14%20204009.png)
-* 3. Placez-vous là où se trouve le script \
-![](./assets/Capture%20d'%C3%A9cran%202024-11-14%20204047.png)
-* 4. Exécuter le script avec son intitulé \
-![](./assets/Capture%20d'%C3%A9cran%202024-11-14%20204334.png)
-* 5. vous pouvez désormais naviguer dans le script \
-![](./assets/Capture%20d'%C3%A9cran%202024-11-14%20204059.png)
+4. Vous pouvez désormais naviguer dans le script :  
 
-  
-  
-# 2. Comment utiliser les fontionnalités clés
+   ![](./assets/Capture%20d'%C3%A9cran%202024-11-15%20092852.png)  
 
- Il vous suffit de lancer le script et de naviguer sur les differents menus. Pour chaque action et/ou information demandée, le script vous affichera l'information ou exécutera l'action choisie.
- 
- ![menuPS](./assets/ActionOrdinateurPS.png)
+### Exécution du script avec PowerShell Core 7
 
+1. Recherchez "PowerShell 7" dans la barre de recherche Windows :  
 
+   ![](./assets/Capture%20d'%C3%A9cran%202024-11-14%20203934.png)  
+
+2. Exécutez PowerShell 7 :  
+
+   ![](./assets/Capture%20d'%C3%A9cran%202024-11-14%20204009.png)  
+
+3. Placez-vous à l'emplacement du script :  
+
+   ![](./assets/Capture%20d'%C3%A9cran%202024-11-14%20204047.png)  
+
+4. Exécutez le script avec son nom :  
+
+   ![](./assets/Capture%20d'%C3%A9cran%202024-11-14%20204334.png)  
+
+5. Vous pouvez désormais naviguer dans le script :  
+
+   ![](./assets/Capture%20d'%C3%A9cran%202024-11-14%20204059.png)  
+
+---
+
+# 2. Comment utiliser les fonctionnalités clés
+
+Il vous suffit de lancer le script et de naviguer dans les différents menus. Pour chaque action ou information demandée, le script affichera le résultat ou exécutera l'action choisie.  
+
+![Menu PowerShell](./assets/ActionOrdinateurPS.png)  
+
+---
 
 # 3. Comment utiliser au mieux les options
 
-Le script vous permet des fonctionnalités avancées comme par exemple une requête de plusieurs informations.
+Le script propose des fonctionnalités avancées, comme la requête de plusieurs informations. Par exemple, si vous accédez au menu "Informations" et sélectionnez les options 1 et 3 (fonctionnalité disponible uniquement dans le script Bash au 14/11/2024) :
 
-Si vous vous rendez , dans un menu information, et que vous choissisez les informations 1 et 3. (Fonctionne uniquement pour le script bash 14/11/2024)
+![Menu d'informations utilisateur](./assets/menuInfoUtilisBash.png)  
 
-![screen menu info utilisateur](./assets/menuInfoUtilisBash.png) 
+Les informations seront enregistrées dans un fichier `.txt` situé dans :  
+- Windows : `C:\Users\<Nom_utilisateur>\Documents\`
+- Linux : `/home/<Nom_utilisateur>/Documents`
 
-Vous retrouverez les informations dans un fichier .txt dans le dossier `C:\Users\<Nom_utilisateur>\Documents\` ou `/home/<Nom_utilisateur>/Documents`
-
-![screen fichier texte](./assets/log.png) 
+![Contenu du fichier texte](./assets/log.png)  
 ![](./assets/Capture%20d'%C3%A9cran%202024-11-15%20093054.png)  
 
-Cela vous permet de consulter les informations produites par le script et de faire une seule requête d'informations.
+Vous pouvez également consulter le journal du script, qui retrace toutes les actions effectuées. Ce journal est créé lors de la première exécution du script et contient un horodatage, le nom d'utilisateur et un message. Chaque session est délimitée par "********StartScript********" et "********EndScript********".
 
+- Windows : `C:\Windows\System32\LogFiles`
+- Linux : `/var/log/`
 
-Vous pouvez également consulter le journal du script, afin de retracer toutes vos actions effectuées dans le script. Il vous aidera notammment pour comprendre les potentielles erreurs. 
+![Contenu du fichier log](./assets/Capture%20d'%C3%A9cran%202024-11-14%20212512.png)  
 
-Ce journal se créée à la première exécution de votre script et contient un horodatage ainsi que l'utilisateur et un message. Chaque session d'execution sera bornée par un "********StartScript********" et un "********EndScript********".
-
-Il est situé dans `C:\Windows\System32\LogFiles` sur Windows et dans `/var/log/` pour une distribution GNU/Linux. 
-
-![screen contenu log](./assets/Capture%20d'%C3%A9cran%202024-11-14%20212512.png)
-
-
+---
 
 # 4. FAQ
-## Q: Mon script ne marche pas ? Que faire ?
-## A: Vérifiez tout d'abord si votre machine est à jour. 
-- Sous GNU/Linux :
-Dans votre console tapez `sudo apt update && sudo apt upgrade `
-- Sous Windows :
-Clic gauche Menu Windows et tapez ` Mise à jour ` puis sélectionnez la première option et cliquez sur la recherche de mise à jour. 
 
-Le cas échéant, vérifiez que vous possédez toutes les permissions requises à la bonne exécution du script. 
+### Q: Mon script ne fonctionne pas, que faire ?  
+**A:** Vérifiez d'abord si votre machine est à jour.  
+- **Sous GNU/Linux :**  
+  ```bash
+  sudo apt update && sudo apt upgrade
+  ```
+- **Sous Windows :**  
+  Allez dans le Menu Windows, tapez "Mise à jour", sélectionnez la première option et cliquez sur "Rechercher des mises à jour".
 
-- Sous GNU/Linux :
-Dans votre console tapez `sudo bash /chemin/script.sh `
-- Sous Windows :
-Clic droit sur la console Powershell puis sélectionnez ` Exécutez en tant qu'administrateur`
+Ensuite, vérifiez que vous avez les permissions nécessaires pour exécuter le script.  
+- **Sous GNU/Linux :**  
+  ```bash
+  sudo bash /chemin/script.sh
+  ```
+- **Sous Windows :**  
+  Faites un clic droit sur PowerShell et sélectionnez "Exécuter en tant qu'administrateur".
 
-Si les problèmes persistent supprimez et retéléchargez le script.
+Si le problème persiste, supprimez et retéléchargez le script.
 
-## Q: J'ai une erreur de connexion quand je veux me connecter sur la machine distante, que faire ? 
-## A: C'est probablement une erreur d'adresse.
-Vérifiez bien que vous choissisez la bonne adresse IP de la machine distante. La machine cliente doit être, dans notre cas, sur le même réseau que la machine serveur. Attention si vous avez plusieurs interfaces réseaux, une erreur est vite arrivée !
+### Q: J'ai une erreur de connexion lors de la connexion à une machine distante, que faire ?  
+**A:** C'est probablement une erreur d'adresse IP. Assurez-vous que vous utilisez la bonne adresse IP pour la machine distante. La machine cliente doit être sur le même réseau que la machine serveur. Vérifiez également les interfaces réseau.
 
-## Q: Ma connexion à une machine distante est-elle sécurisée ? 
-## A: Oui !
-Windows et GNU/Linux proposent des moyens de connexions sécurisés permettant l'exécution d'action à distance en toute sécurité ! Nous utilisons une connexion [SSH](https://fr.wikipedia.org/wiki/Secure_Shell) pour les systèmes GNU/Linux, et une [connexion native](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/invoke-command?view=powershell-7.4) de Microsoft Powershell pour les systèmes Windows. 
+### Q: Ma connexion à une machine distante est-elle sécurisée ?  
+**A:** Oui !  
+Nous utilisons des connexions sécurisées comme [SSH](https://fr.wikipedia.org/wiki/Secure_Shell) pour GNU/Linux, et la [connexion native PowerShell](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.core/invoke-command?view=powershell-7.4) pour Windows.
 
+### Q: Rien ne s'affiche à l'écran, ma commande s'est-elle bien exécutée ?  
+**A:** Consultez le fichier de journalisation pour vérifier.  
+- **Sous GNU/Linux :** `/var/log/log_evt.log`
+- **Sous Windows :** `C:\Windows\System32\LogFiles\log_evt.log`
 
-## Q: Rien ne s'affiche à l'écran, ma commande s'est elle bien exécutée ? 
-## A: Dans ce cas, vous pouvez consulter le fichier de journalisation.
-Que vous soyez sur Windows ou une distribution GNU/Linux, un fichier de journalisation recueille les différentes actions effectuées dans le script. C'est la première action à faire en cas de doute. 
-- Sous GNU/Linux :
-`/var/log/log_evt.log`
-- Sous Windows :
-`C:\Windows\System32\LogFiles\log_evt.log`
-À partir de ce fichier vous pourrez déterminer si oui ou non un problème est apparu.
-
+Ce fichier vous permettra de voir si une erreur est survenue.
