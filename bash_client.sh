@@ -284,7 +284,7 @@ function actions_ordinateur {
         afficher_erreur
     fi ;;
     3) if confirmation; then
-        sudo logout
+        sudo gnome-session-quit --no-prompt
         afficher_succes
         echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'action 'Verrouillage'" >>$log_file
     else
