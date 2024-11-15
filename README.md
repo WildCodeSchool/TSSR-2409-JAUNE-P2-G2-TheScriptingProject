@@ -66,5 +66,8 @@ Pour perfectionner le projet, plusieurs améliorations sont envisageables :
 - **Support pour des systèmes d’exploitation additionnels** : Étendre la prise en charge à d’autres systèmes pour des environnements plus diversifiés.
 - **Automatisation de la configuration Proxmox** : Mettre en place des scripts d'automatisation pour le déploiement et la configuration réseau sous Proxmox, facilitant ainsi l’installation de nouvelles machines.
 - **Optimisation des scripts** : Améliorer les performances des scripts pour réduire le temps d'exécution et optimiser l'utilisation des ressources.
+- **Configuration de clés SSH** : Grâce à l'authetification par clé SSH, cela nous permetterait d'optimiser le processus de connexion à la machine cliente.
+- **Meilleure ergonomie** : Proposer une meilleure expérience utilisateur grâce à une meilleure architecture des menus, et une amélioration globale de l'esthétique ( ASCII, alignement des menus... ).
+- **Gestion des erreurs en Powershell** : Faire fonctionner la gestion d'erreur grâce à des `try-catch`. 
 
 ---
