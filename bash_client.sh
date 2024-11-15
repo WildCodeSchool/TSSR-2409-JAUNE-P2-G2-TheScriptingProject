@@ -71,7 +71,7 @@ function choix_utilisateur {
     case $option in
     1)
         actions_utilisateur
-        echo "Vous avez choisi le menu 'actions_utlisateurs'" >>$log_file
+        echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi le menu 'actions_utlisateurs'" >>$log_file
         ;;
     2)
         informations_utilisateur
