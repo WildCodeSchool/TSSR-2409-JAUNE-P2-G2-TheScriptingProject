@@ -10,9 +10,31 @@
             
 
 # 1. Utilisation de base
-      1. Script Bash shell
+ * . Excution du scripts avec debian 12
+   
+ * 1. Apres l'ouverture du serveur debian 12 et votre autification 
+ * 2. Placez-vous là où se trouve le script 
+ 
+![](./assets/Capture%20d'%C3%A9cran%202024-11-15%20092635.png)  
 
- * . Execution du scripts avec powershell core 7 
+  * 3. Exécuter le script avec son intitulé 
+          
+![](./assets/Capture%20d'%C3%A9cran%202024-11-15%20092713.png)  
+
+  
+  * 4. Connecter vous au compte client
+     
+![](./assets/Capture%20d'%C3%A9cran%202024-11-15%20092822.png) 
+
+
+![](./assets/Capture%20d'%C3%A9cran%202024-11-15%20092831.png) 
+
+* 5. vous pouvez désormais naviguer dans le script \
+     
+![](./assets/Capture%20d'%C3%A9cran%202024-11-15%20092852.png)  
+
+
+* . Execution du scripts avec powershell core 7 
 
 * 1. Rechercher dans la barre de recherche windows PowerShell 7 \
 ![](./assets/Capture%20d'%C3%A9cran%202024-11-14%20203934.png)
@@ -46,6 +68,7 @@ Si vous vous rendez , dans un menu information, et que vous choissisez les infor
 Vous retrouverez les informations dans un fichier .txt dans le dossier `C:\Users\<Nom_utilisateur>\Documents\` ou `/home/<Nom_utilisateur>/Documents`
 
 ![screen fichier texte](./assets/log.png) 
+![](./assets/Capture%20d'%C3%A9cran%202024-11-15%20093054.png)  
 
 Cela vous permet de consulter les informations produites par le script et de faire une seule requête d'informations.
 
