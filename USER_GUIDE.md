@@ -1,10 +1,10 @@
 # Documentation Utilisateur
 
 1. [Utilisation de base](#1-utilisation-de-base)
-   1. [Script Bash Shell](#execution-du-script-avec-debian-12)  
-   2. [Script PowerShell](#execution-du-script-avec-powershell-core-7)
+   - Script Bash Shell
+   - Script PowerShell
 2. [Comment utiliser les fonctionnalités clés](#2-comment-utiliser-les-fonctionnalités-clés)
-   1. [Utilisation du script](#utilisation-du-script)
+   - Utilisation du script
 3. [Comment utiliser au mieux les options](#3-comment-utiliser-au-mieux-les-options)
 4. [FAQ](#4-faq)
 
