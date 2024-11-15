@@ -681,7 +681,7 @@ function informations_ordinateur {
             touch /home/$USER/Documents/info_utilisateur_$date.txt
             info_log=/home/$USER/Documents/info_utilisateur_$date.txt
         fi
-        for arg in $option_info_u; do
+        for arg in $option_info_o; do
             case $arg in
             1) if confirmation; then
                 echo "[$(date +%Y/%m/%d-%H:%M:%S)]-$USER-Vous avez choisi l'information 'Version de l'OS'" >>$log_file
