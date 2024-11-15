@@ -68,7 +68,7 @@ Pour perfectionner le projet, plusieurs améliorations sont envisageables :
 - **Optimisation des scripts** : Améliorer les performances des scripts pour réduire le temps d'exécution et optimiser l'utilisation des ressources.
 - **Configuration de clés SSH** : Grâce à l'authentification par clé SSH, cela nous permettrait d'optimiser le processus de connexion à la machine cliente.
 - **Meilleure ergonomie** : Proposer une meilleure expérience utilisateur grâce à une meilleure architecture des menus et une amélioration globale de l'esthétique ( ASCII, alignement des menus...).
-- **Gestion des erreurs en PowerShell** : Faire fonctionner la gestion d'erreur grâce à des `try-catch`. 
+- **Gestion des erreurs** : Faire fonctionner la gestion d'erreur grâce à des `try-catch` ou des `if`.
 
 ---
 
